@@ -28,27 +28,66 @@ window.onload = function init() {
 
     this.renderTree(-0.8, 0);
 
-    this.renderMoon()
+    this.renderCircle(0.2, 0.5, 0.7, vec4(1, 1, 0, 1))
+
+    this.renderCircle(0.02, 0.168,-0.72, vec4(1,1,0,1))
 };
 
-function renderMoon() {
 
-    var pi = 3.141592;
-    var r = 0.05;
 
-    var center = vec2(0.5, 0.5);
+function renderCircle(r, x, y, vec4_) {
+    var noOfFans = 200;
+    var centerOfCircle = vec2(x, y);
+    var anglePerFna = (2 * Math.PI) / noOfFans;
 
     var mVirtices = [
 
     ];
 
-    mVirtices.push(center);
 
-    for (var i = 0; i <= 100; i++) {
-        mVirtices.push(center + vec2(
-            
-        ));
+    mVirtices.push(centerOfCircle);
+
+    for (var i = 0; i <= noOfFans; i++) {
+        var angle = anglePerFna * (i + 1);
+        mVirtices.push(
+            vec2(
+                x + Math.cos(angle) * r,
+                y + Math.sin(angle) * r
+            )
+        );
     }
+
+
+    var program = initShaders(gl, "vertex-shader", "fragment-shader");
+    gl.useProgram(program);
+
+
+    var color = vec4_;
+
+    var colorLoc = gl.getUniformLocation(program, "color");
+    this.gl.uniform4fv(colorLoc, color);
+
+    this.gl.getUniformLocation(program, "vOffset");
+
+
+    var bufferId = gl.createBuffer();
+    gl.bindBuffer(gl.ARRAY_BUFFER, bufferId);
+
+
+    gl.bufferData(gl.ARRAY_BUFFER, flatten(mVirtices), gl.STATIC_DRAW);
+
+
+    // Associate out shader variables with our data buffer
+
+    var vPosition = gl.getAttribLocation(program, "vPosition");
+    gl.vertexAttribPointer(vPosition, 2, gl.FLOAT, false, 0, 0);
+    gl.enableVertexAttribArray(vPosition);
+
+
+
+
+    gl.drawArrays(gl.TRIANGLE_FAN, 0, mVirtices.length);
+
 }
 
 
