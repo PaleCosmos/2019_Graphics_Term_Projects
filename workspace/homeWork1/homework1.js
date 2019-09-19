@@ -184,7 +184,19 @@ function renderHouse() { // 집을 그립니다.
         vec2(-0.295, -0.7),
         vec2(-0.305, -0.7),
         vec2(-0.305, -0.5),
-        vec2(-0.295, -0.5)
+        vec2(-0.295, -0.5),
+
+        vec2(-0.6, -0.25),
+        vec2(-0.5, -0.15),
+        vec2(-0.4, -0.25),
+        vec2(-0.3, -0.15),
+        vec2(-0.2, -0.25),
+        vec2(-0.1, -0.15),
+        vec2(0, -0.25),
+        vec2(0.1, -0.15),
+        vec2(0.2, -0.25),
+        vec2(0.3, -0.15),
+        vec2(0.4, -0.25)
     ];
 
     // 집 본체
@@ -195,6 +207,8 @@ function renderHouse() { // 집을 그립니다.
 
     // 지붕
     renderTriangle(mVertices, 8, vec4(0.9, 0.2, 0.2, 1));
+
+    renderStrip(mVertices, 27, 11, vec4(1,1,1,1));
 
     // 문
     renderRectangle(mVertices, 11, vec4(0.5, 0.25, 0, 1));
@@ -216,6 +230,14 @@ function renderTriangle(mVertices, a, vec4_) {
 
     gl.drawArrays(gl.TRIANGLES, a, 3);
 };
+
+function renderStrip(mVertices, a, b, vec4_)
+{
+
+    settings(mVertices, vec4_);
+
+    gl.drawArrays(gl.LINE_STRIP, a, b);
+}
 
 
 function renderCircle(r, x, y, vec4_) {
@@ -282,3 +304,8 @@ function settings(mVertices, vec4_) {
     gl.vertexAttribPointer(vPosition, 2, gl.FLOAT, false, 0, 0);
     gl.enableVertexAttribArray(vPosition);
 };
+
+function settings_GR()
+{
+    
+}
