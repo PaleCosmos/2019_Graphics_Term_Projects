@@ -14,7 +14,6 @@ window.onload = function init() {
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
-
     renderGround(); // 땅을 그립니다.
 
     renderCircle(0.15, 0.5, 0.7, vec4(1, 1, 0, 1)); // 달을 그립니다.
@@ -66,8 +65,8 @@ function renderMountain() {
         vec2(2, -0.1)
     ];
 
-    renderTriangle(mVertices, 3, vec4(0, 0.2, 0, 1)); // 뒷산이라 색이 더 어둡습니다.
-    renderTriangle(mVertices, 0, vec4(0, 0.3, 0, 1));
+     renderTriangle(mVertices, 3, vec4(0, 0.2, 0, 1)); // 뒷산이라 색이 더 어둡습니다.
+     renderTriangle(mVertices, 0, vec4(0, 0.3, 0, 1));
 };
 
 function renderSnow(size) {
@@ -116,7 +115,18 @@ function renderTree(x, y) {
 
     renderTriangle(mVertices, 4, vec4(0, 0.5, 0)); // 첫번째 칸
     renderTriangle(mVertices, 7, vec4(0, 0.5, 0)); // 두번째 칸
-    renderTriangle(mVertices, 10, vec4(0, 0.5, 0)); // 세번째 칸
+
+    var colordd = [
+       
+        vec4(0,0.5,0,1),
+       
+        vec4(0,0.5,0,1),
+        vec4(1,1,1,1)
+    ];
+
+
+     renderTriangle_GR(verticies(mVertices, 10, 3), 0, colordd);
+    //renderTriangle(mVertices, 10, vec4(0, 0.5, 0)); // 세번째 칸
 };
 
 function renderGround() { // 땅을 과 하늘을 그립니다.
@@ -204,20 +214,17 @@ function renderHouse() { // 집을 그립니다.
     // 굴뚝
     renderRectangle(mVertices, 4, vec4(0.8, 0.8, 0.8, 1));
 
-    // 지붕
-    renderTriangle(mVertices, 8, vec4(0.9, 0.2, 0.2, 1));
-
-    // var colordd = [
-    //     vec4(1,1,1,1),
-    //     vec4(0,0,1,1),
-    //     vec4(1,0,0,1)
-    // ];
+    var colordd = [
+        vec4(1,1,1,1),
+        vec4(1,0,0,1),
+        vec4(1,0,0,1)
+    ];
 
 
-    // renderTriangle_GR(mVertices, 8, colordd);
+     renderTriangle_GR(verticies(mVertices, 8, 3), 0, colordd);
 
 
-    renderStrip(mVertices, 27, 11, vec4(1, 1, 1, 1));
+    //renderStrip(mVertices, 27, 11, vec4(1, 1, 1, 1));
 
     // 문
     renderRectangle(mVertices, 11, vec4(0.5, 0.25, 0, 1));
@@ -230,12 +237,30 @@ function renderHouse() { // 집을 그립니다.
     renderRectangle(mVertices, 23, vec4(0.8, 0.8, 0.8, 1)); // 세로
 };
 
+function verticies(mVertices, s, l)
+{
+    var mV = [];
+
+    for(var i = s; i<s+l; i++)
+    {
+            mV.push(mVertices[i]);
+    }
+
+    return mV;
+}
+
 function renderTriangle(mVertices, a, vec4_) {
     // 삼각형을 그리는 함수입니다.
     // 색과 위치(array와 시작점))를 파라미터로 받습니다.
     // 모듈화를 시킴으로써 코드의 양을 줄입니다.
 
-    settings(mVertices, vec4_);
+    var mColor = [];
+    for(var i =0;i<mVertices.length; i++)
+    {
+        mColor.push(vec4_)
+    }
+
+    settings(mVertices, mColor);
 
     gl.drawArrays(gl.TRIANGLES, a, 3);
 };
@@ -246,7 +271,7 @@ function renderTriangle_GR(mVertices, a, vec4Arr)
     // 색배열과 위치(array와 시작점))를 파라미터로 받습니다.
     // 모듈화를 시킴으로써 코드의 양을 줄입니다.
 
-    settings_GR(mVertices, vec4Arr)
+    settings(mVertices, vec4Arr)
 
     gl.drawArrays(gl.TRIANGLES, a, 3);
 }
@@ -256,7 +281,13 @@ function renderStrip(mVertices, a, b, vec4_) {
     // 색과 위치(array와 시작점))를 파라미터로 받습니다.
     // 모듈화를 시킴으로써 코드의 양을 줄입니다.
 
-    settings(mVertices, vec4_);
+    var mColor = [];
+    for(var i =0;i<mVertices.length; i++)
+    {
+        mColor.push(vec4_)
+    }
+
+    settings(mVertices, mColor);
 
     gl.drawArrays(gl.LINE_STRIP, a, b);
 }
@@ -278,8 +309,12 @@ function renderCircle(r, x, y, vec4_) {
 
     ];
 
+    var mColor = [
+
+    ];
 
     mVertices.push(centerOfCircle);
+    mColor.push(vec4_);
 
     for (var i = 0; i <= noOfFans; i++) {
         var angle = anglePerFna * (i + 1);
@@ -289,9 +324,10 @@ function renderCircle(r, x, y, vec4_) {
                 y + Math.sin(angle) * r
             )
         );
+        mColor.push(vec4_)
     }
 
-    settings(mVertices, vec4_)
+    settings(mVertices, mColor)
 
     gl.drawArrays(gl.TRIANGLE_FAN, 0, mVertices.length); // Fan을 많이그려 원으로 보이게합니다.
 };
@@ -301,7 +337,12 @@ function renderRectangle(mVertices, a, vec4_) {
     // 색과 위치(array와 시작점))를 파라미터로 받습니다.
     // 모듈화를 시킴으로써 코드의 양을 줄입니다.
 
-    settings(mVertices, vec4_);
+    var mColor = [];
+    for(var i =0;i<mVertices.length; i++)
+    {
+        mColor.push(vec4_)
+    }
+    settings(mVertices, mColor);
 
     gl.drawArrays(gl.TRIANGLE_FAN, a, 4);
 };
@@ -311,37 +352,15 @@ function renderRectangle_GR(mVertices, a, vec4Arr){
     // 색 배열과 위치(array와 시작점))를 파라미터로 받습니다.
     // 모듈화를 시킴으로써 코드의 양을 줄입니다.
 
-    settings_GR(mVertices, vec4Arr);
+    settings(mVertices, vec4Arr);
 
     gl.drawArrays(gl.TRIANGLE_FAN, a, 4)
 }
 
-
-
-function settings(mVertices, vec4_) {
+function settings(mVertices, vec4Arr) {
     // 중복되는 코드를 제거하기 위해 만든 함수입니다.
+
     var program = initShaders(gl, "vertex-shader", "fragment-shader");
-    gl.useProgram(program);
-
-    var colorLoc = gl.getUniformLocation(program, "color");
-    gl.uniform4fv(colorLoc, vec4_);
-
-    gl.getUniformLocation(program, "vOffset");
-
-    var bufferId = gl.createBuffer();
-    gl.bindBuffer(gl.ARRAY_BUFFER, bufferId);
-    gl.bufferData(gl.ARRAY_BUFFER, flatten(mVertices), gl.STATIC_DRAW);
-
-
-    var vPosition = gl.getAttribLocation(program, "vPosition");
-    gl.vertexAttribPointer(vPosition, 2, gl.FLOAT, false, 0, 0);
-    gl.enableVertexAttribArray(vPosition);
-};
-
-function settings_GR(mVertices, vec4Arr) {
-    // 중복되는 코드를 제거하기 위해 만든 함수입니다.
-
-    var program = initShaders(gl, "vertex-shader2", "fragment-shader2");
     gl.useProgram(program);
 
     var vertexPositionBufferId = gl.createBuffer();
