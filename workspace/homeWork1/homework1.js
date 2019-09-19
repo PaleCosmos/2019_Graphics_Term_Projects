@@ -1,10 +1,9 @@
 // 201735829 박상현
-
+var canvas
 var gl;
-var points;
 
 window.onload = function init() {
-    var canvas = document.getElementById("gl-canvas");
+    canvas = document.getElementById("gl-canvas");
 
     gl = WebGLUtils.setupWebGL(canvas);
     if (!gl) { alert("WebGL isn't available"); }
@@ -24,7 +23,7 @@ window.onload = function init() {
     renderCircle(0.06, 0.5, -0.33, vec4(1, 1, 0, 0.3)); // 강에 비친 달을 그립니다.
     renderCircle(0.06, 0.47, -0.36, vec4(0.1, 0.2, 0.25, 1)); // 초승달 구현을 위한 달 그림자 입니다.
 
-    
+
     // 집 뒤에 있는 나무를 그립니다.
     renderTree(-0.5, 0.4);
     renderTree(0.65, 0.45);
@@ -44,7 +43,7 @@ window.onload = function init() {
 
 function renderSmoke() {
     // 굴뚝 연기를 그리는 함수입니다.
-    
+
     renderCircle(0.03, 0.1625, 0.22, vec4(0.5, 0.5, 0.5, 0.4));
 
     renderCircle(0.07, 0.1625, 0.38, vec4(0.5, 0.5, 0.5, 0.25));
@@ -208,7 +207,17 @@ function renderHouse() { // 집을 그립니다.
     // 지붕
     renderTriangle(mVertices, 8, vec4(0.9, 0.2, 0.2, 1));
 
-    renderStrip(mVertices, 27, 11, vec4(1,1,1,1));
+    // var colordd = [
+    //     vec4(1,1,1,1),
+    //     vec4(0,0,1,1),
+    //     vec4(1,0,0,1)
+    // ];
+
+
+    // renderTriangle_GR(mVertices, 8, colordd);
+
+
+    renderStrip(mVertices, 27, 11, vec4(1, 1, 1, 1));
 
     // 문
     renderRectangle(mVertices, 11, vec4(0.5, 0.25, 0, 1));
@@ -231,8 +240,21 @@ function renderTriangle(mVertices, a, vec4_) {
     gl.drawArrays(gl.TRIANGLES, a, 3);
 };
 
-function renderStrip(mVertices, a, b, vec4_)
+function renderTriangle_GR(mVertices, a, vec4Arr)
 {
+    // 그라데이션 삼각형을 그리는 함수입니다.
+    // 색배열과 위치(array와 시작점))를 파라미터로 받습니다.
+    // 모듈화를 시킴으로써 코드의 양을 줄입니다.
+
+    settings_GR(mVertices, vec4Arr)
+
+    gl.drawArrays(gl.TRIANGLES, a, 3);
+}
+
+function renderStrip(mVertices, a, b, vec4_) {
+    // 줄을 그리는 함수입니다.
+    // 색과 위치(array와 시작점))를 파라미터로 받습니다.
+    // 모듈화를 시킴으로써 코드의 양을 줄입니다.
 
     settings(mVertices, vec4_);
 
@@ -284,9 +306,20 @@ function renderRectangle(mVertices, a, vec4_) {
     gl.drawArrays(gl.TRIANGLE_FAN, a, 4);
 };
 
+function renderRectangle_GR(mVertices, a, vec4Arr){
+    // 그라데이션 사각형을 그리는 함수입니다.
+    // 색 배열과 위치(array와 시작점))를 파라미터로 받습니다.
+    // 모듈화를 시킴으로써 코드의 양을 줄입니다.
+
+    settings_GR(mVertices, vec4Arr);
+
+    gl.drawArrays(gl.TRIANGLE_FAN, a, 4)
+}
+
+
+
 function settings(mVertices, vec4_) {
     // 중복되는 코드를 제거하기 위해 만든 함수입니다.
-
     var program = initShaders(gl, "vertex-shader", "fragment-shader");
     gl.useProgram(program);
 
@@ -305,7 +338,25 @@ function settings(mVertices, vec4_) {
     gl.enableVertexAttribArray(vPosition);
 };
 
-function settings_GR()
-{
-    
+function settings_GR(mVertices, vec4Arr) {
+    // 중복되는 코드를 제거하기 위해 만든 함수입니다.
+
+    var program = initShaders(gl, "vertex-shader2", "fragment-shader2");
+    gl.useProgram(program);
+
+    var vertexPositionBufferId = gl.createBuffer();
+    gl.bindBuffer( gl.ARRAY_BUFFER, vertexPositionBufferId );	
+	gl.bufferData( gl.ARRAY_BUFFER, flatten(mVertices), gl.STATIC_DRAW );	    
+
+	var vPosition = gl.getAttribLocation(program, "vPosition"); 
+    gl.vertexAttribPointer( vPosition, 2, gl.FLOAT, false, 0, 0 );
+    gl.enableVertexAttribArray( vPosition ); 
+
+    var vertexColorBufferId = gl.createBuffer();
+    gl.bindBuffer( gl.ARRAY_BUFFER, vertexColorBufferId );
+	gl.bufferData( gl.ARRAY_BUFFER, flatten(vec4Arr), gl.STATIC_DRAW );			
+
+    var vColor = gl.getAttribLocation(program, "vColor");	
+	gl.vertexAttribPointer( vColor, 4, gl.FLOAT, false, 0, 0 );	
+	gl.enableVertexAttribArray( vColor ); 
 }

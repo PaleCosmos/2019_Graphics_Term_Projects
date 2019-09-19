@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
+
 <head>
 
-<script id="vertex-shader" type="x-shader/x-vertex">
+	<script id="vertex-shader" type="x-shader/x-vertex">
 
 attribute vec4 vPosition;
 attribute vec4 vColor;
@@ -22,7 +23,7 @@ main()
 }
 </script>
 
-<script id="fragment-shader" type="x-shader/x-fragment">
+	<script id="fragment-shader" type="x-shader/x-fragment">
 precision mediump float;
 
 varying vec4 fColor;
@@ -41,16 +42,17 @@ main()
 </script>
 
 
-<script type="text/javascript" src="../Common/webgl-utils.js"></script>
-<script type="text/javascript" src="../Common/initShaders.js"></script>
-<script type="text/javascript" src="../Common/MV.js"></script>
-<script type="text/javascript" src="triangle_colors.js"></script>
+	<script type="text/javascript" src="../Common/webgl-utils.js"></script>
+	<script type="text/javascript" src="../Common/initShaders.js"></script>
+	<script type="text/javascript" src="../Common/MV.js"></script>
+	<script type="text/javascript" src="triangle_colors.js"></script>
 </head>
 
 <body>
 
-<canvas id="gl-canvas" width="500" height="500">
-Oops ... your browser doesn't support the HTML5 canvas element
-</canvas>
+	<canvas id="gl-canvas" width="500" height="500">
+		Oops ... your browser doesn't support the HTML5 canvas element
+	</canvas>
 </body>
+
 </html>
