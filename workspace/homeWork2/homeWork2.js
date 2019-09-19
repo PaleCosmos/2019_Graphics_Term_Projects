@@ -9,15 +9,13 @@ window.onload = function init() {
     if (!gl) { alert("WebGL isn't available"); }
 
     // 루트3/2
-    var rootValue = Math.sqrt(3) / 2;
+    const rootValue = Math.sqrt(3) / 2;
 
-    // 회전각
+    // 예제와 가장 유사한 회전각
     const Theta = -Math.PI * 2 / 3 - 0.11;
 
-
-
     // 점
-    var vertices = [
+    const vertices = [
         vec2(0, 0),
         vec2(-0.25, 0.5 * rootValue),
         vec2(0.25, 0.5 * rootValue),
@@ -28,25 +26,25 @@ window.onload = function init() {
         vec2(-0.25, 0.5 * rootValue)
     ];
 
-    
+
     // 회전
     for (var i = 0; i < vertices.length; i++) {
         var x = vertices[i][0];
         var y = vertices[i][1];
 
-        vertices[i][0] = x * Math.cos(Theta) - y*Math.sin(Theta);
+        vertices[i][0] = x * Math.cos(Theta) - y * Math.sin(Theta);
         vertices[i][1] = x * Math.sin(Theta) + y * Math.cos(Theta);
     }
 
     vertices.push(vertices[1]);
 
     // 색상
-    var colors = [
+    const colors = [
         vec4(1.0, 1, 1, 1.0),
         vec4(0, 1, 0.0, 1.0),
-        vec4(1.0, 1.0, 0, 1.0), 
+        vec4(1.0, 1.0, 0, 1.0),
         vec4(1.0, 0, 0, 1.0),
-        vec4(1, 0, 1, 1.0),  
+        vec4(1, 0, 1, 1.0),
         vec4(0, 0, 1, 1.0),
         vec4(0, 1, 1, 1.0)
     ];
@@ -56,7 +54,7 @@ window.onload = function init() {
 
     gl.viewport(0, 0, canvas.width, canvas.height);
     gl.clearColor(0.0, 0.0, 0.0, 1.0);
-  
+
     var program = initShaders(gl, "vertex-shader", "fragment-shader");
     gl.useProgram(program);
 
