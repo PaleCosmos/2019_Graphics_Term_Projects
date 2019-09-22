@@ -50,10 +50,10 @@ function renderSnowman() {
 
     const smallR = 0.01;
 
-    const bottom = vec2(x, -0.6);
+    const bottom = vec2(x, -0.8);
     const bottomR = 0.12;
 
-    const top = vec2(x, -0.4);
+    const top = vec2(x, -0.6);
 
     var topR = top[1] - bottom[1] - bottomR + 0.02;
 
