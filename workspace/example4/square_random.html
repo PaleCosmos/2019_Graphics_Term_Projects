@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html>
+<head>
+<script id="vertex-shader" type="x-shader/x-vertex">
+//attribute vec4 vPosition;
+attribute vec2 vPosition;
+uniform vec2 vResolution;
+void
+main()
+{
+    // convert the position from pixels to 0.0 to 1.0
+	vec2 zeroToOne = vPosition / vResolution;
+
+	// convert from 0->1 to 0->2
+	vec2 zeroToTwo = zeroToOne * 2.0;
+
+	// convert from 0->2 to -1->+1 (clip space)
+    vec2 clipSpace = zeroToTwo - 1.0;
+
+	//gl_Position = vec4(clipSpace, 0.0, 1.0);
+	// To get it to be the more traditional top left corner used for 2d graphics APIs we can just flip the clip space y coordinate.
+	gl_Position = vec4(clipSpace * vec2(1, -1), 0, 1);
+}
+</script>
+
+<script id="fragment-shader" type="x-shader/x-fragment">
+precision mediump float;
+uniform vec4 fColor;
+
+void
+main()
+{
+    gl_FragColor = fColor;
+}
+</script>
+
+<script type="text/javascript" src="../Common/webgl-utils.js"></script>
+<script type="text/javascript" src="../Common/initShaders.js"></script>
+<script type="text/javascript" src="../Common/MV.js"></script>
+<script type="text/javascript" src="square_random.js"></script>
+</head>
+
+<body>
+
+<canvas id="gl-canvas" width="512" height="512">
+Oops ... your browser doesn't support the HTML5 canvas element
+</canvas>
+</body>
+</html>
