@@ -1,3 +1,5 @@
+const PI = Math.PI;
+
 function verticies(mVertices, s, l) {
     // 특정 구간의 vertice를 가진 배열을 리턴하는 함수
 
@@ -29,4 +31,15 @@ function getRandomArbitrary() {
 
 function getColorValue(r, g, b, a) {
     return vec4(r / 255, g / 255, b / 255, a / 255)
-}
+};
+
+function changeCoordinates(input) {
+    for (var i in input) {
+        var X = input[i][0];
+        var Y = input[i][1];
+        input[i][0] = (X / 512) * 2.0 - 1.0;
+        input[i][1] = -((Y / 512) * 2.0 - 1.0);
+    }
+    output = input;
+    return output;
+};

@@ -13,9 +13,19 @@ window.onload = function init() {
 
 function initView() {
     drawBackground();
-    drawMainTower(0, -0.88); //-0.88
+
+    // y = -0.88이 가장 적당
+    drawMainTower(-0.5, -0.88, 0.5);
+    drawMainTower(0, -0.88, 0.5);
+    drawMainTower(0.5, -0.88, 0.5);
+
+    drawMainTower(-0.25, -0.3, 0.5,2*PI*getRandomArbitrary());
+    drawMainTower(0.25, -0.3, 0.5,2*PI*getRandomArbitrary());
+
+    drawMainTower(0, 0.28, 0.5, 2*PI*getRandomArbitrary());
 }
 
+// 땅을 그리자
 function drawBackground() {
     var mVertices = [
         // background
@@ -53,15 +63,16 @@ function drawBackground() {
     drawRectangle(gl, mVertices, 16, getColorValue(154, 88, 47, 255));
 };
 
-function drawMainTower(x, y, mult = 1) {
-    drawHarfTower(x, y, mult, true);
-    drawHarfTower(x, y, mult, false);
+// x, y는 좌표, mult는 배율, theta는 회전각
+function drawMainTower(x, y, mult, theta = 0) {
+    drawHarfTower(x, y, mult, true, theta);
+    drawHarfTower(x, y, mult, false, theta);
 };
 
-function drawHarfTower(x, y, mult, isLeft) {
+function drawHarfTower(x, y, mult, isLeft, theta) {
     var devideValue = 1.0;
     const center_x = 0;
-    const center_y = 12.53 / 11;
+    const center_y = 12.4 / 11;
 
     const height = 0.4 / 11;
     const width = 0.5 / 11;
@@ -110,32 +121,34 @@ function drawHarfTower(x, y, mult, isLeft) {
         vec2(0.75 / 2 - 0.14, 12.55 / 11),
         vec2(0, 13.08 / 11),
 
-        vec2(center_x + 0.2 / 11, 12.125/11 + height/2),
-        vec2(center_x + 0.2 / 11, 12.125/11 - height/2),
-        vec2(center_x + 0.2 / 11 + width,  12.125/11 - height/2),
-        vec2(center_x + 0.2 / 11 + width,  12.125/11 + height/2),
+        vec2(center_x + 0.2 / 11, 12.125 / 11 + height / 2),
+        vec2(center_x + 0.2 / 11, 12.125 / 11 - height / 2),
+        vec2(center_x + 0.2 / 11 + width, 12.125 / 11 - height / 2),
+        vec2(center_x + 0.2 / 11 + width, 12.125 / 11 + height / 2),
 
-        vec2(center_x + 0.2 / 11 + rat + width, 12.125/11 + height/2),
-        vec2(center_x + 0.2 / 11 + rat + width, 12.125/11 - height/2),
-        vec2(center_x + 0.2 / 11  + rat + width*2,  12.125/11 - height/2),
-        vec2(center_x + 0.2 / 11  + rat + width*2,  12.125/11 + height/2),
+        vec2(center_x + 0.2 / 11 + rat + width, 12.125 / 11 + height / 2),
+        vec2(center_x + 0.2 / 11 + rat + width, 12.125 / 11 - height / 2),
+        vec2(center_x + 0.2 / 11 + rat + width * 2, 12.125 / 11 - height / 2),
+        vec2(center_x + 0.2 / 11 + rat + width * 2, 12.125 / 11 + height / 2),
 
-        vec2(center_x + 0.2 / 11 + rat*2 + width*2, 12.125/11 + height/2),
-        vec2(center_x + 0.2 / 11 + rat*2 + width*2, 12.125/11 - height/2),
-        vec2(center_x + 0.2 / 11  + rat*2 + width*3,  12.125/11 - height/2),
-        vec2(center_x + 0.2 / 11  + rat*2 + width*3,  12.125/11 + height/2),
+        vec2(center_x + 0.2 / 11 + rat * 2 + width * 2, 12.125 / 11 + height / 2),
+        vec2(center_x + 0.2 / 11 + rat * 2 + width * 2, 12.125 / 11 - height / 2),
+        vec2(center_x + 0.2 / 11 + rat * 2 + width * 3, 12.125 / 11 - height / 2),
+        vec2(center_x + 0.2 / 11 + rat * 2 + width * 3, 12.125 / 11 + height / 2),
 
-        vec2(center_x + 0.2 / 11 + rat*3 + width*3, 12.125/11 + height/2),
-        vec2(center_x + 0.2 / 11 + rat*3 + width*3, 12.125/11 - height/2),
-        vec2(center_x + 0.2 / 11  + rat*3 + width*4,  12.125/11 - height/2),
-        vec2(center_x + 0.2 / 11  + rat*3 + width*4,  12.125/11 + height/2),
+        vec2(center_x + 0.2 / 11 + rat * 3 + width * 3, 12.125 / 11 + height / 2),
+        vec2(center_x + 0.2 / 11 + rat * 3 + width * 3, 12.125 / 11 - height / 2),
+        vec2(center_x + 0.2 / 11 + rat * 3 + width * 4, 12.125 / 11 - height / 2),
+        vec2(center_x + 0.2 / 11 + rat * 3 + width * 4, 12.125 / 11 + height / 2),
+
+        vec2(center_x, center_y)
     ];
 
 
 
     // decalcomanie
     if (isLeft) {
-        // if Left, alpha is 1 / devidevalue
+        // isLeft가 true이면 alpha를 1/devideValue로 한다
         devideValue = 1.05;
         for (var count = 0; count < mVertices.length; count++) {
             var value = mVertices[count];
@@ -149,8 +162,11 @@ function drawHarfTower(x, y, mult, isLeft) {
         var x_ = mVertices[count][0];
         var y_ = mVertices[count][1];
 
-        mVertices[count][0] = x_ * mult + x;
-        mVertices[count][1] = y_ * mult + y;
+        var x__ = x_*Math.cos(theta) - y_*Math.sin(theta);
+        var y__ = x_*Math.sin(theta) + y_ *Math.cos(theta);
+
+        mVertices[count][0] = x__ * mult + x;
+        mVertices[count][1] = y__ * mult + y;
     }
 
     drawRectangle(gl, mVertices, 0, getColorValue(163, 153, 152, 255 / devideValue));
@@ -168,4 +184,9 @@ function drawHarfTower(x, y, mult, isLeft) {
     drawRectangle(gl, mVertices, 39, getColorValue(170, 156, 117, 255 / devideValue));
     drawRectangle(gl, mVertices, 43, getColorValue(170, 156, 117, 255 / devideValue));
 
+    // isLeft가 true일때만 원을 랜더링
+    if (!isLeft) {
+        drawCircle(gl, 0.06, mVertices[47], getColorValue(218, 203, 189, 255), 1);
+        drawCircle(gl, 0.04, mVertices[47], getColorValue(170, 156, 117, 255), 1);
+    }
 }

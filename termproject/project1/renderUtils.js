@@ -5,8 +5,9 @@ function loadGL(canvas, vec4_) {
     gl.viewport(0, 0, canvas.width, canvas.height);
     gl.clearColor(vec4_[0], vec4_[1], vec4_[2], vec4_[3]);
 
-    gl.enable(gl.BLEND);
-    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+    // 주석을 지우면 alpha를 사용했을때 뒤에가 비친다.
+    // gl.enable(gl.BLEND);
+    // gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
     return gl;
 };
@@ -56,7 +57,7 @@ function drawRectangleGR(gl, mVertices, start, vec4Arr) {
     gl.drawArrays(gl.TRIANGLE_FAN, start, 4);
 };
 
-function drawCircle(gl, vec2_, vec4_, t = 1) {
+function drawCircle(gl,r, vec2_, vec4_, t = 1) {
     const noOfFans = 200; // Vertice의 개수
 
     const centerOfCircle = vec2_;
