@@ -6,7 +6,6 @@ var gl;
 
 var maxNumTriangles = 1000;
 var maxNumVertices = 3 * maxNumTriangles;
-var index = 0;
 
 var colors = [
   vec4(0.0, 0.0, 0.0, 1.0),  // black
@@ -17,8 +16,10 @@ var colors = [
   vec4(1.0, 0.0, 1.0, 1.0),  // magenta
   vec4(0.0, 1.0, 1.0, 1.0)   // cyan
 ];
+var myColor = [];
 
 var vertices = [];
+var index = 0;
 
 
 window.onload = function init() {
@@ -32,26 +33,24 @@ window.onload = function init() {
     vertices.push(vec2(2 * event.clientX / canvas.width - 1,
       2 * (canvas.height - event.clientY) / canvas.height - 1));
 
-    if (vertices.length == 3) {
-
+    if (vertices.length % 3 == 0) {
       render();
-      vertices.clear;
-      vertices = [];
+      // vertices.clear;
+      // vertices = [];
       index++;
     }
-    
   });
 
 
   gl.viewport(0, 0, canvas.width, canvas.height);
-  gl.clearColor(0, 0, 0, 1.0);
+  gl.clearColor(1, 1, 1, 1.0);
 
 
   //
   //  Load shaders and initialize attribute buffers
   //
 
-  render();
+  //render();
 }
 
 
@@ -67,6 +66,18 @@ function render() {
   gl.vertexAttribPointer(vPosition, 2, gl.FLOAT, false, 0, 0);
   gl.enableVertexAttribArray(vPosition);
 
-  gl.drawArrays(gl.TRIANGLES, 0, 3);
+  myColor.push(colors[index % 7]);
+  myColor.push(colors[index % 7]);
+  myColor.push(colors[index % 7]);
+
+  var vertexColorBufferId = gl.createBuffer();
+  gl.bindBuffer(gl.ARRAY_BUFFER, vertexColorBufferId);
+  gl.bufferData(gl.ARRAY_BUFFER, flatten(myColor), gl.STATIC_DRAW);
+
+  var vColor = gl.getAttribLocation(program, "vColor");
+  gl.vertexAttribPointer(vColor, 4, gl.FLOAT, false, 0, 0);
+  gl.enableVertexAttribArray(vColor);
+
+  gl.drawArrays(gl.TRIANGLES, 0, vertices.length);
 
 }
