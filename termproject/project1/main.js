@@ -10,50 +10,53 @@ window.onload = function init() {
 
 
     gl.viewport(0, 0, canvas.width, canvas.height);
-    gl.clearColor(1.0, 1.0, 1.0, 1.0);
+    gl.clearColor(0.0, 0.0, 0.0, 0.0);
 
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
 
     renderView(); // view를 그립니다.
 };
 
 function renderView() {
-    renderBackground(); // 땅을 그립니다.
+    // renderBackground(); // 땅을 그립니다.
 
-    renderCircle(0.15, 0.5, 0.7, vec4(1, 1, 0, 1)); // 달을 그립니다.
-    renderCircle(0.15, 0.42, 0.78, vec4(0.1, 0.1, 0.1, 1)); // 초승달 구현을 위한 달 그림자 입니다.
+    // renderCircle(0.15, 0.5, 0.7, vec4(1, 1, 0, 1)); // 달을 그립니다.
+    // renderCircle(0.15, 0.42, 0.78, vec4(0.1, 0.1, 0.1, 1)); // 초승달 구현을 위한 달 그림자 입니다.
 
-    // 집 뒤에 있는 나무를 그립니다.
-    renderTree(-0.5, 0.4);
-    renderTree(0.65, 0.45);
+    // // 집 뒤에 있는 나무를 그립니다.
+    // renderTree(-0.5, -0.3, 0.3);
+    // renderTree(0.3, -0.3,0.4);
 
-    renderSnowman(); // 눈사람
+    // //renderSnowman(); // 눈사람
 
-    renderSmoke(); // 굴뚝 연기 입니다.
+    // // renderSmoke(); // 굴뚝 연기 입니다.
 
-    renderHouse(); // 내 집을 그립니다.
+    // renderHouse(0.0, -0.2, 0.4); // 내 집을 그립니다.
 
-    // 집 앞에 있는 나무를 그립니다.
-    renderTree(0.8, 0);
-    renderTree(-0.8, 0);
-    renderTree(0.4, -0.6);
+    // // 집 앞에 있는 나무를 그립니다.
+    // renderTree(0.8, 0, 0.9);
+    // renderTree(-0.8, 0, 0.8);
+    // renderTree(0.4, -0.6, 0.7);
 
-    renderSnow(350); // 눈입니다.
+   
 
-    setTimeout(renderView, 500);
+    renderSnow(); // 눈입니다.
 };
 
-function renderSnow(size) {
+function renderSnow() {
     // 눈을 그리는 함수입니다.
     // 눈의 개수를 파라미터로 받습니다.
 
-    for (var i = 0; i <= size; i++) {
+    for (var i = 0; i <= 100; i++) {
         renderCircle(0.004,
             getRandomArbitrary(),
             getRandomArbitrary(),
             vec4(1, 1, 1, 0.3));
     }
+
+    setTimeout(renderSnow, 100);
 };
 
 function renderSnowman() {
@@ -181,13 +184,15 @@ function renderMountain() {
     renderTriangle_GR(verticies(mVertices, 9, 3), 0, frontColor_GR); // 눈 그라데이션 (1/2 지점)
 };
 
-function renderTree(x, y) {
+function renderTree(xl, yl, mult = 1.0) {
     // 나무를 그리는 함수입니다.
     // 나무의 center 값을 파라미터로 받습니다.
     // 모듈화를 시킴으로써 코드의 양을 줄입니다.
 
     const k = 0.05; // term
 
+    var x = xl / mult;
+    var y = yl / mult;
     const mVertices = [
         vec2(x - 0.0625, y - 1),
         vec2(x + 0.0625, y - 1),
@@ -206,6 +211,11 @@ function renderTree(x, y) {
         vec2(x + 0.20, y - 0.3 - k * 2),
         vec2(x, y - 0.05 - k * 2)
     ];
+
+    mVertices.forEach(element => {
+        element[0] = element[0] * mult;
+        element[1] = element[1] * mult;
+    });
 
     const colorIn = [
         vec4(1, 1, 1, 1),
@@ -278,7 +288,7 @@ function renderBackground() { // 땅을 과 하늘을 그립니다.
     renderCircle(0.06, 0.47, -0.36, riverColor); // 초승달 구현을 위한 달 그림자 입니다.
 };
 
-function renderHouse() { // 집을 그립니다.
+function renderHouse(x, y, mult) { // 집을 그립니다.
 
     const mVertices = [
         vec2(-0.5, -0.9),
@@ -316,6 +326,11 @@ function renderHouse() { // 집을 그립니다.
         vec2(-0.295, -0.5),
     ];
 
+    mVertices.forEach(element => {
+        element[0] = element[0] * mult + x;
+        element[1] = element[1] * mult + y;
+    });
+
     // 집 본체
     renderRectangle(mVertices, 0, vec4(0.8, 0.8, 0.8, 1));
 
@@ -335,8 +350,8 @@ function renderHouse() { // 집을 그립니다.
     renderRectangle(mVertices, 11, vec4(0.5, 0.25, 0, 1));
 
     // 문고리
-    renderCircle(0.02, 0.04, -0.72, vec4(1, 1, 0, 1));
-    renderCircle(0.0037, 0.038, -0.7204, vec4(0, 0, 0, 0.7));
+    renderCircle(0.02 * mult, 0.04 * mult + x, -0.72 * mult + y, vec4(1, 1, 0, 1));
+    renderCircle(0.0037 * mult, 0.038 * mult + x, -0.7204 * mult + y, vec4(0, 0, 0, 0.7));
 
 
     // 창문

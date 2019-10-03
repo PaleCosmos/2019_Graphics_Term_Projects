@@ -4,7 +4,6 @@
 <head>
 
     <script id="vertex-shader" type="x-shader/x-vertex">
-
         attribute vec4 vPosition;
         attribute vec4 vColor;
         varying vec4 fColor;
@@ -41,18 +40,26 @@
         }
         </script>
 
-    <script type="text/javascript" src="../Common/webgl-utils.js"></script>
-    <script type="text/javascript" src="../Common/initShaders.js"></script>
-    <script type="text/javascript" src="../Common/MV.js"></script>
-    <script type="text/javascript" src="homework3.js"></script>
+    <script type="text/javascript" src="Common/webgl-utils.js"></script>
+    <script type="text/javascript" src="Common/initShaders.js"></script>
+    <script type="text/javascript" src="Common/MV.js"></script>
+    <!-- <script type="text/javascript" src="default.js"></script> -->
+    <script type="text/javascript" src="main.js"></script>
 </head>
 
 <body>
 
     <!-- 캔버스 크기 조정 -->
-    <canvas id="gl-canvas" width="860" height="860">
+    <canvas id="gl-canvas" style="background: url('default.png')" width="860" height="860">
         Oops ... your browser doesn't support the HTML5 canvas element
     </canvas>
+    <!-- <canvas id="gl-canvas2"  width="860" height="860">
+        Oops ... your browser doesn't support the HTML5 canvas element
+    </canvas> -->
+<br>
+    <input type="button" id="toLeft" value="toLeft">
+    <input type="button" id="pause" value="start">
+    <input type="button" id="toRight" value="toRight">
 </body>
 
 </html>
