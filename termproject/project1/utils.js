@@ -43,3 +43,13 @@ function changeCoordinates(input) {
     output = input;
     return output;
 };
+
+function rotated(vec2_, theta) {
+    var x_ = vec2_[0];
+    var y_ = vec2_[1];
+
+    var x__ = x_ * Math.cos(theta) - y_ * Math.sin(theta);
+    var y__ = x_ * Math.sin(theta) + y_ * Math.cos(theta);
+
+    return vec2(x__, y__);
+};
