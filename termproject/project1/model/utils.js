@@ -24,9 +24,9 @@ function getColorArray(len, vec4_) {
     return mColor;
 };
 
-function getRandomArbitrary() {
+function getRandomArbitrary(start = -1, difference = 2) {
     // -1 부터 1 사이의 랜덤 숫자를 리턴합니다.
-    return Math.random() * (2) - 1;
+    return Math.random() * (difference) + start;
 };
 
 function getColorValue(r, g, b, a) {

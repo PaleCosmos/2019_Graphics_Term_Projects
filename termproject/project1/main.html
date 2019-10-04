@@ -51,19 +51,22 @@
 <body>
 
     <!-- 캔버스 크기 조정 -->
-    <canvas id="gl-canvas" style="background: url('background.png"''" width="860" height="860">
+    <canvas id="gl-canvas" style="background: url('background.png')" width="860" height="860">
         Oops ... your browser doesn't support the HTML5 canvas element
     </canvas>
     <br>
-    <select name="default">
+    <select id="select0" name="default">
         <option value="0">맨앞</option>
         <option value="1">두번째</option>
         <option value="2">세번째</option>
         <option value="3">마지막</option>
     </select>
-    <br>
+    <input type="button" id="stop" value="시작/정지">
     <input type="button" id="rotate" value="방향 변경">
-    
+    <br>
+    <input type="button" id="startAll" value="전체 시작">
+    <input type="button" id="stopAll" value="전체 정지">
+
 </body>
 
 </html>

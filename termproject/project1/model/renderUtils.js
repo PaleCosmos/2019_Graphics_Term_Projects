@@ -57,7 +57,7 @@ function drawRectangleGR(gl, mVertices, start, vec4Arr) {
     gl.drawArrays(gl.TRIANGLE_FAN, start, 4);
 };
 
-function drawCircle(gl,r, vec2_, vec4_, t = 1) {
+function drawCircle(gl, r, vec2_, vec4_, t = 1, subAngle = 0) {
     const noOfFans = 200; // Vertice의 개수
 
     const centerOfCircle = vec2_;
@@ -68,23 +68,42 @@ function drawCircle(gl,r, vec2_, vec4_, t = 1) {
 
     var y = vec2_[1];
 
+    var t_;
+
+    var flag = t >= 0;
+
+    if (t < 1 && t > -1) t_ = 1;
+    else t_ = Math.abs(t);
+
     const mVertices = [
 
     ];
 
     mVertices.push(centerOfCircle);
 
-    for (var i = 0; i <= noOfFans; i++) {
-        var angle = anglePerFna * (i + 1);
-        mVertices.push(
-            vec2(
-                x + Math.cos(angle) * r,
-                y + Math.sin(angle) * r
-            )
-        );
-    }
+
+    if (flag)
+        for (var i = 0; i <= noOfFans; i++) {
+            var angle = anglePerFna * (i + 1);
+            mVertices.push(
+                vec2(
+                    x + Math.cos(angle + subAngle) * r,
+                    y + Math.sin(angle + subAngle) * r
+                )
+            );
+        }
+    else
+        for (var i = 0; i <= noOfFans; i++) {
+            var angle = anglePerFna * (i + 1);
+            mVertices.push(
+                vec2(
+                    x - Math.cos(angle + subAngle) * r,
+                    y + Math.sin(angle + subAngle) * r
+                )
+            );
+        }
 
     setGL(gl, mVertices, getColorArray(mVertices.length, vec4_));
 
-    gl.drawArrays(gl.TRIANGLE_FAN, 0, mVertices.length / t);
+    gl.drawArrays(gl.TRIANGLE_FAN, 0, mVertices.length / t_);
 };
