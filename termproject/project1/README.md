@@ -7,6 +7,10 @@
 **정주환** @`Jung-Juhwan`</br>
 **황병훈** @`firstdeep`</br>
 
+**main.html을 실행시켜주세요**
+
+***background는 따로 렌더링 후에 적용하였습니다.***
+
 # LICENSE
 ```
    Copyright 2019 PaleCosmos

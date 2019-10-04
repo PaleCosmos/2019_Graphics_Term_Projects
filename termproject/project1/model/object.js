@@ -1,8 +1,12 @@
 // 201735829 박상현
 var canvas
 var gl;
-var rot  = 0;
-var kk = -1.5;
+var rot = [
+    vec2(PI * (1 / 4), 0.15),
+    vec2(PI * (1 / 3), 0.13),
+    vec2(PI * (1 / 6), 0.09),
+    vec2(PI * (1 / 2), 0.11)
+]
 
 window.onload = function init() {
     canvas = document.getElementById("gl-canvas");
@@ -14,64 +18,18 @@ window.onload = function init() {
 };
 
 function initView() {
-    drawBackground();
 
-    // y = -0.88이 가장 적당
-    //var vec4_ = drawMainTower(-0.5, -0.88, 0.5);
-
-    drawRotateObject(drawMainTower(0.8, -0.88, 0.2), rot);
-    drawRotateObject(drawMainTower(0.5, -0.88, 0.4), rot);
-    drawRotateObject(drawMainTower(0.1, -0.88, 0.6), rot);
-   
-    drawRotateObject(drawMainTower(-0.5, -0.88, 0.8), rot);
-   
-
-    //  drawRotateObject(drawMainTower(0, -0.88, 0.8, 0), PI/4);
-
-    rot = rot + PI*(1/10);
-    kk= (kk + 1 +0.1)%3 -1;
+    drawRotateObject(drawMainTower(0.83, -0.88, 0.2), rot[3][0]);
+    drawRotateObject(drawMainTower(0.55, -0.88 - 0.005, 0.4), rot[2][0]);
+    drawRotateObject(drawMainTower(0.1, -0.88 - 0.005 * 2, 0.6), rot[1][0]);
+    drawRotateObject(drawMainTower(-0.5, -0.88 - 0.005 * 3, 0.8), rot[0][0]);
 
 
+    rot.forEach(function (value, index, _) {
+        rot[index][0] = value[0] + value[1];
+    });
 
     setTimeout(initView, 100);
-}
-
-// 땅을 그리자
-function drawBackground() {
-    var mVertices = [
-        // background
-        vec2(1, 1),
-        vec2(-1, 1),
-        vec2(-1, -1),
-        vec2(1, -1),
-
-        // ground green
-        vec2(-1, -1),
-        vec2(1, -1),
-        vec2(1, -1 + (1 / 8)),
-        vec2(-1, -1 + (1 / 8)),
-
-        vec2(-1, -1),
-        vec2(1, -1),
-        vec2(1, -1 + (1 / 10)),
-        vec2(-1, -1 + (1 / 10)),
-
-        // ground brown
-        vec2(-1, -1),
-        vec2(1, -1),
-        vec2(1, -1 + (1 / 12)),
-        vec2(-1, -1 + (1 / 12)),
-
-        vec2(-1, -1),
-        vec2(1, -1),
-        vec2(1, -1 + (1 / 20)),
-        vec2(-1, -1 + (1 / 20))
-    ];
-    drawRectangle(gl, mVertices, 0, getColorValue(206, 236, 236, 255));
-    drawRectangle(gl, mVertices, 4, getColorValue(173, 201, 94, 255));
-    drawRectangle(gl, mVertices, 8, getColorValue(141, 152, 54, 255));
-    drawRectangle(gl, mVertices, 12, getColorValue(174, 105, 68, 255));
-    drawRectangle(gl, mVertices, 16, getColorValue(154, 88, 47, 255));
 };
 
 // x, y는 좌표, mult는 배율, theta는 회전각
@@ -84,6 +42,7 @@ function drawHarfTower(x, y, mult, isLeft, theta) {
     var devideValue = 1.0;
     const center_x = 0;
     const center_y = 12.4 / 11;
+    var circleValue = 3.9;
 
     const height = 0.4 / 11;
     const width = 0.5 / 11;
@@ -154,15 +113,19 @@ function drawHarfTower(x, y, mult, isLeft, theta) {
         vec2(center_x + 0.2 / 11 + rat * 3 + width * 4, 12.125 / 11 - height / 2),
         vec2(center_x + 0.2 / 11 + rat * 3 + width * 4, 12.125 / 11 + height / 2),
 
+        vec2(0, 7 / 11),
+        vec2(1 / 11, 7 / 11),
+        vec2(1 / 11, 8.58 / 11),
+        vec2(0, 8.5 / 11),
+
         vec2(center_x, center_y)
     ];
-
-
 
     // decalcomanie
     if (isLeft) {
         // isLeft가 true이면 alpha를 1/devideValue로 한다
         devideValue = 1.05;
+        circleValue=2;
         for (var count = 0; count < mVertices.length; count++) {
             var value = mVertices[count];
             mVertices[count] = vec2(-1 * value[0], value[1]);
@@ -192,8 +155,11 @@ function drawHarfTower(x, y, mult, isLeft, theta) {
     drawRectangle(gl, mVertices, 39, getColorValue(170, 156, 117, 255 / devideValue));
     drawRectangle(gl, mVertices, 43, getColorValue(170, 156, 117, 255 / devideValue));
 
+    drawRectangle(gl, mVertices, 47, getColorValue(92, 83, 85, 255 / devideValue));
+
+    drawCircle(gl, mult * (1 / 11), mVertices[50], getColorValue(92, 83, 85, 255 / devideValue), circleValue)
     // 원 중점 리턴
-    return vec4(mVertices[47][0], mVertices[47][1], mult, radius);
+    return vec4(mVertices[51][0], mVertices[51][1], mult, radius);
 };
 
 function drawRotateObject(vec4_, theta = PI * 2) {
@@ -240,16 +206,16 @@ function drawRotateObject(vec4_, theta = PI * 2) {
 
     // 좌표돌려쓰기
     for (var i = 0; i < 2 * PI; i += PI / 2) {
-        mVertices2.forEach(function(item, index, array){
+        mVertices2.forEach(function (item, index, array) {
             mVertices.push(rotated(item, i));
         });
     }
     for (var i = 0; i < 2 * PI; i += PI / 2) {
-        mVertices3.forEach(function(item, index, array){
+        mVertices3.forEach(function (item, index, array) {
             mVertices.push(rotated(item, i));
         });
     }
- 
+
     for (var count = 0; count < mVertices.length; count++) {
         var vec2_ = rotated(mVertices[count], theta);
 
@@ -260,10 +226,9 @@ function drawRotateObject(vec4_, theta = PI * 2) {
     drawRectangle(gl, mVertices, 0, color);
     drawRectangle(gl, mVertices, 4, color);
 
-    for(var i=0; i<4; i++)
-    {
-        drawRectangle(gl, mVertices, 8 + i*4, getColorValue(218,218, 205, 255));
-        drawRectangle(gl, mVertices, 24 + i*4, getColorValue(254, 254, 246, 255));
+    for (var i = 0; i < 4; i++) {
+        drawRectangle(gl, mVertices, 8 + i * 4, getColorValue(218, 218, 205, 255));
+        drawRectangle(gl, mVertices, 24 + i * 4, getColorValue(254, 254, 246, 255));
     }
 
     drawCircle(gl, radius * mult, vec2(x, y), getColorValue(218, 203, 189, 255), 1);

@@ -45,15 +45,25 @@
     <script type="text/javascript" src="Common/webgl-utils.js"></script>
     <script type="text/javascript" src="Common/initShaders.js"></script>
     <script type="text/javascript" src="Common/MV.js"></script>
-    <script type="text/javascript" src="model/background.js"></script>
+    <script type="text/javascript" src="model/object.js"></script>
 </head>
 
 <body>
 
     <!-- 캔버스 크기 조정 -->
-    <canvas id="gl-canvas" width="860" height="860">
+    <canvas id="gl-canvas" style="background: url('background.png"''" width="860" height="860">
         Oops ... your browser doesn't support the HTML5 canvas element
     </canvas>
+    <br>
+    <select name="default">
+        <option value="0">맨앞</option>
+        <option value="1">두번째</option>
+        <option value="2">세번째</option>
+        <option value="3">마지막</option>
+    </select>
+    <br>
+    <input type="button" id="rotate" value="방향 변경">
+    
 </body>
 
 </html>
