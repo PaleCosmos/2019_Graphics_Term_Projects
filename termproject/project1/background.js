@@ -1,6 +1,8 @@
 // 201735829 박상현
 var canvas
 var gl;
+var rot  = 0;
+var kk = -1.5;
 
 window.onload = function init() {
     canvas = document.getElementById("gl-canvas");
@@ -15,8 +17,16 @@ function initView() {
     drawBackground();
 
     // y = -0.88이 가장 적당
-    var vec4_ = drawMainTower(-0.5, -0.88, 0.5, 2 * PI);
-    drawRotateObject(vec4_);
+    //var vec4_ = drawMainTower(-0.5, -0.88, 0.5);
+    drawRotateObject(drawMainTower(kk, -0.88, 0.3), rot);
+    drawRotateObject(drawMainTower(0.5, -0.88, 0.4), rot);
+
+    drawRotateObject(drawMainTower(0, 1, 0.5, PI), rot);
+    
+    rot = rot + PI*(1/10);
+    kk= (kk + 1 +0.1)%3 -1;
+
+    setTimeout(initView, 100);
 }
 
 // 땅을 그리자
