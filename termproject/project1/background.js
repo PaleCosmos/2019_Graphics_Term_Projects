@@ -18,13 +18,20 @@ function initView() {
 
     // y = -0.88이 가장 적당
     //var vec4_ = drawMainTower(-0.5, -0.88, 0.5);
-    drawRotateObject(drawMainTower(kk, -0.88, 0.3), rot);
-    drawRotateObject(drawMainTower(0.5, -0.88, 0.4), rot);
 
-    drawRotateObject(drawMainTower(0, 1, 0.5, PI), rot);
-    
+    drawRotateObject(drawMainTower(0.8, -0.88, 0.2), rot);
+    drawRotateObject(drawMainTower(0.5, -0.88, 0.4), rot);
+    drawRotateObject(drawMainTower(0.1, -0.88, 0.6), rot);
+   
+    drawRotateObject(drawMainTower(-0.5, -0.88, 0.8), rot);
+   
+
+    //  drawRotateObject(drawMainTower(0, -0.88, 0.8, 0), PI/4);
+
     rot = rot + PI*(1/10);
     kk= (kk + 1 +0.1)%3 -1;
+
+
 
     setTimeout(initView, 100);
 }
@@ -197,7 +204,7 @@ function drawRotateObject(vec4_, theta = PI * 2) {
 
     var color = getColorValue(200, 96, 42, 255);
 
-    var width = 1 / 22;
+    var width = 1 / 28;
     var width2 = 2.7 / 22;
 
     var height = 0.24;
@@ -231,6 +238,7 @@ function drawRotateObject(vec4_, theta = PI * 2) {
         vec2(width, 1),
     ];
 
+    // 좌표돌려쓰기
     for (var i = 0; i < 2 * PI; i += PI / 2) {
         mVertices2.forEach(function(item, index, array){
             mVertices.push(rotated(item, i));
@@ -258,6 +266,6 @@ function drawRotateObject(vec4_, theta = PI * 2) {
         drawRectangle(gl, mVertices, 24 + i*4, getColorValue(254, 254, 246, 255));
     }
 
-    drawCircle(gl, radius, vec2(x, y), getColorValue(218, 203, 189, 255), 1);
-    drawCircle(gl, radius - 0.02, vec2(x, y), getColorValue(170, 156, 117, 255), 1);
+    drawCircle(gl, radius * mult, vec2(x, y), getColorValue(218, 203, 189, 255), 1);
+    drawCircle(gl, (radius - 0.02) * mult, vec2(x, y), getColorValue(170, 156, 117, 255), 1);
 };
