@@ -1,7 +1,11 @@
 # 2019_Graphics_Exercises
 2019 Graphics Exercise
 
-#License
+## Term Project
+
+클릭 -> [자세히](https://github.com/PaleCosmos/2019_Graphics_Exercises/tree/master/termproject/project1)
+
+# License
 
 ```
    Copyright 2019 PaleCosmos
