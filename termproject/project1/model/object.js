@@ -68,10 +68,24 @@ function addListener() {
             rotBoolean[index] = true;
         });
     };
+    document.getElementById("changeAll").onclick = function (event) {
+        rot.forEach(function (value, index, _) {
+            rot[index][2] = value[2] * -1;
+        });
+    };
 };
 
 function initView() {
+    initCloud();
+    initObject();
 
+    setTimeout(
+        function () { requestAnimFrame(initView); },
+        100
+    );
+};
+
+function initCloud() {
     cloudValue.forEach(function (value, index, _) {
         if (value[0] + cloud[index] > 1.3) {
             cloudValue[index][0] = -1 * (value[0] + cloud[index]);
@@ -81,7 +95,9 @@ function initView() {
         }
         drawCloud(value[0], value[1], value[2]);
     });
+};
 
+function initObject() {
     drawRotateObject(drawMainTower(0.83, -0.88, 0.2), rot[3][0]);
     drawRotateObject(drawMainTower(0.55, -0.88 - 0.005, 0.4), rot[2][0]);
     drawRotateObject(drawMainTower(0.1, -0.88 - 0.005 * 2, 0.6), rot[1][0]);
@@ -92,12 +108,7 @@ function initView() {
         if (rotBoolean[index])
             rot[index][0] = value[0] + (value[1] * value[2]);
     });
-
-    setTimeout(
-        function () { requestAnimFrame(initView); },
-        500
-    );
-};
+}
 
 function drawCloud(x, y, mult, theta = PI * (0)) {
     var mVertices = [
