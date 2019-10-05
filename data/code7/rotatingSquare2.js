@@ -78,13 +78,13 @@ window.onload = function init()
 	window.addEventListener("keydown", function() {
 		console.log(event.keyCode)  
 		switch (event.keyCode) {
-			case 49: // ¡¯1¡¯ key
+			case 49: // ï¿½ï¿½1ï¿½ï¿½ key
 				direction = !direction;
 				break;
-			case 50: // ¡¯2¡¯ key
+			case 50: // ï¿½ï¿½2ï¿½ï¿½ key
 				delay /= 2.0;
 				break;
-			case 51: // ¡¯3¡¯ key
+			case 51: // ï¿½ï¿½3ï¿½ï¿½ key
 				delay *= 2.0;
 				break;
 		}	

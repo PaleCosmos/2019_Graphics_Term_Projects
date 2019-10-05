@@ -1,11 +1,12 @@
 // 201735829 박상현
 var canvas
 var gl;
+
 var rot = [
-    vec3(0, 0.15, 1),
-    vec3(0, 0.13, 1),
-    vec3(0, 0.09, 1),
-    vec3(0, 0.11, 1)
+    vec3(0, 0.015, 1),
+    vec3(0, 0.013, 1),
+    vec3(0, 0.009, 1),
+    vec3(0, 0.011, 1)
 ]
 
 var cloudValue = [
@@ -14,12 +15,12 @@ var cloudValue = [
 
 //speed
 var cloud = [
-    0.04,
-    0.02,
-    0.1,
-    0.12,
+    0.003,
+    0.002,
     0.01,
-    0.04
+    0.012,
+    0.001,
+    0.004
 ];
 
 var rotBoolean = [
@@ -29,12 +30,26 @@ var rotBoolean = [
 window.onload = function init() {
     canvas = document.getElementById("gl-canvas");
 
-    var clearColor = vec4(0.0, 0.0, 0.0, 1.0);
+    var clearColor = vec4(0.0, 0.0, 0.0, 0.0);
     gl = loadGL(canvas, clearColor);
 
     setValue();
     initView();
     addListener();
+};
+
+function initView() {
+   window.requestAnimationFrame(renderObjects);
+};
+
+function renderObjects() {
+    gl.clear(gl.COLOR_BUFFER_BIT);
+
+    initCloud();
+    initObject();
+
+    //requestAnimationFrame(renderObjects);
+    window.requestAnimationFrame(renderObjects);
 };
 
 function setValue() {
@@ -75,16 +90,6 @@ function addListener() {
     };
 };
 
-function initView() {
-    initCloud();
-    initObject();
-
-    setTimeout(
-        function () { requestAnimFrame(initView); },
-        100
-    );
-};
-
 function initCloud() {
     cloudValue.forEach(function (value, index, _) {
         if (value[0] + cloud[index] > 1.3) {
@@ -98,7 +103,7 @@ function initCloud() {
 };
 
 function initObject() {
-    drawRotateObject(drawMainTower(0.83, -0.88, 0.2), rot[3][0]);
+     drawRotateObject(drawMainTower(0.83, -0.88, 0.2), rot[3][0]);
     drawRotateObject(drawMainTower(0.55, -0.88 - 0.005, 0.4), rot[2][0]);
     drawRotateObject(drawMainTower(0.1, -0.88 - 0.005 * 2, 0.6), rot[1][0]);
     drawRotateObject(drawMainTower(-0.5, -0.88 - 0.005 * 3, 0.8), rot[0][0]);
