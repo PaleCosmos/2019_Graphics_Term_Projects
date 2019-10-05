@@ -3,10 +3,10 @@ var canvas
 var gl;
 
 var rot = [
-    vec3(0, 0.015, 1),
-    vec3(0, 0.013, 1),
-    vec3(0, 0.009, 1),
-    vec3(0, 0.011, 1)
+    vec3(0, 0.15, 1),
+    vec3(0, 0.13, 1),
+    vec3(0, 0.09, 1),
+    vec3(0, 0.11, 1)
 ]
 
 var cloudValue = [
@@ -58,7 +58,7 @@ function setValue() {
     });
 
     for (var kk = 0; kk < cloud.length; kk++) {
-        cloudValue.push(vec3(getRandomArbitrary(-1.3, 2.6), getRandomArbitrary(-0.5, 1.5), getRandomArbitrary(0.3, 0.2)))
+        cloudValue.push(vec3(getRandomArbitrary(-1.3, 2.6), getRandomArbitrary(0, 1), getRandomArbitrary(0.3, 0.2)))
     }
 };
 
@@ -94,7 +94,7 @@ function initCloud() {
     cloudValue.forEach(function (value, index, _) {
         if (value[0] + cloud[index] > 1.3) {
             cloudValue[index][0] = -1 * (value[0] + cloud[index]);
-            cloudValue[index][1] = getRandomArbitrary(-0.5, 1.5);
+            cloudValue[index][1] = getRandomArbitrary(0, 1);
         } else {
             cloudValue[index][0] = value[0] + cloud[index];
         }
@@ -103,7 +103,7 @@ function initCloud() {
 };
 
 function initObject() {
-     drawRotateObject(drawMainTower(0.83, -0.88, 0.2), rot[3][0]);
+    drawRotateObject(drawMainTower(0.83, -0.88, 0.2), rot[3][0]);
     drawRotateObject(drawMainTower(0.55, -0.88 - 0.005, 0.4), rot[2][0]);
     drawRotateObject(drawMainTower(0.1, -0.88 - 0.005 * 2, 0.6), rot[1][0]);
     drawRotateObject(drawMainTower(-0.5, -0.88 - 0.005 * 3, 0.8), rot[0][0]);
@@ -166,7 +166,6 @@ function drawCloud(x, y, mult, theta = PI * (0)) {
 
 // x, y는 좌표, mult는 배율, theta는 회전각
 function drawMainTower(x, y, mult, theta = 0) {
-    drawHarfTower(x, y, mult, true, theta);
     return drawHarfTower(x, y, mult, false, theta);
 };
 
@@ -253,16 +252,6 @@ function drawHarfTower(x, y, mult, isLeft, theta) {
         vec2(center_x, center_y)
     ];
 
-    // decalcomanie
-    if (isLeft) {
-        // isLeft가 true이면 alpha를 1/devideValue로 한다
-        devideValue = 1.05;
-        circleValue = 2;
-        for (var count = 0; count < mVertices.length; count++) {
-            var value = mVertices[count];
-            mVertices[count] = vec2(-1 * value[0], value[1]);
-        }
-    }
     // resize
     for (var count = 0; count < mVertices.length; count++) {
         var vec2_ = rotated(mVertices[count], theta);
