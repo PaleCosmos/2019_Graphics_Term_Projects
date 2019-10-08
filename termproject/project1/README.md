@@ -8,6 +8,8 @@
 **황병훈** @`firstdeep`</br>
 
 **main.html을 실행시켜주세요**
+***or***
+<pre><a href="https://palecosmos.github.io/graphics/">https://palecosmos.github.io/graphics/</a></pre>
 
 ***background는 따로 렌더링 후에 적용하였습니다.***
 

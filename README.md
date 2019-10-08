@@ -3,6 +3,7 @@
 
 ## Term Project
 
+<pre><a href="https://palecosmos.github.io/graphics/">https://palecosmos.github.io/graphics/</a></pre>
 클릭 -> [자세히](https://github.com/PaleCosmos/2019_Graphics_Exercises/tree/master/termproject/project1)
 
 # License
