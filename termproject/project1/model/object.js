@@ -297,3 +297,7 @@ function drawRotateObject(vec4_, theta) {
     drawCircle(gl, (radius - 0.02) * mult, vec2(x, y), getColorValue(170, 156, 117, 255), 1);
 }
 ;
+
+function drawTree(vertex,r,g,b){
+    drawRectangle(gl,vertex,0,getColorValue(r,g,b,255));
+};
