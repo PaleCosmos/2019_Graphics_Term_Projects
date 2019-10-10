@@ -4,12 +4,13 @@
 
 ## 조원
 
-**박상현** @`PaleCosmos`</br>
-**전주영** @`juuyoungjeon`</br>
-**정주환** @`Jung-Juhwan`</br>
-**황병훈** @`firstdeep`</br>
+* **박상현** [@PaleCosmos](https://github.com/PaleCosmos)</br>
+* **전주영** [@juuyoungjeon](https://github.com/juuyoungjeon)</br>
+* **정주환** [@Jung-Juhwan](https://github.com/Jung-Juhwan)</br>
+* **황병훈** [@firstdeep](https://github.com/firstdeep)</br>
 
 **main.html을 실행시켜주세요**
+
 ***or***
 <pre><a href="https://palecosmos.github.io/2019_Graphics_Exercises/termproject/project1/main.html">https://palecosmos.github.io/2019_Graphics_Exercises/termproject/project1/main.html</a></pre>
 
