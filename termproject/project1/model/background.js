@@ -5,11 +5,17 @@ window.onload = function init() {
     canvas = document.getElementById("gl-canvas");
     var clearColor = vec4(0.0, 0.0, 0.0, 1.0);
     gl = loadGL(canvas, clearColor);
+
     initView();
+    
 };
 function initView() {
+    gl.enable(gl.BLEND);
+    gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
     drawBackground();
-    drawCircle(gl, 0.13, vec2(0.68, 0.7), vec4(0/255, 0/255, 255/255, 1), 1, 0);
+    drawCircle(gl, 0.12, vec2(0.68, 0.7), vec4(255/255, 255/255, 255/255, 0.8), 1, 0);
+    drawCircle(gl, 0.09, vec2(0.68, 0.7), vec4(255/255, 0/255, 255/255, 0.8), 1, 0);
+
     drawTreeBar( 
         [vec2(-0.9, -0.73),
          vec2(-0.925, -0.73),
