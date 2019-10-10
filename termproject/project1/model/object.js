@@ -2,18 +2,18 @@
 var canvas;
 var gl;
 var rot = [
-    vec3(0, 0.15, 1),
-    vec3(0, 0.13, 1),
-    vec3(0, 0.09, 1),
-    vec3(0, 0.11, 1)
+    vec3(0, 0.015, 1),
+    vec3(0, 0.013, 1),
+    vec3(0, 0.009, 1),
+    vec3(0, 0.011, 1)
 ];
 var cloudValue = [];
 //speed
 var cloud = [
     0.003,
     0.002,
-    0.01,
-    0.012,
+    0.001,
+    0.002,
     0.001,
     0.004
 ];
@@ -34,8 +34,7 @@ window.onload = function init() {
 };
 function initView() {
     window.requestAnimationFrame(renderObjects);
-}
-;
+};
 function renderObjects() {
     dots = [];
     colors = [];
@@ -46,10 +45,8 @@ function renderObjects() {
   
     render(gl,dots,renderNumber,colors);
 
-    setTimeout(renderObjects,10)
-    // window.requestAnimationFrame(renderObjects);
-}
-;
+    setTimeout(renderObjects,1000/60)
+};
 function setValue() {
     rot.forEach(function (value, index, _) {
         rot[index][0] = PI * getRandomArbitrary();
@@ -57,8 +54,7 @@ function setValue() {
     for (var kk = 0; kk < cloud.length; kk++) {
         cloudValue.push(vec3(getRandomArbitrary(-1.3, 2.6), getRandomArbitrary(0, 1), getRandomArbitrary(0.3, 0.2)));
     }
-}
-;
+};
 function addListener() {
     document.getElementById("rotate").onclick = function (event) {
         var value = document.getElementById("select0").selectedIndex;
@@ -83,8 +79,7 @@ function addListener() {
             rot[index][2] = value[2] * -1;
         });
     };
-}
-;
+};
 function initCloud() {
     cloudValue.forEach(function (value, index, _) {
         if (value[0] + cloud[index] > 1.3) {
@@ -96,8 +91,7 @@ function initCloud() {
         }
         drawCloud(value[0], value[1], value[2]);
     });
-}
-;
+};
 function initObject() {
     drawRotateObject(drawMainTower(0.83, -0.88, 0.2), rot[3][0]);
     drawRotateObject(drawMainTower(0.55, -0.88 - 0.005, 0.4), rot[2][0]);
@@ -110,7 +104,7 @@ function initObject() {
         if (rotBoolean[index])
             rot[index][0] = value[0] + (value[1] * value[2]);
     });
-}
+};
 function drawCloud(x, y, mult, theta) {
     if (theta === void 0) { theta = PI * (0); }
     var mVertices = [
@@ -247,8 +241,7 @@ function drawHarfTower(x, y, mult, isLeft, theta) {
     drawCircle(gl, mult * (1 / 11), mVertices[50], getColorValue(92, 83, 85, 255 / devideValue), circleValue, 0, dots, renderNumber, colors);
     // 원 중점 리턴
     return vec4(mVertices[51][0], mVertices[51][1], mult, radius);
-}
-;
+};
 function drawRotateObject(vec4_, theta = PI * 2) {
   
     var x = vec4_[0];
