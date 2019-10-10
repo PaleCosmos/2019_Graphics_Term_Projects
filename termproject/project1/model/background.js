@@ -9,6 +9,7 @@ window.onload = function init() {
 };
 function initView() {
     drawBackground();
+    drawCircle(gl, 0.13, vec2(0.68, 0.7), vec4(0/255, 0/255, 255/255, 1), 1, 0);
     drawTreeBar( 
         [vec2(-0.9, -0.73),
          vec2(-0.925, -0.73),
@@ -41,14 +42,15 @@ function initView() {
         vec2(0.94-1.1, -0.88),], 143, 54, 20); 
     
     drawTree(0.95-1.1, -0.77, 0.9, 0,0.022);
-     
-    drawMainTower(-0.5, -0.88 - 0.005 * 3, 0.8);
+    
     drawTreeBar( 
-        [vec2(0.94-1.75, -0.75),
-        vec2(0.96-1.75, -0.75),
-        vec2(0.96-1.75, -0.88),
-        vec2(0.94-1.75, -0.88),], 143, 54, 20); 
-    drawTree(0.94-1.73, -0.77, 1, 0,0.020);
+        [vec2(0.94-1.76, -0.75),
+        vec2(0.96-1.76, -0.75),
+        vec2(0.96-1.76, -0.88),
+        vec2(0.94-1.76, -0.88),], 143, 54, 20);
+    drawMainTower(-0.5, -0.88 - 0.005 * 3, 0.8);
+     
+    drawTree(0.94-1.75, -0.77, 1, 0,0.020);
 }
 ;
 
@@ -94,8 +96,7 @@ function drawTree(x, y, mult, theta, radi) {
         vec2(radi, 1),
         vec2(radi, 1),
         vec2(radi, 1),
-        
-        
+    
         
         
     ];
@@ -151,18 +152,14 @@ function drawBackground() {
         vec2(-1, -1),
         vec2(1, -1),
         vec2(1, -1 + (1 / 20)),
-        vec2(-1, -1 + (1 / 20)),
-        vec2(1, -1 + (1 / 8)),
-        vec2(-1, -1 + (1 / 8)),
-        vec2(-1,-1 + (1 / 8)+0.01),
-        vec2(1,-1 + (1 / 8)+0.01)        
+        vec2(-1, -1 + (1 / 20))       
     ];
-    drawRectangle(gl, mVertices, 0, getColorValue(30, 30, 30, 255));
+    drawRectangle(gl, mVertices, 0, getColorValue(206, 236, 236, 255));
     drawRectangle(gl, mVertices, 4, getColorValue(173, 201, 94, 255));
     drawRectangle(gl, mVertices, 8, getColorValue(141, 152, 54, 255));
     drawRectangle(gl, mVertices, 12, getColorValue(174, 105, 68, 255));
     drawRectangle(gl, mVertices, 16, getColorValue(154, 88, 47, 255));
-    drawRectangle(gl, mVertices, 20, getColorValue(255, 255, 255, 255));
+    
 }
 ;
 function drawMainTower(x, y, mult, theta) {
