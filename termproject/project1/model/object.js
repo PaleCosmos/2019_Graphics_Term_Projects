@@ -45,7 +45,9 @@ function renderObjects() {
     initObject();
   
     render(gl,dots,renderNumber,colors);
-    window.requestAnimationFrame(renderObjects);
+
+    setTimeout(renderObjects,10)
+    // window.requestAnimationFrame(renderObjects);
 }
 ;
 function setValue() {
@@ -101,7 +103,8 @@ function initObject() {
     drawRotateObject(drawMainTower(0.55, -0.88 - 0.005, 0.4), rot[2][0]);
     drawRotateObject(drawMainTower(0.1, -0.88 - 0.005 * 2, 0.6), rot[1][0]);
     drawRotateObject(drawMainTower(-0.5, -0.88 - 0.005 * 3, 0.8), rot[0][0]);
-    //drawMainTower(-0.5, -0.88 - 0.005 * 3, 0.8)
+  
+    //drawRotateObject(drawMainTower(-0.5, -0.88 - 0.005 * 3, 0.1), rot[0][0]);
     
     rot.forEach(function (value, index, _) {
         if (rotBoolean[index])
@@ -246,8 +249,8 @@ function drawHarfTower(x, y, mult, isLeft, theta) {
     return vec4(mVertices[51][0], mVertices[51][1], mult, radius);
 }
 ;
-function drawRotateObject(vec4_, theta) {
-    if (theta === void 0) { theta = PI * 2; }
+function drawRotateObject(vec4_, theta = PI * 2) {
+  
     var x = vec4_[0];
     var y = vec4_[1];
     var mult = vec4_[2] * 0.9;
@@ -262,6 +265,7 @@ function drawRotateObject(vec4_, theta) {
         vec2(-width / 2, 1),
         vec2(width / 2, 1),
         vec2(width / 2, -1),
+
         vec2(-1, -width / 2),
         vec2(1, -width / 2),
         vec2(1, width / 2),
@@ -282,7 +286,7 @@ function drawRotateObject(vec4_, theta) {
         vec2(width, 1)
     ];
     // 좌표돌려쓰기
-    for (var i = 0; i < 2 * PI; i += PI / 2) {
+    for (var i = 0; i <2 * PI; i += PI / 2) {
         mVertices2.forEach(function (item, index, array) {
             mVertices.push(rotated(item, i));
         });

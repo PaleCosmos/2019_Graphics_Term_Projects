@@ -101,7 +101,8 @@ function drawCircle(gl, r, vec2_, vec4_, t = 1, subAngle = 0, mVertices, arr1, a
     if (t < 1 && t > -1) t_ = 1;
     else t_ = Math.abs(t);
 
-    var vd = noOfFans/ t_;
+    var vd =Math.ceil(noOfFans/ t_);
+  
 
     mVertices.push(centerOfCircle);
     arr1.push(vd+2);
@@ -109,7 +110,7 @@ function drawCircle(gl, r, vec2_, vec4_, t = 1, subAngle = 0, mVertices, arr1, a
 
 
     if (flag)
-        for (var i = 0; i <= vd; i++) {
+        for (var i = 0; i <=vd; i++) {
             var angle = anglePerFna * (i + 1);
             mVertices.push(
                 vec2(
