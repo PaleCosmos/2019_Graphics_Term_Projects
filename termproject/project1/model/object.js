@@ -20,6 +20,10 @@ var cloud = [
 var rotBoolean = [
     false, false, false, false
 ];
+
+var dots = [];
+var renderNumber = [];
+var colors = [];
 window.onload = function init() {
     canvas = document.getElementById("gl-canvas");
     var clearColor = vec4(0.0, 0.0, 0.0, 0.0);
@@ -33,11 +37,17 @@ function initView() {
 }
 ;
 function renderObjects() {
+    dots = [];
+    colors = [];
+    renderNumber = [];
     gl.clear(gl.COLOR_BUFFER_BIT);
     initCloud();
     initObject();
-    //requestAnimationFrame(renderObjects);
-    window.requestAnimationFrame(renderObjects);
+  
+    render(gl,dots,renderNumber,colors);
+
+    setTimeout(renderObjects,10)
+    // window.requestAnimationFrame(renderObjects);
 }
 ;
 function setValue() {
@@ -93,6 +103,9 @@ function initObject() {
     drawRotateObject(drawMainTower(0.55, -0.88 - 0.005, 0.4), rot[2][0]);
     drawRotateObject(drawMainTower(0.1, -0.88 - 0.005 * 2, 0.6), rot[1][0]);
     drawRotateObject(drawMainTower(-0.5, -0.88 - 0.005 * 3, 0.8), rot[0][0]);
+  
+    //drawRotateObject(drawMainTower(-0.5, -0.88 - 0.005 * 3, 0.1), rot[0][0]);
+    
     rot.forEach(function (value, index, _) {
         if (rotBoolean[index])
             rot[index][0] = value[0] + (value[1] * value[2]);
@@ -134,10 +147,10 @@ function drawCloud(x, y, mult, theta) {
         if (count < radiuses.length)
             radiuses[count][0] *= mult;
     }
-    drawTriangle(gl, mVertices, 0, vec4(1, 1, 1, 1));
+    drawTriangle(gl, mVertices, 0, vec4(1, 1, 1, 1), dots, renderNumber, colors);
     for (var x = 0; x < radiuses.length; x++) {
-        drawCircle(gl, radiuses[x][0], mVertices[3 + x], vec4(1, 1, 1, 1), radiuses[x][1], theta);
-        drawCircle(gl, radiuses[x][0], mVertices2[x], vec4(1, 1, 1, 1), -1 * radiuses[x][1], -1 * theta);
+        drawCircle(gl, radiuses[x][0], mVertices[3 + x], vec4(1, 1, 1, 1), radiuses[x][1], theta, dots, renderNumber, colors);
+        drawCircle(gl, radiuses[x][0], mVertices2[x], vec4(1, 1, 1, 1), -1 * radiuses[x][1], -1 * theta, dots, renderNumber, colors);
     }
 }
 // x, y는 좌표, mult는 배율, theta는 회전각
@@ -216,28 +229,28 @@ function drawHarfTower(x, y, mult, isLeft, theta) {
         mVertices[count][0] = vec2_[0] * mult + x;
         mVertices[count][1] = vec2_[1] * mult + y;
     }
-    drawRectangle(gl, mVertices, 0, getColorValue(163, 153, 152, 255 / devideValue));
-    drawRectangle(gl, mVertices, 3, getColorValue(186, 177, 170, 255 / devideValue));
-    drawRectangle(gl, mVertices, 6, getColorValue(170, 156, 117, 255 / devideValue));
-    drawRectangle(gl, mVertices, 9, getColorValue(221, 213, 200, 255 / devideValue));
-    drawRectangle(gl, mVertices, 12, getColorValue(163, 153, 154, 255 / devideValue));
-    drawRectangle(gl, mVertices, 15, getColorValue(216, 92, 58, 255 / devideValue));
-    drawRectangle(gl, mVertices, 18, getColorValue(170, 156, 117, 255 / devideValue));
-    drawRectangle(gl, mVertices, 21, getColorValue(211, 205, 188, 255 / devideValue));
-    drawTriangle(gl, mVertices, 25, getColorValue(211, 205, 188, 255 / devideValue));
-    drawTriangle(gl, mVertices, 28, getColorValue(170, 156, 117, 255 / devideValue));
-    drawRectangle(gl, mVertices, 31, getColorValue(170, 156, 117, 255 / devideValue));
-    drawRectangle(gl, mVertices, 35, getColorValue(170, 156, 117, 255 / devideValue));
-    drawRectangle(gl, mVertices, 39, getColorValue(170, 156, 117, 255 / devideValue));
-    drawRectangle(gl, mVertices, 43, getColorValue(170, 156, 117, 255 / devideValue));
-    drawRectangle(gl, mVertices, 47, getColorValue(92, 83, 85, 255 / devideValue));
-    drawCircle(gl, mult * (1 / 11), mVertices[50], getColorValue(92, 83, 85, 255 / devideValue), circleValue);
+    drawRectangle(gl, mVertices, 0, getColorValue(163, 153, 152, 255 / devideValue), dots, renderNumber, colors);
+    drawRectangle(gl, mVertices, 3, getColorValue(186, 177, 170, 255 / devideValue), dots, renderNumber, colors);
+    drawRectangle(gl, mVertices, 6, getColorValue(170, 156, 117, 255 / devideValue), dots, renderNumber, colors);
+    drawRectangle(gl, mVertices, 9, getColorValue(221, 213, 200, 255 / devideValue), dots, renderNumber, colors);
+    drawRectangle(gl, mVertices, 12, getColorValue(163, 153, 154, 255 / devideValue), dots, renderNumber, colors);
+    drawRectangle(gl, mVertices, 15, getColorValue(216, 92, 58, 255 / devideValue), dots, renderNumber, colors);
+    drawRectangle(gl, mVertices, 18, getColorValue(170, 156, 117, 255 / devideValue), dots, renderNumber, colors);
+    drawRectangle(gl, mVertices, 21, getColorValue(211, 205, 188, 255 / devideValue), dots, renderNumber, colors);
+    drawTriangle(gl, mVertices, 25, getColorValue(211, 205, 188, 255 / devideValue), dots, renderNumber, colors);
+    drawTriangle(gl, mVertices, 28, getColorValue(170, 156, 117, 255 / devideValue), dots, renderNumber, colors);
+    drawRectangle(gl, mVertices, 31, getColorValue(170, 156, 117, 255 / devideValue), dots, renderNumber, colors);
+    drawRectangle(gl, mVertices, 35, getColorValue(170, 156, 117, 255 / devideValue), dots, renderNumber, colors);
+    drawRectangle(gl, mVertices, 39, getColorValue(170, 156, 117, 255 / devideValue), dots, renderNumber, colors);
+    drawRectangle(gl, mVertices, 43, getColorValue(170, 156, 117, 255 / devideValue), dots, renderNumber, colors);
+    drawRectangle(gl, mVertices, 47, getColorValue(92, 83, 85, 255 / devideValue), dots, renderNumber, colors);
+    drawCircle(gl, mult * (1 / 11), mVertices[50], getColorValue(92, 83, 85, 255 / devideValue), circleValue, 0, dots, renderNumber, colors);
     // 원 중점 리턴
     return vec4(mVertices[51][0], mVertices[51][1], mult, radius);
 }
 ;
-function drawRotateObject(vec4_, theta) {
-    if (theta === void 0) { theta = PI * 2; }
+function drawRotateObject(vec4_, theta = PI * 2) {
+  
     var x = vec4_[0];
     var y = vec4_[1];
     var mult = vec4_[2] * 0.9;
@@ -252,27 +265,28 @@ function drawRotateObject(vec4_, theta) {
         vec2(-width / 2, 1),
         vec2(width / 2, 1),
         vec2(width / 2, -1),
+
         vec2(-1, -width / 2),
         vec2(1, -width / 2),
         vec2(1, width / 2),
-        vec2(-1, width / 2),
+        vec2(-1, width / 2)
     ];
     var mVertices2 = [
         // 옆에 조금 삐져나온거
         vec2(width / 2, height),
         vec2(width, height),
         vec2(width, 1),
-        vec2(width / 2, 1),
+        vec2(width / 2, 1)
     ];
     var mVertices3 = [
         // 돛
         vec2(width, height),
         vec2(width + width2, height),
         vec2(width + width2 * 3 / 2, 1),
-        vec2(width, 1),
+        vec2(width, 1)
     ];
     // 좌표돌려쓰기
-    for (var i = 0; i < 2 * PI; i += PI / 2) {
+    for (var i = 0; i <2 * PI; i += PI / 2) {
         mVertices2.forEach(function (item, index, array) {
             mVertices.push(rotated(item, i));
         });
@@ -287,14 +301,14 @@ function drawRotateObject(vec4_, theta) {
         mVertices[count][0] = vec2_[0] * mult + x;
         mVertices[count][1] = vec2_[1] * mult + y;
     }
-    drawRectangle(gl, mVertices, 0, color);
-    drawRectangle(gl, mVertices, 4, color);
+    drawRectangle(gl, mVertices, 0, color, dots, renderNumber, colors);
+    drawRectangle(gl, mVertices, 4, color, dots, renderNumber, colors);
     for (var i = 0; i < 4; i++) {
-        drawRectangle(gl, mVertices, 8 + i * 4, getColorValue(218, 218, 205, 255));
-        drawRectangle(gl, mVertices, 24 + i * 4, getColorValue(254, 254, 246, 255));
+        drawRectangle(gl, mVertices, 8 + i * 4, getColorValue(218, 218, 205, 255), dots, renderNumber, colors);
+        drawRectangle(gl, mVertices, 24 + i * 4, getColorValue(254, 254, 246, 255), dots, renderNumber, colors);
     }
-    drawCircle(gl, radius * mult, vec2(x, y), getColorValue(218, 203, 189, 255), 1);
-    drawCircle(gl, (radius - 0.02) * mult, vec2(x, y), getColorValue(170, 156, 117, 255), 1);
+    drawCircle(gl, radius * mult, vec2(x, y), getColorValue(218, 203, 189, 255), 1, 0, dots, renderNumber, colors);
+    drawCircle(gl, (radius - 0.02) * mult, vec2(x, y), getColorValue(170, 156, 117, 255), 1, 0, dots, renderNumber, colors);
 }
 ;
 
