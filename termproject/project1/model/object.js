@@ -2,10 +2,10 @@
 var canvas;
 var gl;
 var rot = [
-    vec3(0, 0.015, 1),
-    vec3(0, 0.013, 1),
-    vec3(0, 0.009, 1),
-    vec3(0, 0.011, 1)
+    vec3(0, 1/6, 1),
+    vec3(0, 1/6, 1),
+    vec3(0, 1/6, 1),
+    vec3(0, 1/6, 1)
 ];
 var cloudValue = [];
 //speed
@@ -18,7 +18,7 @@ var cloud = [
     0.004
 ];
 var rotBoolean = [
-    false, false, false, false
+    true,true,true,true
 ];
 
 var dots = [];
@@ -80,6 +80,19 @@ function addListener() {
         });
     };
 };
+
+function onChange(value)
+{
+    var val = document.getElementById("select0").selectedIndex;
+    rot[val][1] = value/300;
+};
+
+function onChangeValue()
+{
+    var val = document.getElementById("select0").selectedIndex;
+   document.getElementById("range").value = rot[val][1]*300;
+};
+
 function initCloud() {
     cloudValue.forEach(function (value, index, _) {
         if (value[0] + cloud[index] > 1.3) {

@@ -1,6 +1,8 @@
 // 201735829 박상현
 var canvas;
 var gl;
+const backgroundColor = vec4(98/255, 188/255, 252/255);
+const backgroundColor2 = vec4(0/255, 0/255, 0/255,0);
 window.onload = function init() {
     canvas = document.getElementById("gl-canvas");
     var clearColor = vec4(0.0, 0.0, 0.0, 1.0);
@@ -9,8 +11,9 @@ window.onload = function init() {
 };
 function initView() {
     drawBackground();
-    drawCircle(gl, 0.13, vec2(0.68, 0.7), vec4(0/255, 0/255, 255/255, 1), 1, 0);
-    drawTreeBar( 
+  //  drawCircle(gl, 0.13, vec2(0.68, 0.7), vec4(0/255, 0/255, 255/255, 1), 1, 0);
+  sunshine();  
+  drawTreeBar( 
         [vec2(-0.9, -0.73),
          vec2(-0.925, -0.73),
          vec2(-0.925, -0.88),
@@ -119,12 +122,16 @@ function drawTree(x, y, mult, theta, radi) {
     }
     for (var x = 0; x < radiuses.length; x++) {
         drawCircle(gl, radiuses[x][0], mVertices[x], vec4(138/255, 159/255, 40/255, 1), radiuses[x][1], theta);
-        //drawCircle(gl, radiuses[x][0], mVertices2[x], vec4(1, 1, 1, 1), -1 * radiuses[x][1], -1 * theta);
     }
 };
 
 function drawTreeBar(vertex,r,g,b){
     drawRectangle(gl,vertex,0,getColorValue(r,g,b,255));
+};
+
+function sunshine()
+{
+    drawCircle_GR(gl, 0.6,vec2(0.7,0.7),vec4(1,1,1,1),backgroundColor2);
 };
 
 // 땅을 그리자
@@ -154,7 +161,7 @@ function drawBackground() {
         vec2(1, -1 + (1 / 20)),
         vec2(-1, -1 + (1 / 20))       
     ];
-    drawRectangle(gl, mVertices, 0, getColorValue(206, 236, 236, 255));
+    drawRectangle(gl, mVertices, 0, backgroundColor);
     drawRectangle(gl, mVertices, 4, getColorValue(173, 201, 94, 255));
     drawRectangle(gl, mVertices, 8, getColorValue(141, 152, 54, 255));
     drawRectangle(gl, mVertices, 12, getColorValue(174, 105, 68, 255));

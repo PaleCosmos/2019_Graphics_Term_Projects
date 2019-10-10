@@ -6,8 +6,8 @@ function loadGL(canvas, vec4_) {
     gl.clearColor(vec4_[0], vec4_[1], vec4_[2], vec4_[3]);
 
     // 주석을 지우면 alpha를 사용했을때 뒤에가 비친다.
-    // gl.enable(gl.BLEND);
-    // gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+     gl.enable(gl.BLEND);
+     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
     return gl;
 };
@@ -104,6 +104,62 @@ function drawCircle(gl, r, vec2_, vec4_, t = 1, subAngle = 0) {
         }
 
     setGL(gl, mVertices, getColorArray(mVertices.length, vec4_));
+
+    gl.drawArrays(gl.TRIANGLE_FAN, 0, mVertices.length / t_);
+};
+
+function drawCircle_GR(gl, r, vec2_, vec4_a, vec4_b, t = 1, subAngle = 0) {
+    const noOfFans = 200; // Vertice의 개수
+
+    const centerOfCircle = vec2_;
+
+    const anglePerFna = (2 * Math.PI) / noOfFans;
+
+    var x = vec2_[0];
+
+    var y = vec2_[1];
+
+    var colors=[];
+    colors.push(vec4_a);
+
+    var t_;
+
+    var flag = t >= 0;
+
+    if (t < 1 && t > -1) t_ = 1;
+    else t_ = Math.abs(t);
+
+    const mVertices = [
+
+    ];
+
+    mVertices.push(centerOfCircle);
+
+
+    if (flag)
+        for (var i = 0; i <= noOfFans; i++) {
+            var angle = anglePerFna * (i + 1);
+            mVertices.push(
+                vec2(
+                    x + Math.cos(angle + subAngle) * r,
+                    y + Math.sin(angle + subAngle) * r
+                )
+            );
+            colors.push(vec4_b);
+        }
+    else
+        for (var i = 0; i <= noOfFans; i++) {
+            var angle = anglePerFna * (i + 1);
+            mVertices.push(
+                vec2(
+                    x - Math.cos(angle + subAngle) * r,
+                    y + Math.sin(angle + subAngle) * r
+                )
+            );
+            colors.push(vec4_b);
+        }
+
+    setGL(gl, mVertices, colors);
 
     gl.drawArrays(gl.TRIANGLE_FAN, 0, mVertices.length / t_);
 };

@@ -56,7 +56,7 @@
         Oops ... your browser doesn't support the HTML5 canvas element
     </canvas>
     <br>
-    <select id="select0" name="default">
+    <select id="select0" name="default" onchange="onChangeValue()">
         <option value="0">맨앞</option>
         <option value="1">두번째</option>
         <option value="2">세번째</option>
@@ -64,7 +64,7 @@
     </select>
     <input type="button" id="stop" value="시작/정지">
     <input type="button" id="rotate" value="방향 변경">
-    <input type="range" id="rangle" min="저속" max="고속">
+    <input type="range" id="range" min="0.0" max="100.0" value ="50" onchange="onChange(this.value)">
     <br>
     <input type="button" id="startAll" value="전체 시작">
     <input type="button" id="stopAll" value="전체 정지">
