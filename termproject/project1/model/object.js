@@ -2,12 +2,13 @@
 var canvas;
 var gl;
 var rot = [
-    vec3(0, 1/6, 1),
-    vec3(0, 1/6, 1),
-    vec3(0, 1/6, 1),
-    vec3(0, 1/6, 1)
+    vec3(0, 1/12, 1),
+    vec3(0, 1/12, 1),
+    vec3(0, 1/12, 1),
+    vec3(0, 1/12, 1)
 ];
 var cloudValue = [];
+
 //speed
 var cloud = [
     0.003,
@@ -17,6 +18,8 @@ var cloud = [
     0.001,
     0.004
 ];
+
+var rainbow = 0.36;
 var rotBoolean = [
     true,true,true,true
 ];
@@ -41,6 +44,7 @@ function renderObjects() {
     renderNumber = [];
     gl.clear(gl.COLOR_BUFFER_BIT);
     initCloud();
+    initRainbow();
     initObject();
   
     render(gl,dots,renderNumber,colors);
@@ -118,6 +122,24 @@ function initObject() {
             rot[index][0] = value[0] + (value[1] * value[2]);
     });
 };
+
+function initRainbow()
+{
+    rainbow = getRandomArbitrary(0.355, 0.005);
+    drawRainbow();
+};
+
+function drawRainbow()
+{
+   drawCircle_GR(gl, rainbow, vec2(-0.7,0.7), vec4(0,0,0,0),vec4(1,0,0,0.07),1,0,dots,renderNumber,colors);
+     drawCircle_GR(gl, rainbow+0.09, vec2(-0.7,0.7), vec4(0,0,0,0),vec4(1,50/255,0,0.07),1,0,dots,renderNumber,colors);
+    drawCircle_GR(gl, rainbow+0.18, vec2(-0.7,0.7), vec4(0,0,0,0),vec4(1,1,0,0.07),1,0,dots,renderNumber,colors);
+    drawCircle_GR(gl, rainbow+0.27, vec2(-0.7,0.7), vec4(0,0,0,0),vec4(0,1,0,0.07),1,0,dots,renderNumber,colors);
+    drawCircle_GR(gl, rainbow+0.36, vec2(-0.7,0.7), vec4(0,0,0,0),vec4(0,0,1,0.07),1,0,dots,renderNumber,colors);
+    drawCircle_GR(gl, rainbow+0.45, vec2(-0.7,0.7), vec4(0,0,0,0),vec4(0,5/255,1,0.07),1,0,dots,renderNumber,colors);
+     drawCircle_GR(gl, rainbow+0.54, vec2(-0.7,0.7), vec4(0,0,0,0),vec4(100/255,0,1,0.1),1,0,dots,renderNumber,colors);
+};
+
 function drawCloud(x, y, mult, theta) {
     if (theta === void 0) { theta = PI * (0); }
     var mVertices = [

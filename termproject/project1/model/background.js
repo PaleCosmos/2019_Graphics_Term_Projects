@@ -135,7 +135,7 @@ function drawTreeBar(vertex,r,g,b){
 
 function sunshine()
 {
-    drawCircle_GR(gl, 0.6,vec2(0.7,0.7),vec4(1,1,1,1),backgroundColor2);
+    drawCircle_GR(gl, 0.6,vec2(-0.7,0.7),vec4(1,1,1,1),backgroundColor2);
 };
 
 // 땅을 그리자
