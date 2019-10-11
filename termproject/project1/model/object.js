@@ -252,17 +252,19 @@ function drawCloud(x, y, mult, theta) {
         vec2(0, 0.06),
         vec2(0.5, 0),
         vec2(-0.4, 0.0),
-        vec2(-0.3, 0.025),
-        vec2(-0.2, 0.1),
-        vec2(-0.1, 0.1),
-        vec2(0, 0.1),
+        vec2(-0.3, 0.02),
+        vec2(-0.24, 0.05),
+        vec2(-0.22, 0.07),
+        vec2(0, 0.12),
+        vec2(-0.1,0.08)
     ];
     var radiuses = [
-        vec2(0.1, 2),
-        vec2(0.1, 2),
-        vec2(0.09, 1),
+        vec2(0.05, 2),
+        vec2(0.08, 2),
+        vec2(0.05, 1),
         vec2(0.067, 1),
-        vec2(0.08, 1)
+        vec2(0.09, 1),
+        vec2(0.08,1)
     ];
     var mVertices2 = [];
     for (var d = 0; d < radiuses.length; d++) {
