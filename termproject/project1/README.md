@@ -15,6 +15,7 @@
 <pre><a href="https://palecosmos.github.io/2019_Graphics_Exercises/termproject/project1/main.html">https://palecosmos.github.io/2019_Graphics_Exercises/termproject/project1/main.html</a></pre>
 
 ***background는 따로 렌더링 후에 적용하였습니다.***
+***각각의 풍차를 클릭해보세요~!***
 
 # LICENSE
 ```

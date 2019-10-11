@@ -57,8 +57,7 @@ function initView() {
     renderInitValue.push(drawMainTower(0.83, -0.88, 0.2, 0, 3, true))
 
     renderInitValue.forEach(function (value, index, arr) {
-        firstValue.push(value);
-       
+        firstValue.push(value[1]);
     })
 
     window.requestAnimationFrame(renderObjects);
@@ -81,7 +80,7 @@ function setValue() {
         rot[index][0] = PI * getRandomArbitrary();
     });
     for (var kk = 0; kk < cloud.length; kk++) {
-        cloudValue.push(vec3(getRandomArbitrary(-1.3, 2.6), getRandomArbitrary(0, 1), getRandomArbitrary(0.3, 0.2)));
+        cloudValue.push(vec3(getRandomArbitrary(-1.3, 2.6), getRandomArbitrary(0.1, 0.9), getRandomArbitrary(0.3, 0.2)));
     }
 };
 function addListener() {
@@ -202,7 +201,7 @@ function initCloud() {
     cloudValue.forEach(function (value, index, _) {
         if (value[0] + cloud[index] > 1.3) {
             cloudValue[index][0] = -1 * (value[0] + cloud[index]);
-            cloudValue[index][1] = getRandomArbitrary(0, 1);
+            cloudValue[index][1] = getRandomArbitrary(0.1, 0.9);
         }
         else {
             cloudValue[index][0] = value[0] + cloud[index];
@@ -214,8 +213,9 @@ function initObject() {
     renderInitValue.forEach(function (value, index, arr) {
         if (value[1] < 2 && !isTouched[index])
             renderInitValue[index][1] += CircleCenters[index][1];
-        else if (value[1] > firstValue[index][3] && isTouched[index])
+        else if (value[1] > firstValue[index] && isTouched[index])
             renderInitValue[index][1] += CircleCenters[index][1];
+            
     })
     drawRotateObject(drawMainTower(0.83, -0.88, 0.2, 0, 3), rot[3][0]);
     drawRotateObject(drawMainTower(0.55, -0.88 - 0.005, 0.4, 0, 2), rot[2][0]);
