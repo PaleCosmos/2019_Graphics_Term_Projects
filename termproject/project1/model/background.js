@@ -1,4 +1,6 @@
-// 201735829 박상현
+// background 파일 역할
+// 땅 및 풍차의 반쪽을 rendering 합니다.
+
 var canvas;
 var gl;
 const backgroundColor = vec4(98/255, 188/255, 252/255);
@@ -11,6 +13,8 @@ window.onload = function init() {
     initView();
     
 };
+// 땅 및 나무 및 풍차를 rendering을 통해 img 파일로 만든 후 
+// background로 사용
 function initView() {
     gl.enable(gl.BLEND);
     gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
@@ -60,7 +64,7 @@ function initView() {
     drawTree(0.94-1.75, -0.77, 1, 0,0.020);
 }
 ;
-
+// 나무 그리는 함수 
 function drawTree(x, y, mult, theta, radi) {
     if (theta === void 0) { theta = PI * (0); }
     var mVertices = [
@@ -128,17 +132,18 @@ function drawTree(x, y, mult, theta, radi) {
         drawCircle(gl, radiuses[x][0], mVertices[x], vec4(138/255, 159/255, 40/255, 1), radiuses[x][1], theta);
     }
 };
-
+// 나무 막대기 그리는 함수 
 function drawTreeBar(vertex,r,g,b){
     drawRectangle(gl,vertex,0,getColorValue(r,g,b,255));
 };
-
+// 햇빛 만드는 함수
+// 그라데이션 사용 
 function sunshine()
 {
     drawCircle_GR(gl, 0.6,vec2(-0.7,0.7),vec4(1,1,1,1),backgroundColor2);
 };
 
-// 땅을 그리자
+// 땅을 그리는 함수 
 function drawBackground() {
     var mVertices = [
         // background
@@ -173,6 +178,7 @@ function drawBackground() {
     
 }
 ;
+// 풍차 그리는 함수 
 function drawMainTower(x, y, mult, theta) {
     if (theta === void 0) { theta = 0; }
     drawHarfTower(x, y, mult, true, theta);

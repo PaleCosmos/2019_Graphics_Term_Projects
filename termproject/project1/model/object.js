@@ -1,6 +1,13 @@
+// 그래픽스 Assignment #3
 // 201735829 박상현
+// 201735873 전주영
+// 201735878 정주환
+// 201631513 황병훈
+
 var canvas;
 var gl;
+
+// 땅 포인트 설정
 var rot = [
     vec3(0, 1 / 12, 1),
     vec3(0, 1 / 12, 1),
@@ -9,7 +16,7 @@ var rot = [
 ];
 var cloudValue = [];
 
-//speed
+// 구름 speed 설정
 var cloud = [
     0.003,
     0.002,
@@ -38,6 +45,7 @@ var isTouched = [
     true, true, true, true
 ];
 
+// init 함수
 var dots = [];
 var renderNumber = [];
 var colors = [];
@@ -49,6 +57,7 @@ window.onload = function init() {
     initView();
     addListener();
 };
+// 풍차 타워의 반쪽 rendering
 function initView() {
     renderInitValue.push(drawMainTower(-0.5, -0.88 - 0.005 * 3, 0.8, 0, 0, true))
     renderInitValue.push(drawMainTower(0.1, -0.88 - 0.005 * 2, 0.6, 0, 1, true))
@@ -83,6 +92,7 @@ function setValue() {
         cloudValue.push(vec3(getRandomArbitrary(-1.3, 2.6), getRandomArbitrary(0.1, 0.9), getRandomArbitrary(0.3, 0.2)));
     }
 };
+// 버튼에 대한 listener 정의
 function addListener() {
     document.getElementById("rotate").onclick = function (event) {
         var value = document.getElementById("select0").selectedIndex;
@@ -143,6 +153,7 @@ function addListener() {
     });
 };
 
+// 마우스 클릭 시 event
 function touchValue(v) {
     var returnvalue = 0;
 
@@ -197,6 +208,7 @@ function onChangeValue() {
     document.getElementById("range").value = rot[val][1] * 300;
 };
 
+// 구름 기본값 설정
 function initCloud() {
     cloudValue.forEach(function (value, index, _) {
         if (value[0] + cloud[index] > 1.3) {
@@ -209,6 +221,8 @@ function initCloud() {
         drawCloud(value[0], value[1], value[2]);
     });
 };
+
+
 function initObject() {
     renderInitValue.forEach(function (value, index, arr) {
         if (value[1] < 2 && !isTouched[index])
@@ -230,11 +244,13 @@ function initObject() {
     });
 };
 
+// 그라데이션을 사용하여 태양 rendering
 function initRainbow() {
     rainbow = getRandomArbitrary(0.355, 0.005);
     drawRainbow();
 };
 
+// 원을 이용하여 햇빛 rendering
 function drawRainbow() {
     drawCircle_GR(gl, rainbow, vec2(-0.7, 0.7), vec4(0, 0, 0, 0), vec4(1, 0, 0, 0.07), 1, 0, dots, renderNumber, colors);
     drawCircle_GR(gl, rainbow + 0.09, vec2(-0.7, 0.7), vec4(0, 0, 0, 0), vec4(1, 50 / 255, 0, 0.07), 1, 0, dots, renderNumber, colors);
@@ -245,6 +261,7 @@ function drawRainbow() {
     drawCircle_GR(gl, rainbow + 0.54, vec2(-0.7, 0.7), vec4(0, 0, 0, 0), vec4(100 / 255, 0, 1, 0.1), 1, 0, dots, renderNumber, colors);
 };
 
+// 구름 rendering 함수 
 function drawCloud(x, y, mult, theta) {
     if (theta === void 0) { theta = PI * (0); }
     var mVertices = [
@@ -289,12 +306,14 @@ function drawCloud(x, y, mult, theta) {
         drawCircle(gl, radiuses[x][0], mVertices2[x], vec4(1, 1, 1, 1), -1 * radiuses[x][1], -1 * theta, dots, renderNumber, colors);
     }
 }
+
 // x, y는 좌표, mult는 배율, theta는 회전각
 function drawMainTower(x, y, mult, theta, index, isInit = false) {
     if (theta === void 0) { theta = 0; }
     return drawHarfTower(x, y, mult, false, theta, index, isInit);
 }
 ;
+// 타워의 반쪽 rendering
 function drawHarfTower(x, y, mult, isLeft, theta, index, isInit = false) {
     var devideValue = 1.0;
     var center_x = 0;
@@ -387,6 +406,8 @@ function drawHarfTower(x, y, mult, isLeft, theta, index, isInit = false) {
     else
         return index;
 };
+
+// 풍차 rendering
 function drawRotateObject(index, theta = PI * 2) {
     var vec4_ = renderInitValue[index];
     var x = vec4_[0];

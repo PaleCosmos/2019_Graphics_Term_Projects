@@ -5,13 +5,14 @@ function loadGL(canvas, vec4_) {
     gl.viewport(0, 0, canvas.width, canvas.height);
     gl.clearColor(vec4_[0], vec4_[1], vec4_[2], vec4_[3]);
 
-    // 주석을 지우면 alpha를 사용했을때 뒤에가 비친다.
+    // 투명도 조절 코드 
      gl.enable(gl.BLEND);
      gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
     return gl;
 };
 
+// webGL setting
 function setGL(gl, mVertices, vec4Arr) {
     var program = initShaders(gl, "vertex-shader", "fragment-shader");
     gl.useProgram(program);
@@ -33,6 +34,7 @@ function setGL(gl, mVertices, vec4Arr) {
     gl.enableVertexAttribArray(vColor);
 };
 
+// triangle 그리는 함수
 function drawTriangle(gl, mVertices, start, vec4_, arr, arr1, arr2) {
     // setGL(gl, mVertices, getColorArray(mVertices.length, vec4_));
     for(var i = start; i < start+3; i++)
@@ -57,6 +59,7 @@ function drawTriangleGR(gl, mVertices, start, vec4Arr, arr, arr1, arr2) {
     //gl.drawArrays(gl.TRIANGLES, start, 3);
 };
 
+// Rectangle 그리는 함수 
 function drawRectangle(gl, mVertices, start, vec4_, arr, arr1, arr2) {
     //setGL(gl, mVertices, getColorArray(mVertices.length, vec4_));
     for(var i = start; i < start+4; i++)
@@ -81,6 +84,7 @@ function drawRectangleGR(gl, mVertices, start, vec4Arr, arr, arr1, arr2) {
     //gl.drawArrays(gl.TRIANGLE_FAN, start, 4);
 };
 
+// 원그리는 함수 
 function drawCircle(gl, r, vec2_, vec4_, t = 1, subAngle = 0, mVertices, arr1, arr2) {
     const noOfFans = 200; // Vertice의 개수
 

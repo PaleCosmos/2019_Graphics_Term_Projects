@@ -33,6 +33,7 @@ function getColorValue(r, g, b, a) {
     return vec4(r / 255, g / 255, b / 255, a / 255)
 };
 
+// 좌표값을 변경하는 코드 
 function changeCoordinates(input) {
     for (var i in input) {
         var X = input[i][0];
@@ -44,6 +45,7 @@ function changeCoordinates(input) {
     return output;
 };
 
+// 회전 코드.
 function rotated(vec2_, theta) {
     var x_ = vec2_[0];
     var y_ = vec2_[1];
