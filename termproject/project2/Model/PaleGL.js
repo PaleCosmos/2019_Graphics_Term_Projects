@@ -1,47 +1,6 @@
 class PaleGL {
     static instance = null;
 
-    constructor(canvas) {
-        var information = PaleGL.information;
-        information.canvas = canvas;
-       
-
-        var gl = WebGLUtils.setupWebGL(canvas);
-        if ( !gl ) { alert( "WebGL isn't available" ); }
-
-        gl.viewport(0, 0, canvas.width, canvas.height);
-        gl.clearColor(1.0, 1.0, 1.0, 1.0);
-
-        gl.enable(gl.DEPTH_TEST);
-        //gl.enable(gl.CULL_FACE);
-        gl.enable(gl.BLEND);
-        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-
-        information.gl = gl;
-
-        PaleGL.program = initShaders(gl, "vertex-shader", "fragment-shader");
-        gl.useProgram(PaleGL.program);
-        //console.log(PaleGL.information.canvas)
-    }
-
-    add(mObject) {
-        PaleGL.information.numVertices += mObject.count;
-        PaleGL.objects.push(mObject)
-        return PaleGL.instance;
-    }
-
-    setRadius(ing){
-        PaleGL.state.radius *= ing
-    }
-
-    setTheta(ing){
-        PaleGL.state.theta  += ing
-    }
-
-    setPhi(ing){
-        PaleGL.state.phi  += ing
-    }
-
     static information = {
         canvas: null,
         gl: null,
@@ -51,7 +10,7 @@ class PaleGL {
     }
 
     static state = {
-        radius: 1.0,
+        radius: 0.0,
         theta: 0.0,
         phi: 0.0,
         dr: 5.0 * Math.PI / 180.0
@@ -73,6 +32,46 @@ class PaleGL {
     static modelView;
 
     static mvMatrix;
+
+    constructor(canvas) {
+        var information = PaleGL.information;
+        information.canvas = canvas;
+       
+        var gl = WebGLUtils.setupWebGL(canvas);
+        if ( !gl ) { alert( "WebGL isn't available" ); }
+
+        gl.viewport(0, 0, canvas.width, canvas.height);
+        gl.clearColor(1.0, 1.0, 1.0, 1.0);
+
+        gl.enable(gl.DEPTH_TEST);
+        gl.enable(gl.CULL_FACE);
+        gl.enable(gl.BLEND);
+        gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+
+        information.gl = gl;
+
+        PaleGL.program = initShaders(gl, "vertex-shader", "fragment-shader");
+        gl.useProgram(PaleGL.program);
+        //console.log(PaleGL.information.canvas)
+    }
+
+    add(mObject) {
+        PaleGL.information.numVertices += mObject.count;
+        PaleGL.objects.push(mObject)
+        return PaleGL.instance;
+    }
+
+    setRadius(ing){
+        PaleGL.state.radius += ing
+    }
+
+    setTheta(ing){
+        PaleGL.state.theta  += ing
+    }
+
+    setPhi(ing){
+        PaleGL.state.phi  += ing
+    }
 
     rendering(){
         PaleGL.render();

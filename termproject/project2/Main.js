@@ -15,11 +15,9 @@ window.onload = () => {
     .add(new Cube(0, 0.5, 0, 0.5, idConcat++).setOneColor(
         vec4(0.5,0.5,0.5,0.8)
     ).getObject())
-    
 
-
-    document.getElementById("Button1").onclick = function () { GL.setRadius(1.1) };
-    document.getElementById("Button2").onclick = function () { GL.setRadius(0.9); };
+    document.getElementById("Button1").onclick = function () { GL.setRadius(0.05) };
+    document.getElementById("Button2").onclick = function () { GL.setRadius(-0.05); };
     document.getElementById("Button3").onclick = function () { GL.setTheta(PaleGL.state.dr)};
     document.getElementById("Button4").onclick = function () { GL.setTheta(-PaleGL.state.dr) };
     document.getElementById("Button5").onclick = function () { GL.setPhi(PaleGL.state.dr) };
