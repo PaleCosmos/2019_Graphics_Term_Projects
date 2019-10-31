@@ -10,9 +10,9 @@ class PaleGL {
     }
 
     static state = {
-        radius: 0.0,
-        theta: 0.0,
-        phi: 0.0,
+        radius: 0.2,
+        theta: 0,
+        phi: 0,
         dr: 5.0 * Math.PI / 180.0
     }
 
@@ -20,18 +20,18 @@ class PaleGL {
 
     static objects = [];
 
+    static program;
+
+    static modelView;
+
+    static mvMatrix;
+
     static getInstance(canvas) {
         if (PaleGL.instance == null) {
             PaleGL.instance = new PaleGL(canvas);
         }
         return PaleGL.instance;
     }
-
-    static program;
-
-    static modelView;
-
-    static mvMatrix;
 
     constructor(canvas) {
         var information = PaleGL.information;
@@ -44,7 +44,7 @@ class PaleGL {
         gl.clearColor(1.0, 1.0, 1.0, 1.0);
 
         gl.enable(gl.DEPTH_TEST);
-        gl.enable(gl.CULL_FACE);
+        //gl.enable(gl.CULL_FACE);
         gl.enable(gl.BLEND);
         gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
@@ -84,12 +84,13 @@ class PaleGL {
         var gl = PaleGL.information.gl;
 
         PaleGL.objects.forEach(element1 => {
-            element1.mVertices.forEach(element => {
+            element1.mVertices.forEach((element, index, arr) => {
                 vertices.push(element)
             });
             element1.mColors.forEach(element => {
                 colors.push(element)
             });
+            element1.callbackAction(null, element1)
         });
 
         var cBuffer = gl.createBuffer();

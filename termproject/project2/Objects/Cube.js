@@ -17,7 +17,6 @@ var vertexColors = [
     vec4(1.0, 0.0, 1.0, 1.0),  // magenta
     vec4(0.0, 1.0, 1.0, 1.0),  // cyan
 ];
-
 class Cube extends WebGLObject {
 
     constructor(x, y, z, size = 1, id = 0) {
@@ -30,6 +29,8 @@ class Cube extends WebGLObject {
 
     mVertices;
     mColors;
+
+    callbackAction(a, b) { }
 
     // No Gradation
     setColor(vec4List) {
@@ -76,6 +77,90 @@ class Cube extends WebGLObject {
                 element[0] * this.size + this.x,
                 element[1] * this.size + this.y,
                 element[2] * this.size + this.z,
+                element[3])
+        });
+    }
+
+    resizing(size) {
+        this.mVertices.forEach((element, index, _) => {
+            this.mVertices[index] = vec4(
+                ((element[0] - this.x) / this.size) * size + this.x,
+                ((element[1] - this.y) / this.size) * size + this.y,
+                ((element[2] - this.z) / this.size) * size + this.z,
+                element[3])
+        });
+        this.size = size
+    }
+
+    setCallbackAction(callback) {
+        this.callbackAction = callback;
+
+        return this;
+    }
+
+    setRotationByX(speed = 0) {
+        this.mVertices.forEach((element, index, _) => {
+
+            var mx = element[0];
+            var my = element[1] - this.y;
+            var mz = element[2] - this.z;
+
+            var mY = (my * Math.cos(speed) - mz * Math.sin(speed)) + this.y
+
+            var mZ = (my * Math.sin(speed) + mz * Math.cos(speed)) + this.z
+
+            this.mVertices[index] = vec4(
+                mx,
+                mY,
+                mZ,
+                element[3])
+        });
+    }
+
+    setRotationByY(speed = 0) {
+        this.mVertices.forEach((element, index, _) => {
+
+            var mx = element[0] - this.x;
+            var my = element[1];
+            var mz = element[2] - this.z;
+
+            var mZ = (mz * Math.cos(speed) - mx * Math.sin(speed)) + this.z
+            var mX = (mz * Math.sin(speed) + mx * Math.cos(speed)) + this.x
+
+            this.mVertices[index] = vec4(
+                mX,
+                my,
+                mZ,
+                element[3])
+        });
+    }
+    setRotationByZ(speed = 0) {
+        this.mVertices.forEach((element, index, _) => {
+
+            var mx = element[0] - this.x;
+            var my = element[1] - this.y;
+            var mz = element[2];
+
+            var mX = (mx * Math.cos(speed) - my * Math.sin(speed)) + this.x
+            var mY = (mx * Math.sin(speed) + my * Math.cos(speed)) + this.y
+
+            this.mVertices[index] = vec4(
+                mX,
+                mY,
+                mz,
+                element[3])
+        });
+    }
+
+    move(x, y, z) {
+        this.x += x;
+        this.y += y;
+        this.z += z;
+        this.mVertices.forEach((element, index, _) => {
+            this.mVertices[index] = vec4(
+                element[0] + x,
+                element[1] + y,
+                element[2] + z,
                 element[3])
         });
     }
