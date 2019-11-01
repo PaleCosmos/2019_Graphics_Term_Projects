@@ -143,7 +143,6 @@ class PaleGL {
         {
             console.log(mCount)
             gl.drawArrays(gl.LINES, mCount, vertices.length - mCount)
-
         }
 
         requestAnimationFrame(PaleGL.render);

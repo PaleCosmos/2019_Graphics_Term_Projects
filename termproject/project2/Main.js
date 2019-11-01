@@ -15,7 +15,7 @@ var values = {
 
 window.onload = () => {
     GL = PaleGL.getInstance(document.getElementById("gl-canvas"))
-        .add(new Cube(values.left[0], 0.2, idConcat++, false).setColor_GL(
+        .add(new Cube(values.left[0], 0.2, idConcat++, true).setColor_GL(
             setValue()
         ).setCallbackAction((_, element) => {
             if (bool) {
@@ -92,12 +92,12 @@ window.onload = () => {
             }
             if (element.y > 0.8 && bet == 1) {
                 values.up[1] = -1
-            } else if (element.x > 0.8 && bet == -1) {
+            } else if (element.y > 0.8 && bet == -1) {
                 values.up[1] = 1
             }
             if (element.y < 0.2 && bet == 1) {
                 values.up[1] = 1
-            } else if (element.x < 0.2 && bet == -1) {
+            } else if (element.y < 0.2 && bet == -1) {
                 values.up[1] = -1
             }
         }).using())
@@ -112,12 +112,12 @@ window.onload = () => {
             }
             if (element.y < -0.8 && bet == 1) {
                 values.down[1] = 1
-            } else if (element.x < -0.8 && bet == -1) {
+            } else if (element.y < -0.8 && bet == -1) {
                 values.down[1] = -1
             }
             if (element.y > -0.2 && bet == 1) {
                 values.down[1] = -1
-            } else if (element.x > -0.2 && bet == -1) {
+            } else if (element.y > -0.2 && bet == -1) {
                 values.down[1] = 1
             }
         }).using())
