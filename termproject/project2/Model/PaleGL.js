@@ -48,6 +48,8 @@ class PaleGL {
         gl.enable(gl.BLEND);
         gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
 
+        gl.lineWidth(5);
+
         information.gl = gl;
 
         PaleGL.program = initShaders(gl, "vertex-shader", "fragment-shader");
@@ -85,7 +87,12 @@ class PaleGL {
 
         PaleGL.objects.forEach(element1 => {
             element1.mVertices.forEach((element, index, arr) => {
-                vertices.push(element)
+                vertices.push(vec4(
+                    element[0],
+                    element[1] * (PaleGL.information.canvas.height/PaleGL.information.canvas.width),
+                    element[2],
+                    element[3]
+                ))
             });
             element1.mColors.forEach(element => {
                 colors.push(element)

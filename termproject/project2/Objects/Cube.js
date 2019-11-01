@@ -18,10 +18,11 @@ var vertexColors = [
     vec4(1.0, 0.0, 1.0, 1.0),  // magenta
     vec4(0.0, 1.0, 1.0, 1.0),  // cyan
 ];
+
 class Cube extends WebGLObject {
 
-    constructor(x, y, z, size = 1, id = 0, hasLine = false) {
-        super(x, y, z, size, id);
+    constructor(vec3_, size = 1, id = 0, hasLine = false) {
+        super(vec3_[0], vec3_[1], vec3_[2], size, id);
         this.hasLine = hasLine;
         this.mColors = [];
         this.mVertices = [];
@@ -46,10 +47,22 @@ class Cube extends WebGLObject {
         return this;
     }
 
-    setOneColor(cr) {
-        for (var k = 0; k < 36; k++) {
-            this.mColors.push(cr)
+    setColor_GL(vec4List_List) {
+        for (let i = 0; i < 6; i++) {
+            for (let j = 0; j < 6; j++) {
+                this.mColors.push(vec4List_List[i][j]);
+            }
         }
+        return this;
+    }
+
+    setOneColor(cr = 0) {
+        if (cr != 0) {
+            for (var k = 0; k < 36; k++) {
+                this.mColors.push(cr)
+            }
+        }
+
         return this;
     }
 
@@ -260,15 +273,13 @@ class Cube extends WebGLObject {
     }
 
     // finally, You should call this method.
-    getObject() {
-
+    using() {
         if (this.mColors.length == 0) {
-            this.setColor(vertexColors)
+            this.setOneColor(vec4(1, 1, 1, 0))
         }
 
         this.colorCube();
 
-        //alert(this.mVertices)
         return this;
     }
 }
