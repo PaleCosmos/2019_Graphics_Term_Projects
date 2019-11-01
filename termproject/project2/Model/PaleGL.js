@@ -36,9 +36,9 @@ class PaleGL {
     constructor(canvas) {
         var information = PaleGL.information;
         information.canvas = canvas;
-       
+
         var gl = WebGLUtils.setupWebGL(canvas);
-        if ( !gl ) { alert( "WebGL isn't available" ); }
+        if (!gl) { alert("WebGL isn't available"); }
 
         gl.viewport(0, 0, canvas.width, canvas.height);
         gl.clearColor(1.0, 1.0, 1.0, 1.0);
@@ -61,27 +61,27 @@ class PaleGL {
         return PaleGL.instance;
     }
 
-    setRadius(ing){
+    setRadius(ing) {
         PaleGL.state.radius += ing
     }
 
-    setTheta(ing){
-        PaleGL.state.theta  += ing
+    setTheta(ing) {
+        PaleGL.state.theta += ing
     }
 
-    setPhi(ing){
-        PaleGL.state.phi  += ing
+    setPhi(ing) {
+        PaleGL.state.phi += ing
     }
 
-    rendering(){
+    rendering() {
         PaleGL.render();
     }
 
     static render() {
 
-        var vertices = [];
-        var colors = [];
-        var gl = PaleGL.information.gl;
+        let vertices = [];
+        let colors = [];
+        let gl = PaleGL.information.gl;
 
         PaleGL.objects.forEach(element1 => {
             element1.mVertices.forEach((element, index, arr) => {
@@ -91,6 +91,15 @@ class PaleGL {
                 colors.push(element)
             });
             element1.callbackAction(null, element1)
+        });
+
+        let mCount = vertices.length;
+
+        PaleGL.objects.forEach(element1 => {
+            element1.mLineVertices.forEach((element, index, arr) => {
+                vertices.push(element);
+                colors.push(vec4(0, 0, 0, 1));
+            });
         });
 
         var cBuffer = gl.createBuffer();
@@ -121,7 +130,15 @@ class PaleGL {
         PaleGL.mvMatrix = lookAt(PaleGL.eye, PaleGL.information.at, PaleGL.information.up);
 
         gl.uniformMatrix4fv(PaleGL.modelView, false, flatten(PaleGL.mvMatrix))
-        gl.drawArrays(gl.TRIANGLES, 0, PaleGL.information.numVertices);
+        gl.drawArrays(gl.TRIANGLES, 0, mCount);
+
+        if (mCount != vertices.length)
+        {
+            console.log(mCount)
+            gl.drawArrays(gl.LINES, mCount, vertices.length - mCount)
+
+        }
+
         requestAnimationFrame(PaleGL.render);
     }
 }

@@ -3,6 +3,7 @@ var vertices = [
     vec4(-0.5, 0.5, 0.5, 1.0),
     vec4(0.5, 0.5, 0.5, 1.0),
     vec4(0.5, -0.5, 0.5, 1.0),
+
     vec4(-0.5, -0.5, -0.5, 1.0),
     vec4(-0.5, 0.5, -0.5, 1.0),
     vec4(0.5, 0.5, -0.5, 1.0),
@@ -19,13 +20,16 @@ var vertexColors = [
 ];
 class Cube extends WebGLObject {
 
-    constructor(x, y, z, size = 1, id = 0) {
+    constructor(x, y, z, size = 1, id = 0, hasLine = false) {
         super(x, y, z, size, id);
+        this.hasLine = hasLine;
         this.mColors = [];
         this.mVertices = [];
+        this.mLineVertices = [];
+        this.mLineColor = [];
     }
 
-    count = 36;
+    count = 0;
 
     mVertices;
     mColors;
@@ -49,12 +53,6 @@ class Cube extends WebGLObject {
         return this;
     }
 
-    move(x, y, z) {
-        this.x += x;
-        this.y += y;
-        this.z += z;
-    }
-
     quad(a, b, c, d) {
         this.mVertices.push(vertices[a]);
         this.mVertices.push(vertices[b]);
@@ -62,6 +60,8 @@ class Cube extends WebGLObject {
         this.mVertices.push(vertices[a]);
         this.mVertices.push(vertices[c]);
         this.mVertices.push(vertices[d]);
+
+        this.count += 6;
     }
 
     colorCube() {
@@ -79,6 +79,31 @@ class Cube extends WebGLObject {
                 element[2] * this.size + this.z,
                 element[3])
         });
+
+        if (this.hasLine) {
+            this.lining();
+        }
+    }
+
+    lining() {
+        for (let k = 0; k < 4; k++) {
+            let aft = (k + 1) % 4;
+            this.mLineVertices.push(vertices[k]);
+            this.mLineVertices.push(vertices[aft]);
+            this.mLineVertices.push(vertices[k + 4]);
+            this.mLineVertices.push(vertices[aft + 4]);
+            this.mLineVertices.push(vertices[k]);
+            this.mLineVertices.push(vertices[k + 4]);
+        }
+
+        this.mLineVertices.forEach((element, index, arr) => {
+            this.mLineVertices[index] = vec4(
+                element[0] * this.size + this.x,
+                element[1] * this.size + this.y,
+                element[2] * this.size + this.z,
+                element[3])
+
+        })
     }
 
     resizing(size) {
@@ -89,6 +114,15 @@ class Cube extends WebGLObject {
                 ((element[2] - this.z) / this.size) * size + this.z,
                 element[3])
         });
+        if (this.hasLine) {
+            this.mLineVertices.forEach((element, index, arr) => {
+                this.mLineVertices[index] = vec4(
+                    ((element[0] - this.x) / this.size) * size + this.x,
+                    ((element[1] - this.y) / this.size) * size + this.y,
+                    ((element[2] - this.z) / this.size) * size + this.z,
+                    element[3])
+            })
+        }
         this.size = size
     }
 
@@ -100,14 +134,13 @@ class Cube extends WebGLObject {
 
     setRotationByX(speed = 0) {
         this.mVertices.forEach((element, index, _) => {
+            let mx = element[0];
+            let my = element[1] - this.y;
+            let mz = element[2] - this.z;
 
-            var mx = element[0];
-            var my = element[1] - this.y;
-            var mz = element[2] - this.z;
+            let mY = (my * Math.cos(speed) - mz * Math.sin(speed)) + this.y
 
-            var mY = (my * Math.cos(speed) - mz * Math.sin(speed)) + this.y
-
-            var mZ = (my * Math.sin(speed) + mz * Math.cos(speed)) + this.z
+            let mZ = (my * Math.sin(speed) + mz * Math.cos(speed)) + this.z
 
             this.mVertices[index] = vec4(
                 mx,
@@ -115,17 +148,34 @@ class Cube extends WebGLObject {
                 mZ,
                 element[3])
         });
+        if (this.hasLine) {
+            this.mLineVertices.forEach((element, index, _) => {
+                let mx = element[0];
+                let my = element[1] - this.y;
+                let mz = element[2] - this.z;
+
+                let mY = (my * Math.cos(speed) - mz * Math.sin(speed)) + this.y
+
+                let mZ = (my * Math.sin(speed) + mz * Math.cos(speed)) + this.z
+
+                this.mLineVertices[index] = vec4(
+                    mx,
+                    mY,
+                    mZ,
+                    element[3])
+            });
+        }
     }
 
     setRotationByY(speed = 0) {
         this.mVertices.forEach((element, index, _) => {
 
-            var mx = element[0] - this.x;
-            var my = element[1];
-            var mz = element[2] - this.z;
+            let mx = element[0] - this.x;
+            let my = element[1];
+            let mz = element[2] - this.z;
 
-            var mZ = (mz * Math.cos(speed) - mx * Math.sin(speed)) + this.z
-            var mX = (mz * Math.sin(speed) + mx * Math.cos(speed)) + this.x
+            let mZ = (mz * Math.cos(speed) - mx * Math.sin(speed)) + this.z
+            let mX = (mz * Math.sin(speed) + mx * Math.cos(speed)) + this.x
 
             this.mVertices[index] = vec4(
                 mX,
@@ -133,16 +183,33 @@ class Cube extends WebGLObject {
                 mZ,
                 element[3])
         });
+        if (this.hasLine) {
+            this.mLineVertices.forEach((element, index, _) => {
+
+                let mx = element[0] - this.x;
+                let my = element[1];
+                let mz = element[2] - this.z;
+
+                let mZ = (mz * Math.cos(speed) - mx * Math.sin(speed)) + this.z
+                let mX = (mz * Math.sin(speed) + mx * Math.cos(speed)) + this.x
+
+                this.mLineVertices[index] = vec4(
+                    mX,
+                    my,
+                    mZ,
+                    element[3])
+            });
+        }
     }
     setRotationByZ(speed = 0) {
         this.mVertices.forEach((element, index, _) => {
 
-            var mx = element[0] - this.x;
-            var my = element[1] - this.y;
-            var mz = element[2];
+            let mx = element[0] - this.x;
+            let my = element[1] - this.y;
+            let mz = element[2];
 
-            var mX = (mx * Math.cos(speed) - my * Math.sin(speed)) + this.x
-            var mY = (mx * Math.sin(speed) + my * Math.cos(speed)) + this.y
+            let mX = (mx * Math.cos(speed) - my * Math.sin(speed)) + this.x
+            let mY = (mx * Math.sin(speed) + my * Math.cos(speed)) + this.y
 
             this.mVertices[index] = vec4(
                 mX,
@@ -150,6 +217,23 @@ class Cube extends WebGLObject {
                 mz,
                 element[3])
         });
+        if (this.hasLine) {
+            this.mLineVertices.forEach((element, index, _) => {
+
+                let mx = element[0] - this.x;
+                let my = element[1] - this.y;
+                let mz = element[2];
+
+                let mX = (mx * Math.cos(speed) - my * Math.sin(speed)) + this.x
+                let mY = (mx * Math.sin(speed) + my * Math.cos(speed)) + this.y
+
+                this.mLineVertices[index] = vec4(
+                    mX,
+                    mY,
+                    mz,
+                    element[3])
+            });
+        }
     }
 
     move(x, y, z) {
@@ -163,6 +247,16 @@ class Cube extends WebGLObject {
                 element[2] + z,
                 element[3])
         });
+
+        if (this.hasLine) {
+            this.mLineVertices.forEach((element, index, _) => {
+                this.mLineVertices[index] = vec4(
+                    element[0] + x,
+                    element[1] + y,
+                    element[2] + z,
+                    element[3])
+            });
+        }
     }
 
     // finally, You should call this method.

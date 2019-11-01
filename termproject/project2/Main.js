@@ -9,45 +9,46 @@ var bool = true
 
 window.onload = () => {
     GL = PaleGL.getInstance(document.getElementById("gl-canvas"))
-        .add(new Cube(-0.2, -0, -0.5, 0.2, idConcat++).setOneColor(
+        .add(new Cube(-0.2, -0, -0.5, 0.2, idConcat++, true).setOneColor(
             vec4(1, 0, 0, 1)
         ).setCallbackAction((_, element) => {
             if (bool) {
-                element.move(-0.001*bet, 0, 0)
+                element.move(-0.001 * bet, 0, 0)
+                element.setRotationByX(1 / 10* bet);
+
             }
-            element.setRotationByX(1 / 10);
         }).getObject())
-        .add(new Cube(0, 0, -0.5, 0.2, idConcat++).setOneColor(
+        .add(new Cube(0, 0, -0.5, 0.2, idConcat++, true).setOneColor(
             vec4(0, 1, 0, 1)
         ).setCallbackAction((_, element) => {
             if (bool) {
                 element.resizing(size);
-                size += 0.0005*bet;
+                size += 0.0005 * bet;
             }
         }).getObject())
-        .add(new Cube(0.2, 0, -0.5, 0.2, idConcat++).setOneColor(
+        .add(new Cube(0.2, 0, -0.5, 0.2, idConcat++, true).setOneColor(
             vec4(0, 0, 1, 1)
         ).setCallbackAction((vertice, element) => {
             if (bool) {
-                element.move(+0.001*bet, 0, 0)
+                element.move(+0.001 * bet, 0, 0)
+                element.setRotationByX(-1 / 10* bet);
             }
-            element.setRotationByX(-1 / 10);
         }).getObject())
-        .add(new Cube(0, 0.2, -0.5, 0.2, idConcat++).setOneColor(
+        .add(new Cube(0, 0.2, -0.5, 0.2, idConcat++, true).setOneColor(
             vec4(1, 1, 0, 1)
         ).setCallbackAction((_, element) => {
             if (bool) {
-                element.move(0, +0.001*bet, 0)
+                element.move(0, +0.001 * bet, 0)
+                element.setRotationByY(1 / 10* bet);
             }
-            element.setRotationByY(1 / 10);
         }).getObject())
-        .add(new Cube(0, -0.2, -0.5, 0.2, idConcat++).setOneColor(
+        .add(new Cube(0, -0.2, -0.5, 0.2, idConcat++, true).setOneColor(
             vec4(0, 1, 1, 1)
         ).setCallbackAction((_, element) => {
             if (bool) {
-                element.move(0, -0.001*bet, 0)
+                element.move(0, -0.001 * bet, 0)
+                element.setRotationByY(-1 / 10* bet);
             }
-            element.setRotationByY(-1 / 10);
         }).getObject())
 
     document.getElementById("Button1").onclick = function () { GL.setRadius(0.05) };
