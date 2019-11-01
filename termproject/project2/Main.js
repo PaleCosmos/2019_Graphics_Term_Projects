@@ -5,24 +5,29 @@ var size = 0.2;
 var bet = 1;
 var leng = 1;
 var bool = true
+var r2 = Math.sqrt(2) / 2;
 var values = {
-    left: [vec3(-0.2, -0, -0.5), -1],
+    left: [vec3(-0.2, -0, -0.5), 1],
     right: [vec3(0.2, 0, -0.5), 1],
     center: [vec3(0, 0, -0.5), 0],
     up: [vec3(0, 0.2, -0.5), 1],
-    down: [vec3(0, -0.2, -0.5), -1],
+    down: [vec3(0, -0.2, -0.5), 1],
+
+    rightup: [vec3(0.2 * r2, 0.2 * r2, -0.5), 1],
+    leftup: [vec3(-0.2 * r2, 0.2 * r2, -0.5), 1],
+    rightdown: [vec3(0.2 * r2, -0.2 * r2, -0.5), 1],
+    leftdown: [vec3(-0.2 * r2, -0.2 * r2, -0.5), 1],
 };
 
 window.onload = () => {
     GL = PaleGL.getInstance(document.getElementById("gl-canvas"))
-        .add(new Cube(values.left[0], 0.2, idConcat++, true).setColor_GL(
+        .add(new Cube(values.left[0], 0.2, idConcat++, false).setColor_GL(
             setValue()
         ).setCallbackAction((_, element) => {
             if (bool) {
                 element.move(0.01 * bet * values.left[1], 0, 0)
-                element.setRotationByX(1 / 20 * bet);
-                element.setRotationByY(-1 / 20 * bet);
-                element.setRotationByZ(-1 / 20 * bet);
+                element.setRotationByY(1 / 20 * bet * values.left[1]);
+                //element.setColor_GL(setValue())
             }
 
             if (element.x < -0.8 && bet == 1) {
@@ -37,8 +42,95 @@ window.onload = () => {
             }
 
         }).using())
-        .add(new Cube(values.center[0], 0.2, idConcat++, false).setColor_GL(
+        .add(new Cube(values.leftup[0], 0.2, idConcat++, false).setColor_GL(
             setValue()
+        ).setCallbackAction((_, element) => {
+            if (bool) {
+                element.move(-0.01 * bet * values.leftup[1] * r2,
+                    0.01 * bet * values.leftup[1] * r2
+                    , 0)
+                element.setRotationByX(1 / 20 * bet * values.leftup[1] * r2);
+                element.setRotationByY(1 / 20 * bet * values.leftup[1] * r2);
+                //element.setColor_GL(setValue())
+            }
+
+            if (element.x < -0.8 * r2 && bet == 1) {
+                values.leftup[1] = -1
+            } else if (element.x < -0.8 * r2 && bet == -1) {
+                values.leftup[1] = 1
+            }
+            if (element.x > -0.2 * r2 && bet == 1) {
+                values.leftup[1] = 1
+            } else if (element.x > -0.2 * r2 && bet == -1) {
+                values.leftup[1] = -1
+            }
+        }).using())
+        .add(new Cube(values.rightup[0], 0.2, idConcat++, false).setColor_GL(
+            setValue()
+        ).setCallbackAction((_, element) => {
+            if (bool) {
+                element.move(0.01 * bet * values.rightup[1] * r2,
+                    0.01 * bet * values.rightup[1] * r2
+                    , 0)
+                element.setRotationByX(1 / 20 * bet * values.rightup[1] * r2);
+                element.setRotationByY(-1 / 20 * bet * values.rightup[1] * r2);
+            }
+
+            if (element.x > 0.8 * r2 && bet == 1) {
+                values.rightup[1] = -1
+            } else if (element.x > 0.8 * r2 && bet == -1) {
+                values.rightup[1] = 1
+            }
+            if (element.x < 0.2 * r2 && bet == 1) {
+                values.rightup[1] = 1
+            } else if (element.x < 0.2 * r2 && bet == -1) {
+                values.rightup[1] = -1
+            }
+        }).using())
+        .add(new Cube(values.leftdown[0], 0.2, idConcat++, false).setColor_GL(
+            setValue()
+        ).setCallbackAction((_, element) => {
+            if (bool) {
+                element.move(-0.01 * bet * values.leftdown[1] * r2,
+                    -0.01 * bet * values.leftdown[1] * r2
+                    , 0)
+                element.setRotationByX(-1 / 20 * bet * values.leftdown[1] * r2);
+                element.setRotationByY(1 / 20 * bet * values.leftdown[1] * r2);
+            }
+            if (element.x < -0.8 * r2 && bet == 1) {
+                values.leftdown[1] = -1
+            } else if (element.x < -0.8 * r2 && bet == -1) {
+                values.leftdown[1] = 1
+            }
+            if (element.x > -0.2 * r2 && bet == 1) {
+                values.leftdown[1] = 1
+            } else if (element.x > -0.2 * r2 && bet == -1) {
+                values.leftdown[1] = -1
+            }
+        }).using())
+        .add(new Cube(values.rightdown[0], 0.2, idConcat++, false).setColor_GL(
+            setValue()
+        ).setCallbackAction((_, element) => {
+            if (bool) {
+                element.move(0.01 * bet * values.rightdown[1] * r2,
+                    -0.01 * bet * values.rightdown[1] * r2
+                    , 0)
+                element.setRotationByX(-1 / 20 * bet * values.rightdown[1] * r2);
+                element.setRotationByY(-1 / 20 * bet * values.rightdown[1] * r2);
+            }
+            if (element.x > 0.8 * r2 && bet == 1) {
+                values.rightdown[1] = -1
+            } else if (element.x > 0.8 * r2 && bet == -1) {
+                values.rightdown[1] = 1
+            }
+            if (element.x < 0.2 * r2 && bet == 1) {
+                values.rightdown[1] = 1
+            } else if (element.x < 0.2 * r2 && bet == -1) {
+                values.rightdown[1] = -1
+            }
+        }).using())
+        .add(new Cube(values.center[0], 0.2, idConcat++, true).setColor_GL(
+            //setValue()
         ).setCallbackAction((_, element) => {
             if (bool) {
                 element.resizing(size);
@@ -65,9 +157,7 @@ window.onload = () => {
         ).setCallbackAction((vertice, element) => {
             if (bool) {
                 element.move(+0.01 * bet * values.right[1], 0, 0)
-                element.setRotationByX(-1 / 20 * bet);
-                element.setRotationByY(1 / 20 * bet);
-                element.setRotationByZ(1 / 20 * bet);
+                element.setRotationByY(1 / 20 * bet * values.right[1]);
             }
 
             if (element.x > 0.8 && bet == 1) {
@@ -86,9 +176,7 @@ window.onload = () => {
         ).setCallbackAction((_, element) => {
             if (bool) {
                 element.move(0, +0.01 * bet * values.up[1], 0)
-                element.setRotationByX(-1 / 20 * bet);
-                element.setRotationByY(1 / 20 * bet);
-                element.setRotationByZ(-1 / 20 * bet);
+                element.setRotationByX(1 / 20 * bet * values.up[1]);
             }
             if (element.y > 0.8 && bet == 1) {
                 values.up[1] = -1
@@ -106,9 +194,7 @@ window.onload = () => {
         ).setCallbackAction((_, element) => {
             if (bool) {
                 element.move(0, 0.01 * bet * values.down[1], 0)
-                element.setRotationByX(1 / 20 * bet);
-                element.setRotationByY(-1 / 20 * bet);
-                element.setRotationByZ(1 / 20 * bet);
+                element.setRotationByX(1 / 20 * bet * values.down[1]);
             }
             if (element.y < -0.8 && bet == 1) {
                 values.down[1] = 1
@@ -129,15 +215,23 @@ window.onload = () => {
 }
 
 function setListener() {
+    var start = document.getElementById("stop");
     document.getElementById("Button1").onclick = function () { GL.setRadius(0.05) };
     document.getElementById("Button2").onclick = function () { GL.setRadius(-0.05); };
     document.getElementById("Button3").onclick = function () { GL.setTheta(PaleGL.state.dr) };
     document.getElementById("Button4").onclick = function () { GL.setTheta(-PaleGL.state.dr) };
     document.getElementById("Button5").onclick = function () { GL.setPhi(PaleGL.state.dr) };
     document.getElementById("Button6").onclick = function () { GL.setPhi(-PaleGL.state.dr) };
-    document.getElementById("left").onclick = function () { bool = true; bet = -1 };
-    document.getElementById("stop").onclick = function () { bool = false };
-    document.getElementById("right").onclick = function () { bool = true; bet = 1 };
+    document.getElementById("left").onclick = function () { bet = -1 };
+    start.onclick = function () {
+        if (bool) {
+            start.textContent = "START"
+        } else {
+            start.textContent = "STOP"
+        }
+        bool = !bool
+    };
+    document.getElementById("right").onclick = function () { bet = 1 };
 }
 
 function setValue() {

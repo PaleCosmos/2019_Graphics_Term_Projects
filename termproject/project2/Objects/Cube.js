@@ -38,25 +38,32 @@ class Cube extends WebGLObject {
     callbackAction(a, b) { }
 
     // No Gradation
-    setColor(vec4List) {
-        vec4List.forEach(element => {
-            for (var k = 0; k < 6; k++) {
-                this.mColors.push(element)
-            }
-        });
+    setColor(vec4List = 0) {
+        this.mColors = [];
+        if (vec4List != 0) {
+            vec4List.forEach(element => {
+                for (var k = 0; k < 6; k++) {
+                    this.mColors.push(element)
+                }
+            });
+        }
         return this;
     }
 
-    setColor_GL(vec4List_List) {
-        for (let i = 0; i < 6; i++) {
-            for (let j = 0; j < 6; j++) {
-                this.mColors.push(vec4List_List[i][j]);
+    setColor_GL(vec4List_List = 0) {
+        this.mColors = [];
+        if (vec4List_List != 0) {
+            for (let i = 0; i < 6; i++) {
+                for (let j = 0; j < 6; j++) {
+                    this.mColors.push(vec4List_List[i][j]);
+                }
             }
         }
         return this;
     }
 
     setOneColor(cr = 0) {
+        this.mColors = [];
         if (cr != 0) {
             for (var k = 0; k < 36; k++) {
                 this.mColors.push(cr)

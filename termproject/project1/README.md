@@ -1,4 +1,4 @@
-# 2019년 2학기 그래픽스 Assignment #3
+# 2019년 2학기 그래픽스 Term Project #1
 <pre><a href="https://palecosmos.github.io/2019_Graphics_Exercises/termproject/project1/main.html">https://palecosmos.github.io/2019_Graphics_Exercises/termproject/project1/main.html</a></pre>
 ![](temp.gif)
 
