@@ -4,12 +4,23 @@ class PaleGL {
     static information = {
         canvas: null,
         gl: null,
-        at: vec3(0.0, 0.0, -1), // vector!
+        at: vec3(0.0, 0.0, 0), // vector!
         up: vec3(0, 1, 0), // vector
         eye: vec3(0, 0, -1), // point
         numVertices: 0,
         view_speed: Math.PI * 0.01,
         move_speed: 0.01,
+    }
+
+    static state = {
+        near:0.001,
+        far : 10.0,
+        radius : 4.0,
+        theta :0.0,
+        phi : 0.0,
+        dr : 5.0 * Math.PI / 180.0,
+        fovy:45.0,
+        aspect:1.0
     }
 
     view_up() {
@@ -166,6 +177,8 @@ class PaleGL {
 
         information.gl = gl;
 
+        PaleGL.state.aspect = canvas.width/ canvas.height;
+
         PaleGL.program = initShaders(gl, "vertex-shader", "fragment-shader");
         gl.useProgram(PaleGL.program);
     }
@@ -241,14 +254,19 @@ class PaleGL {
 
         let pi = PaleGL.information;
 
-        let atVec = vec3(
-            pi.eye[0] + pi.at[0],
-            pi.eye[1] + pi.at[1],
-            pi.eye[2] + pi.at[2],
-        );
+        // let atVec = vec3(
+        //     pi.eye[0] + pi.at[0],
+        //     pi.eye[1] + pi.at[1],
+        //     pi.eye[2] + pi.at[2],
+        // );
 
-        PaleGL.mvMatrix = lookAt(pi.eye, atVec, pi.up);
-        PaleGL.pmMatrix = ortho(-1, 1, -1,1,-1,1)
+        let s = PaleGL.state;
+
+        pi.eye = vec3(s.radius*Math.sin(s.phi), s.radius*Math.sin(s.theta),
+        s.radius*Math.cos(s.phi));
+
+        PaleGL.mvMatrix = lookAt(pi.eye, pi.at, pi.up);
+        PaleGL.pmMatrix = perspective(s.fovy, s.aspect, s.near, s.far);
 
 
         gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(PaleGL.mvMatrix))

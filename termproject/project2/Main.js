@@ -7,19 +7,19 @@ var leng = 1;
 var bool = true
 var r2 = Math.sqrt(2) / 2;
 var values = {
-    left: [vec3(-0.2, -0, 0), 1],
-    right: [vec3(0.2, 0, 0), 1],
-    center: [vec3(0, 0, 0), 0],
-    up: [vec3(0, 0.2, 0), 1],
-    down: [vec3(0, -0.2, 0), 1],
+    left: [vec3(-0.2, -0, 1.5), 1],
+    right: [vec3(0.2, 0, 1.5), 1],
+    center: [vec3(0, 0, 1.5), 0],
+    up: [vec3(0, 0.2, 1.5), 1],
+    down: [vec3(0, -0.2, 1.5), 1],
 
-    rightup: [vec3(0, 0, 0.2), 1],
-    leftup: [vec3(0, 0, -0.2), 1]
+    rightup: [vec3(0, 0, 1.5+0.2), 1],
+    leftup: [vec3(0, 0, 1.5-0.2), 1]
 };
 
 window.onload = () => {
     GL = PaleGL.getInstance(document.getElementById("gl-canvas"))
-        .add(new Cube(vec3(0, 0, 0), 1, idConcat++, true).using())
+        .add(new Cube(vec3(0, 0, 1.5), 1, idConcat++, true,true).using())
         .add(new Cube(values.left[0], 0.2, idConcat++, false).setColor_GL(
             setValue()
         ).setCallbackAction((_, element) => {
@@ -53,14 +53,14 @@ window.onload = () => {
                 //element.setColor_GL(setValue())
             }
 
-            if (element.z < -0.8 && bet == 1) {
+            if (element.z < -0.8 +1.5 && bet == 1) {
                 values.leftup[1] = -1
-            } else if (element.z < -0.8 && bet == -1) {
+            } else if (element.z < -0.8 +1.5&& bet == -1) {
                 values.leftup[1] = 1
             }
-            if (element.z > -0.2 && bet == 1) {
+            if (element.z > -0.2 +1.5&& bet == 1) {
                 values.leftup[1] = 1
-            } else if (element.z > -0.2 && bet == -1) {
+            } else if (element.z > -0.2+1.5 && bet == -1) {
                 values.leftup[1] = -1
             }
         }).using())
@@ -75,14 +75,14 @@ window.onload = () => {
                 element.setRotationByY(-1 / 20 * bet * values.rightup[1] * r2);
             }
 
-            if (element.z > 0.8 && bet == 1) {
+            if (element.z > 0.8+1.5 && bet == 1) {
                 values.rightup[1] = -1
-            } else if (element.z > 0.8 && bet == -1) {
+            } else if (element.z > 0.8+1.5 && bet == -1) {
                 values.rightup[1] = 1
             }
-            if (element.z < 0.2 && bet == 1) {
+            if (element.z < 0.2+1.5 && bet == 1) {
                 values.rightup[1] = 1
-            } else if (element.z < 0.2 && bet == -1) {
+            } else if (element.z < 0.2+1.5 && bet == -1) {
                 values.rightup[1] = -1
             }
         }).using())
@@ -188,34 +188,50 @@ function setListener() {
 }
 
 function addKeyListener(doc) {
-    doc.addEventListener('keydown', (e) => {
-        switch (e.keyCode) {
-            case 87: // w
-                GL.move_front();
-                break;
-            case 65: // a
-                GL.move_left();
-                break;
-            case 83: // s
-                GL.move_back();
-                break;
-            case 68: // d
-                GL.move_right();
-                break;
-            case 38: // up
-                GL.view_up();
-                break;
-            case 37: // left
-                GL.view_left();
-                break;
-            case 40: //down
-                GL.view_down();
-                break;
-            case 39: //right
-                GL.view_right();
-                break;
-        }
-    });
+    // doc.addEventListener('keydown', (e) => {
+    //     switch (e.keyCode) {
+    //         case 87: // w
+    //             GL.move_front();
+    //             break;
+    //         case 65: // a
+    //             GL.move_left();
+    //             break;
+    //         case 83: // s
+    //             GL.move_back();
+    //             break;
+    //         case 68: // d
+    //             GL.move_right();
+    //             break;
+    //         case 38: // up
+    //             GL.view_up();
+    //             break;
+    //         case 37: // left
+    //             GL.view_left();
+    //             break;
+    //         case 40: //down
+    //             GL.view_down();
+    //             break;
+    //         case 39: //right
+    //             GL.view_right();
+    //             break;
+    //     }
+    // });
+
+    document.getElementById("radiusSlider").onchange = function(event) {
+        PaleGL.state.radius = event.target.value;
+    };
+    document.getElementById("thetaSlider").onchange = function(event) {
+        PaleGL.state.theta = event.target.value* Math.PI/180.0;
+    };
+    document.getElementById("phiSlider").onchange = function(event) {
+        PaleGL.state.phi = event.target.value* Math.PI/180.0;
+    };
+    document.getElementById("aspectSlider").onchange = function(event) {
+        PaleGL.state.aspect = event.target.value;
+    };
+    document.getElementById("fovSlider").onchange = function(event) {
+        PaleGL.state.fovy = event.target.value;
+    };
 };
 
 function setValue() {
