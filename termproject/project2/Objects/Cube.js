@@ -21,13 +21,14 @@ var vertexColors = [
 
 class Cube extends WebGLObject {
 
-    constructor(vec3_, size = 1, id = 0, hasLine = false) {
+    constructor(vec3_, size = 1, id = 0, hasLine = false, trans = false) {
         super(vec3_[0], vec3_[1], vec3_[2], size, id);
         this.hasLine = hasLine;
         this.mColors = [];
         this.mVertices = [];
         this.mLineVertices = [];
         this.mLineColor = [];
+        this.trans = trans;
     }
 
     count = 0;

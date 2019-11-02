@@ -13,17 +13,13 @@ var values = {
     up: [vec3(0, 0.2, 0), 1],
     down: [vec3(0, -0.2, 0), 1],
 
-    rightup: [vec3(0.2 * r2, 0.2 * r2, 0), 1],
-    leftup: [vec3(-0.2 * r2, 0.2 * r2, 0), 1],
-    rightdown: [vec3(0.2 * r2, -0.2 * r2, 0), 1],
-    leftdown: [vec3(-0.2 * r2, -0.2 * r2, 0), 1],
+    rightup: [vec3(0, 0, 0.2), 1],
+    leftup: [vec3(0, 0, -0.2), 1]
 };
 
 window.onload = () => {
     GL = PaleGL.getInstance(document.getElementById("gl-canvas"))
-    .add(new Cube(vec3(0,0,0), 1, idConcat++, true).setOneColor(
-        vec4(0.8,0.8,0.8,0.5)
-    ).using())
+        .add(new Cube(vec3(0, 0, 0), 1, idConcat++, true).using())
         .add(new Cube(values.left[0], 0.2, idConcat++, false).setColor_GL(
             setValue()
         ).setCallbackAction((_, element) => {
@@ -49,22 +45,22 @@ window.onload = () => {
             setValue()
         ).setCallbackAction((_, element) => {
             if (bool) {
-                element.move(-0.01 * bet * values.leftup[1] * r2,
-                    0.01 * bet * values.leftup[1] * r2
-                    , 0)
+                element.move(0,
+                    0,
+                    -0.01 * bet * values.leftup[1])
                 element.setRotationByX(1 / 20 * bet * values.leftup[1] * r2);
                 element.setRotationByY(1 / 20 * bet * values.leftup[1] * r2);
                 //element.setColor_GL(setValue())
             }
 
-            if (element.x < -0.8 * r2 && bet == 1) {
+            if (element.z < -0.8 && bet == 1) {
                 values.leftup[1] = -1
-            } else if (element.x < -0.8 * r2 && bet == -1) {
+            } else if (element.z < -0.8 && bet == -1) {
                 values.leftup[1] = 1
             }
-            if (element.x > -0.2 * r2 && bet == 1) {
+            if (element.z > -0.2 && bet == 1) {
                 values.leftup[1] = 1
-            } else if (element.x > -0.2 * r2 && bet == -1) {
+            } else if (element.z > -0.2 && bet == -1) {
                 values.leftup[1] = -1
             }
         }).using())
@@ -72,67 +68,25 @@ window.onload = () => {
             setValue()
         ).setCallbackAction((_, element) => {
             if (bool) {
-                element.move(0.01 * bet * values.rightup[1] * r2,
-                    0.01 * bet * values.rightup[1] * r2
-                    , 0)
+                element.move(0,
+                    0
+                    , 0.01 * bet * values.rightup[1])
                 element.setRotationByX(1 / 20 * bet * values.rightup[1] * r2);
                 element.setRotationByY(-1 / 20 * bet * values.rightup[1] * r2);
             }
 
-            if (element.x > 0.8 * r2 && bet == 1) {
+            if (element.z > 0.8 && bet == 1) {
                 values.rightup[1] = -1
-            } else if (element.x > 0.8 * r2 && bet == -1) {
+            } else if (element.z > 0.8 && bet == -1) {
                 values.rightup[1] = 1
             }
-            if (element.x < 0.2 * r2 && bet == 1) {
+            if (element.z < 0.2 && bet == 1) {
                 values.rightup[1] = 1
-            } else if (element.x < 0.2 * r2 && bet == -1) {
+            } else if (element.z < 0.2 && bet == -1) {
                 values.rightup[1] = -1
             }
         }).using())
-        .add(new Cube(values.leftdown[0], 0.2, idConcat++, false).setColor_GL(
-            setValue()
-        ).setCallbackAction((_, element) => {
-            if (bool) {
-                element.move(-0.01 * bet * values.leftdown[1] * r2,
-                    -0.01 * bet * values.leftdown[1] * r2
-                    , 0)
-                element.setRotationByX(-1 / 20 * bet * values.leftdown[1] * r2);
-                element.setRotationByY(1 / 20 * bet * values.leftdown[1] * r2);
-            }
-            if (element.x < -0.8 * r2 && bet == 1) {
-                values.leftdown[1] = -1
-            } else if (element.x < -0.8 * r2 && bet == -1) {
-                values.leftdown[1] = 1
-            }
-            if (element.x > -0.2 * r2 && bet == 1) {
-                values.leftdown[1] = 1
-            } else if (element.x > -0.2 * r2 && bet == -1) {
-                values.leftdown[1] = -1
-            }
-        }).using())
-        .add(new Cube(values.rightdown[0], 0.2, idConcat++, false).setColor_GL(
-            setValue()
-        ).setCallbackAction((_, element) => {
-            if (bool) {
-                element.move(0.01 * bet * values.rightdown[1] * r2,
-                    -0.01 * bet * values.rightdown[1] * r2
-                    , 0)
-                element.setRotationByX(-1 / 20 * bet * values.rightdown[1] * r2);
-                element.setRotationByY(-1 / 20 * bet * values.rightdown[1] * r2);
-            }
-            if (element.x > 0.8 * r2 && bet == 1) {
-                values.rightdown[1] = -1
-            } else if (element.x > 0.8 * r2 && bet == -1) {
-                values.rightdown[1] = 1
-            }
-            if (element.x < 0.2 * r2 && bet == 1) {
-                values.rightdown[1] = 1
-            } else if (element.x < 0.2 * r2 && bet == -1) {
-                values.rightdown[1] = -1
-            }
-        }).using())
-        .add(new Cube(values.center[0], 0.2, idConcat++, true).setColor_GL(
+        .add(new Cube(values.center[0], 0.2, idConcat++, true, true).setColor_GL(
             //setValue()
         ).setCallbackAction((_, element) => {
             if (bool) {
@@ -233,32 +187,32 @@ function setListener() {
     addKeyListener(document)
 }
 
-function addKeyListener(doc){
-    doc.addEventListener('keydown', (e)=>{
+function addKeyListener(doc) {
+    doc.addEventListener('keydown', (e) => {
         switch (e.keyCode) {
             case 87: // w
-            GL.move_front();
+                GL.move_front();
                 break;
             case 65: // a
-            GL.move_left();
+                GL.move_left();
                 break;
             case 83: // s
-            GL.move_back();
+                GL.move_back();
                 break;
             case 68: // d
-            GL.move_right();
+                GL.move_right();
                 break;
             case 38: // up
-            GL.view_up();
+                GL.view_up();
                 break;
             case 37: // left
-            GL.view_left();
+                GL.view_left();
                 break;
             case 40: //down
-            GL.view_down();
+                GL.view_down();
                 break;
             case 39: //right
-            GL.view_right();
+                GL.view_right();
                 break;
         }
     });

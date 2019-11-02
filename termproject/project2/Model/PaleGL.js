@@ -4,29 +4,15 @@ class PaleGL {
     static information = {
         canvas: null,
         gl: null,
-        at: vec3(0.0, 0.0, 1), // vector!
+        at: vec3(0.0, 0.0, -1), // vector!
         up: vec3(0, 1, 0), // vector
         eye: vec3(0, 0, -1), // point
         numVertices: 0,
         view_speed: Math.PI * 0.01,
-        move_speed: 0.01
+        move_speed: 0.01,
     }
 
     view_up() {
-        let pi = PaleGL.information;
-        let temp = pi.at;
-        let speed = pi.view_speed;
-
-        PaleGL.information.at = vec3(
-            temp[0],
-            Math.sin(speed) * temp[2] + Math.cos(speed) * temp[1],
-            -Math.sin(speed) * temp[1] + Math.cos(speed) * temp[2]
-        );
-
-        console.log(PaleGL.information.at)
-    }
-
-    view_down() {
         let pi = PaleGL.information;
         let temp = pi.at;
         let speed = pi.view_speed;
@@ -40,10 +26,24 @@ class PaleGL {
         console.log(PaleGL.information.at)
     }
 
-    view_left() {
+    view_down() {
         let pi = PaleGL.information;
         let temp = pi.at;
         let speed = pi.view_speed;
+
+        PaleGL.information.at = vec3(
+            temp[0],
+            Math.sin(speed) * temp[2] + Math.cos(speed) * temp[1],
+            -Math.sin(speed) * temp[1] + Math.cos(speed) * temp[2]
+        );
+
+        console.log(PaleGL.information.at)
+    }
+
+    view_left() {
+        let pi = PaleGL.information;
+        let temp = pi.at;
+        let speed = -pi.view_speed;
 
         PaleGL.information.at = vec3(
             Math.sin(speed) * temp[2] + Math.cos(speed) * temp[0],
@@ -57,7 +57,7 @@ class PaleGL {
     view_right() {
         let pi = PaleGL.information;
         let temp = pi.at;
-        let speed = pi.view_speed;
+        let speed = -pi.view_speed;
 
         PaleGL.information.at = vec3(
             Math.sin(-speed) * temp[2] + Math.cos(-speed) * temp[0],
@@ -138,6 +138,8 @@ class PaleGL {
 
     static mvMatrix;
 
+    static pmMatrix;
+
     static getInstance(canvas) {
         if (PaleGL.instance == null) {
             PaleGL.instance = new PaleGL(canvas);
@@ -186,17 +188,20 @@ class PaleGL {
         let gl = PaleGL.information.gl;
 
         PaleGL.objects.forEach(element1 => {
-            element1.mVertices.forEach((element, index, arr) => {
-                vertices.push(vec4(
-                    element[0],
-                    element[1] * (PaleGL.information.canvas.height / PaleGL.information.canvas.width),
-                    element[2],
-                    element[3]
-                ))
-            });
-            element1.mColors.forEach(element => {
-                colors.push(element)
-            });
+            if(!element1.trans)
+            {
+                element1.mVertices.forEach((element, index, arr) => {
+                    vertices.push(vec4(
+                        element[0],
+                        element[1] * (PaleGL.information.canvas.height / PaleGL.information.canvas.width),
+                        element[2],
+                        element[3]
+                    ))
+                });
+                element1.mColors.forEach(element => {
+                    colors.push(element)
+                });
+            }
             element1.callbackAction(null, element1)
         });
 
@@ -209,6 +214,11 @@ class PaleGL {
             });
         });
 
+        let modelViewMatrixLoc = gl.getUniformLocation( PaleGL.program, "modelViewMatrix" ); 
+        let projectionMatrixLoc = gl.getUniformLocation( PaleGL.program, "projectionMatrix" ); 
+
+
+        
         let cBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, flatten(colors), gl.STATIC_DRAW);
@@ -225,7 +235,7 @@ class PaleGL {
         gl.vertexAttribPointer(vPosition, 4, gl.FLOAT, false, 0, 0);
         gl.enableVertexAttribArray(vPosition);
 
-        PaleGL.modelView = gl.getUniformLocation(PaleGL.program, "modelView");
+        //PaleGL.modelView = gl.getUniformLocation(PaleGL.program, "modelView");
 
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
@@ -238,8 +248,11 @@ class PaleGL {
         );
 
         PaleGL.mvMatrix = lookAt(pi.eye, atVec, pi.up);
+        PaleGL.pmMatrix = ortho(-1, 1, -1,1,-1,1)
 
-        gl.uniformMatrix4fv(PaleGL.modelView, false, flatten(PaleGL.mvMatrix))
+
+        gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(PaleGL.mvMatrix))
+        gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(PaleGL.pmMatrix))
         gl.drawArrays(gl.TRIANGLES, 0, mCount);
 
         if (mCount != vertices.length) {
