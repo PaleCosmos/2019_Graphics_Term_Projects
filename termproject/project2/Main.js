@@ -7,20 +7,23 @@ var leng = 1;
 var bool = true
 var r2 = Math.sqrt(2) / 2;
 var values = {
-    left: [vec3(-0.2, -0, -0.5), 1],
-    right: [vec3(0.2, 0, -0.5), 1],
-    center: [vec3(0, 0, -0.5), 0],
-    up: [vec3(0, 0.2, -0.5), 1],
-    down: [vec3(0, -0.2, -0.5), 1],
+    left: [vec3(-0.2, -0, 0), 1],
+    right: [vec3(0.2, 0, 0), 1],
+    center: [vec3(0, 0, 0), 0],
+    up: [vec3(0, 0.2, 0), 1],
+    down: [vec3(0, -0.2, 0), 1],
 
-    rightup: [vec3(0.2 * r2, 0.2 * r2, -0.5), 1],
-    leftup: [vec3(-0.2 * r2, 0.2 * r2, -0.5), 1],
-    rightdown: [vec3(0.2 * r2, -0.2 * r2, -0.5), 1],
-    leftdown: [vec3(-0.2 * r2, -0.2 * r2, -0.5), 1],
+    rightup: [vec3(0.2 * r2, 0.2 * r2, 0), 1],
+    leftup: [vec3(-0.2 * r2, 0.2 * r2, 0), 1],
+    rightdown: [vec3(0.2 * r2, -0.2 * r2, 0), 1],
+    leftdown: [vec3(-0.2 * r2, -0.2 * r2, 0), 1],
 };
 
 window.onload = () => {
     GL = PaleGL.getInstance(document.getElementById("gl-canvas"))
+    .add(new Cube(vec3(0,0,0), 1, idConcat++, true).setOneColor(
+        vec4(0.8,0.8,0.8,0.5)
+    ).using())
         .add(new Cube(values.left[0], 0.2, idConcat++, false).setColor_GL(
             setValue()
         ).setCallbackAction((_, element) => {
@@ -216,12 +219,7 @@ window.onload = () => {
 
 function setListener() {
     var start = document.getElementById("stop");
-    document.getElementById("Button1").onclick = function () { GL.setRadius(0.05) };
-    document.getElementById("Button2").onclick = function () { GL.setRadius(-0.05); };
-    document.getElementById("Button3").onclick = function () { GL.setTheta(PaleGL.state.dr) };
-    document.getElementById("Button4").onclick = function () { GL.setTheta(-PaleGL.state.dr) };
-    document.getElementById("Button5").onclick = function () { GL.setPhi(PaleGL.state.dr) };
-    document.getElementById("Button6").onclick = function () { GL.setPhi(-PaleGL.state.dr) };
+
     document.getElementById("left").onclick = function () { bet = -1 };
     start.onclick = function () {
         if (bool) {
@@ -232,7 +230,39 @@ function setListener() {
         bool = !bool
     };
     document.getElementById("right").onclick = function () { bet = 1 };
+    addKeyListener(document)
 }
+
+function addKeyListener(doc){
+    doc.addEventListener('keydown', (e)=>{
+        switch (e.keyCode) {
+            case 87: // w
+            GL.move_front();
+                break;
+            case 65: // a
+            GL.move_left();
+                break;
+            case 83: // s
+            GL.move_back();
+                break;
+            case 68: // d
+            GL.move_right();
+                break;
+            case 38: // up
+            GL.view_up();
+                break;
+            case 37: // left
+            GL.view_left();
+                break;
+            case 40: //down
+            GL.view_down();
+                break;
+            case 39: //right
+            GL.view_right();
+                break;
+        }
+    });
+};
 
 function setValue() {
     let colors = [];

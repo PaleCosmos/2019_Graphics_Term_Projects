@@ -6,17 +6,11 @@
     }
 </style>
 <p> </p>
-<button id="Button1">Increase R</button>
-<button id="Button2">Decrease R</button>
 <button id="left">left</button>
 <button id="stop">STOP</button>
 <button id="right">right</button>
 <p> </p>
-<button id="Button3">Increase theta</button>
-<button id="Button4">Decrease theta</button>
-<button id="Button5">Increase phi</button>
-<button id="Button6">Decrease phi</button>
-<p> </p>
+
 <script id="vertex-shader" type="x-shader/x-vertex">
 
 attribute  vec4 vPosition;
@@ -45,6 +39,34 @@ main()
 }
 </script>
 
+<script id="3d-vertex-shader" type="x-shader/x-vertex">
+    attribute vec4 a_position;
+    attribute vec4 a_color;
+    
+    uniform mat4 u_matrix;
+    
+    varying vec4 v_color;
+    
+    void main() {
+      // Multiply the position by the matrix.
+      gl_Position = u_matrix * a_position;
+    
+      // Pass the color to the fragment shader.
+      v_color = a_color;
+    }
+    </script>
+    <!-- fragment shader -->
+    <script id="3d-fragment-shader" type="x-shader/x-fragment">
+    precision mediump float;
+    
+    // Passed in from the vertex shader.
+    varying vec4 v_color;
+    
+    void main() {
+       gl_FragColor = v_color;
+    }
+    </script>
+
 <!-- WebGL Utils -->
 <script type="text/javascript" src="Common/webgl-utils.js"></script>
 <script type="text/javascript" src="Common/initShaders.js"></script>
@@ -63,7 +85,7 @@ main()
 
 <body>
 
-    <canvas id="gl-canvas" width="860" height="860">
+    <canvas id="gl-canvas" width="512" height="512">
         Oops ... your browser doesn't support the HTML5 canvas element
     </canvas>
 

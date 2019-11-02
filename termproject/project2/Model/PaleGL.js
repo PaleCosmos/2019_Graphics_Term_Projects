@@ -4,19 +4,131 @@ class PaleGL {
     static information = {
         canvas: null,
         gl: null,
-        at: vec3(0.0, 0.0, 0.0),
-        up: vec3(0.0, 1.0, 0.0),
+        at: vec3(0.0, 0.0, 1), // vector!
+        up: vec3(0, 1, 0), // vector
+        eye: vec3(0, 0, -1), // point
         numVertices: 0,
+        view_speed: Math.PI * 0.01,
+        move_speed: 0.01
     }
 
-    static state = {
-        radius: 0.2,
-        theta: 0,
-        phi: 0,
-        dr: 5.0 * Math.PI / 180.0
+    view_up() {
+        let pi = PaleGL.information;
+        let temp = pi.at;
+        let speed = pi.view_speed;
+
+        PaleGL.information.at = vec3(
+            temp[0],
+            Math.sin(speed) * temp[2] + Math.cos(speed) * temp[1],
+            -Math.sin(speed) * temp[1] + Math.cos(speed) * temp[2]
+        );
+
+        console.log(PaleGL.information.at)
     }
 
-    static eye;
+    view_down() {
+        let pi = PaleGL.information;
+        let temp = pi.at;
+        let speed = pi.view_speed;
+
+        PaleGL.information.at = vec3(
+            temp[0],
+            Math.sin(-speed) * temp[2] + Math.cos(-speed) * temp[1],
+            -Math.sin(-speed) * temp[1] + Math.cos(-speed) * temp[2]
+        );
+
+        console.log(PaleGL.information.at)
+    }
+
+    view_left() {
+        let pi = PaleGL.information;
+        let temp = pi.at;
+        let speed = pi.view_speed;
+
+        PaleGL.information.at = vec3(
+            Math.sin(speed) * temp[2] + Math.cos(speed) * temp[0],
+            temp[1],
+            -Math.sin(speed) * temp[0] + Math.cos(speed) * temp[2]
+        );
+
+        console.log(PaleGL.information.at)
+    }
+
+    view_right() {
+        let pi = PaleGL.information;
+        let temp = pi.at;
+        let speed = pi.view_speed;
+
+        PaleGL.information.at = vec3(
+            Math.sin(-speed) * temp[2] + Math.cos(-speed) * temp[0],
+            temp[1],
+            -Math.sin(-speed) * temp[0] + Math.cos(-speed) * temp[2]
+        );
+
+        console.log(PaleGL.information.at)
+    }
+
+    move_front() {
+        let pi = PaleGL.information;
+        let temp = pi.eye;
+        let value = pi.at;
+        let speed = pi.move_speed;
+
+        PaleGL.information.eye = vec3(
+            temp[0] + value[0] * -speed,
+            temp[1] + value[1] * -speed,
+            temp[2] + value[2] * -speed,
+        )
+
+        console.log(PaleGL.information.eye)
+    }
+
+    move_back() {
+        let pi = PaleGL.information;
+        let temp = pi.eye;
+        let value = pi.at;
+        let speed = pi.move_speed;
+
+        PaleGL.information.eye = vec3(
+            temp[0] + value[0] * speed,
+            temp[1] + value[1] * speed,
+            temp[2] + value[2] * speed,
+        )
+
+        console.log(PaleGL.information.eye)
+    }
+
+    move_right() {
+        let pi = PaleGL.information;
+        let temp = pi.eye;
+
+        let value = externing(pi.up, pi.at);
+        let speed = pi.move_speed;
+
+        PaleGL.information.eye = vec3(
+            temp[0] + value[0] * -speed,
+            temp[1] + value[1] * -speed,
+            temp[2] + value[2] * -speed,
+        )
+        console.log(PaleGL.information.eye)
+
+    }
+
+    move_left() {
+        let pi = PaleGL.information;
+        let temp = pi.eye;
+
+        let value = externing(pi.up, pi.at);
+        let speed = pi.move_speed;
+
+        PaleGL.information.eye = vec3(
+            temp[0] + value[0] * speed,
+            temp[1] + value[1] * speed,
+            temp[2] + value[2] * speed,
+        )
+        console.log(PaleGL.information.eye)
+
+    }
 
     static objects = [];
 
@@ -54,7 +166,6 @@ class PaleGL {
 
         PaleGL.program = initShaders(gl, "vertex-shader", "fragment-shader");
         gl.useProgram(PaleGL.program);
-        //console.log(PaleGL.information.canvas)
     }
 
     add(mObject) {
@@ -63,17 +174,6 @@ class PaleGL {
         return PaleGL.instance;
     }
 
-    setRadius(ing) {
-        PaleGL.state.radius += ing
-    }
-
-    setTheta(ing) {
-        PaleGL.state.theta += ing
-    }
-
-    setPhi(ing) {
-        PaleGL.state.phi += ing
-    }
 
     rendering() {
         PaleGL.render();
@@ -89,7 +189,7 @@ class PaleGL {
             element1.mVertices.forEach((element, index, arr) => {
                 vertices.push(vec4(
                     element[0],
-                    element[1] * (PaleGL.information.canvas.height/PaleGL.information.canvas.width),
+                    element[1] * (PaleGL.information.canvas.height / PaleGL.information.canvas.width),
                     element[2],
                     element[3]
                 ))
@@ -109,19 +209,19 @@ class PaleGL {
             });
         });
 
-        var cBuffer = gl.createBuffer();
+        let cBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, flatten(colors), gl.STATIC_DRAW);
 
-        var vColor = gl.getAttribLocation(PaleGL.program, "vColor");
+        let vColor = gl.getAttribLocation(PaleGL.program, "vColor");
         gl.vertexAttribPointer(vColor, 4, gl.FLOAT, false, 0, 0);
         gl.enableVertexAttribArray(vColor);
 
-        var vBuffer = gl.createBuffer();
+        let vBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, vBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, flatten(vertices), gl.STATIC_DRAW);
 
-        var vPosition = gl.getAttribLocation(PaleGL.program, "vPosition");
+        let vPosition = gl.getAttribLocation(PaleGL.program, "vPosition");
         gl.vertexAttribPointer(vPosition, 4, gl.FLOAT, false, 0, 0);
         gl.enableVertexAttribArray(vPosition);
 
@@ -129,22 +229,42 @@ class PaleGL {
 
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
-        var state = PaleGL.state;
+        let pi = PaleGL.information;
 
-        PaleGL.eye = vec3(state.radius * Math.sin(state.phi), state.radius * Math.sin(state.theta),
-            state.radius * Math.cos(state.phi)); // eye point
+        let atVec = vec3(
+            pi.eye[0] + pi.at[0],
+            pi.eye[1] + pi.at[1],
+            pi.eye[2] + pi.at[2],
+        );
 
-        PaleGL.mvMatrix = lookAt(PaleGL.eye, PaleGL.information.at, PaleGL.information.up);
+        PaleGL.mvMatrix = lookAt(pi.eye, atVec, pi.up);
 
         gl.uniformMatrix4fv(PaleGL.modelView, false, flatten(PaleGL.mvMatrix))
         gl.drawArrays(gl.TRIANGLES, 0, mCount);
 
-        if (mCount != vertices.length)
-        {
+        if (mCount != vertices.length) {
             console.log(mCount)
             gl.drawArrays(gl.LINES, mCount, vertices.length - mCount)
         }
 
         requestAnimationFrame(PaleGL.render);
     }
+}
+
+function externing(a, b) {
+    let vec = vec3(
+        (a[1] * b[2] - a[0 * b[1]]),
+        (-a[0] * b[2] + a[2] * b[0]),
+        (a[0] * b[1] - a[1] * b[0])
+    )
+
+    let square = Math.sqrt(Math.pow(vec[0], 2) + Math.pow(vec[1], 2) + Math.pow(vec[2], 2));
+
+    let vecA = vec3(
+        vec[0] / square,
+        vec[1] / square,
+        vec[2] / square
+    )
+
+    return vecA;
 }
