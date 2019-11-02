@@ -25,6 +25,7 @@ class Cube extends WebGLObject {
         super(vec3_[0], vec3_[1], vec3_[2], size, id, hasLine, trans);
         this.mVertices = [];
         this.isJumping = false
+        this.colorState = 0;
     }
 
     count = 0;
@@ -34,7 +35,7 @@ class Cube extends WebGLObject {
 
     callbackAction(a, b) { }
 
-    subAction(a,b ){}
+    subAction(a, b) { }
 
     // No Gradation
     setColor(vec4List = 0) {
@@ -255,6 +256,10 @@ class Cube extends WebGLObject {
         }
     }
 
+    changeColor() {
+        this.setOneColor(vertexColors[(this.colorState++) % 6])
+    }
+
     move(x, y, z) {
         this.x += x;
         this.y += y;
@@ -278,26 +283,29 @@ class Cube extends WebGLObject {
         }
     }
 
-    jump(zS){
-        if(this.isJumping) return;
+    jump(zS) {
+        if (this.isJumping) return;
 
         this.isJumping = true;
 
         let k = this.x;
         let krt = 1;
-        this.subAction = (_, element)=>{
-           // element.z += 0.005 * krt;
+        this.subAction = (_, element) => {
+            // element.z += 0.005 * krt;
+            let sorv = 1;
 
-            element.move(0.008 * krt, 0, 0)
+            element.move(0.08 * krt / sorv, 0, 0)
 
-            if(element.x > zS){
-                krt *=-1;
+            if (element.x > zS) {
+                krt *= -1;
             }
-            if(element.x < k){
-                element.x = k ;
+            if (element.x < k) {
+                element.x = k;
                 element.isJumping = false;
-                element.subAction = ()=>{}
+                element.subAction = () => { }
+                element.move(0.08 * -krt, 0, 0)
             }
+
         }
     }
 

@@ -13,14 +13,14 @@ class PaleGL {
     }
 
     static state = {
-        near:0.001,
-        far : 30.0,
-        radius : 6.65,
-        theta :0,
-        phi : 0.261799,
-        dr : 5.0 * Math.PI / 180.0,
-        fovy:20.0,
-        aspect:1.0
+        near: 0.001,
+        far: 30.0,
+        radius: 6.65,
+        theta: 0,
+        phi: 0.261799,
+        dr: 5.0 * Math.PI / 180.0,
+        fovy: 20.0,
+        aspect: 1.0
     }
 
     view_up() {
@@ -177,7 +177,7 @@ class PaleGL {
 
         information.gl = gl;
 
-        PaleGL.state.aspect = canvas.width/ canvas.height;
+        PaleGL.state.aspect = canvas.width / canvas.height;
 
         PaleGL.program = initShaders(gl, "vertex-shader", "fragment-shader");
         gl.useProgram(PaleGL.program);
@@ -201,8 +201,7 @@ class PaleGL {
         let gl = PaleGL.information.gl;
 
         PaleGL.objects.forEach(element1 => {
-            if(!element1.trans)
-            {
+            if (!element1.trans) {
                 element1.mVertices.forEach((element, index, arr) => {
                     vertices.push(vec4(
                         element[0],
@@ -228,11 +227,11 @@ class PaleGL {
             });
         });
 
-        let modelViewMatrixLoc = gl.getUniformLocation( PaleGL.program, "modelViewMatrix" ); 
-        let projectionMatrixLoc = gl.getUniformLocation( PaleGL.program, "projectionMatrix" ); 
+        let modelViewMatrixLoc = gl.getUniformLocation(PaleGL.program, "modelViewMatrix");
+        let projectionMatrixLoc = gl.getUniformLocation(PaleGL.program, "projectionMatrix");
 
 
-        
+
         let cBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
         gl.bufferData(gl.ARRAY_BUFFER, flatten(colors), gl.STATIC_DRAW);
@@ -263,8 +262,8 @@ class PaleGL {
 
         let s = PaleGL.state;
 
-        pi.eye = vec3(s.radius*Math.sin(s.phi), s.radius*Math.sin(s.theta),
-        s.radius*Math.cos(s.phi));
+        pi.eye = vec3(s.radius * Math.sin(s.phi), s.radius * Math.sin(s.theta),
+            s.radius * Math.cos(s.phi));
 
         PaleGL.mvMatrix = lookAt(pi.eye, pi.at, pi.up);
         PaleGL.pmMatrix = perspective(s.fovy, s.aspect, s.near, s.far);

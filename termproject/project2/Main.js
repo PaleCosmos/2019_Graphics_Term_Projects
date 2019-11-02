@@ -19,11 +19,11 @@ var values = {
 var myObject;
 
 var keyState = {
-    up:false,
-    down:false,
-    left:false,
-    right:false,
-    shift:false
+    up: false,
+    down: false,
+    left: false,
+    right: false,
+    shift: false
 }
 
 var centerPick = vec3(-1, -0, -1);
@@ -37,12 +37,13 @@ window.onload = () => {
         ).using())
 
     myObject = new Cube(vec3(-1 + 0.1, 0 - 0.5, -1 + 0.5), 0.2, idConcat++, true, false).setOneColor(
-        vec4(1, 0, 0, 1)).setCallbackAction((_, element)=>{
-            if(keyState.up)element.move(0, 0, -0.02)
-            if(keyState.down)element.move(0, 0, 0.02)
-            if(keyState.left)myObject.move(0, 0.02, 0)
-            if(keyState.right)myObject.move(0, -0.02, 0)
-        
+        vec4(1, 0, 0, 1)).setCallbackAction((_, element) => {
+            if (keyState.up) element.move(0, 0, -0.02)
+            if (keyState.down) element.move(0, 0, 0.02)
+            if (keyState.left) myObject.move(0, 0.02, 0)
+            if (keyState.right) myObject.move(0, -0.02, 0)
+            if (keyState.shift) myObject.changeColor()
+
         }).using()
 
     GL.add(myObject)
@@ -204,18 +205,46 @@ function example(ad) {
 }
 
 function setListener() {
-    var start = document.getElementById("stop");
 
-    document.getElementById("left").onclick = function () { bet = -1 };
-    start.onclick = function () {
-        if (bool) {
-            start.textContent = "START"
-        } else {
-            start.textContent = "STOP"
-        }
-        bool = !bool
-    };
-    document.getElementById("right").onclick = function () { bet = 1 };
+    document.getElementById('up').addEventListener('mousedown', (e) => {
+        keyState.up = true;
+    });
+    document.getElementById('up').addEventListener('mouseup', (e) => {
+        keyState.up = false;
+    });
+
+    document.getElementById('down').addEventListener('mousedown', (e) => {
+        keyState.down = true;
+    });
+    document.getElementById('down').addEventListener('mouseup', (e) => {
+        keyState.down = false;
+    });
+
+    document.getElementById('left').addEventListener('mousedown', (e) => {
+        keyState.left = true;
+    });
+    document.getElementById('left').addEventListener('mouseup', (e) => {
+        keyState.left = false;
+    });
+
+    document.getElementById('right').addEventListener('mousedown', (e) => {
+        keyState.right = true;
+    });
+    document.getElementById('right').addEventListener('mouseup', (e) => {
+        keyState.right = false;
+    });
+
+    document.getElementById('shift').addEventListener('mousedown', (e) => {
+        keyState.shift = true;
+    });
+    document.getElementById('shift').addEventListener('mouseup', (e) => {
+        keyState.shift = false;
+    });
+    document.getElementById('space').addEventListener('mouseup', (e) => {
+        myObject.jump(myObject.x + 0.5);
+    });
+
+
     addKeyListener(document)
 }
 
@@ -224,40 +253,46 @@ function addKeyListener(doc) {
         console.log(e.keyCode)
         switch (e.keyCode) {
             case 87: // w
-            //myObject.move(0, 0, -0.02)
-            keyState.up = false;
+                //myObject.move(0, 0, -0.02)
+                keyState.up = false;
+                document.getElementById('up').style.backgroundColor = "white";
                 break;
             case 65: // a
-            keyState.left = false;
-            //myObject.move(0, 0.02, 0)
+                keyState.left = false;
+                document.getElementById('left').style.backgroundColor = "white";
+                //myObject.move(0, 0.02, 0)
                 break;
             case 83: // s
-            keyState.down = false;
-           // myObject.move(0, 0, 0.02)
+                keyState.down = false;
+                document.getElementById('down').style.backgroundColor = "white";
+                // myObject.move(0, 0, 0.02)
                 break;
             case 68: // d
-            keyState.right = false;
-            //myObject.move(0, -0.02, 0)
+                keyState.right = false;
+                document.getElementById('right').style.backgroundColor = "white";
+                //myObject.move(0, -0.02, 0)
                 break;
             case 32:
                 //myObject.jump(myObject.x + 0.5);
-                break; 
+                document.getElementById('space').style.backgroundColor = "white";
+                break;
             case 16:
                 keyState.shift = false;
+                document.getElementById('shift').style.backgroundColor = "white";
                 //myObject.move(-0.08, 0, 0)
                 break;
             case 38: // up
                 //GL.view_up();
-              
+
                 break;
             case 37: // left
-             
+
                 break;
             case 40: //down
-             
+
                 break;
             case 39: //right
-            
+
                 break;
         }
         true
@@ -266,40 +301,45 @@ function addKeyListener(doc) {
         console.log(e.keyCode)
         switch (e.keyCode) {
             case 87: // w
-            //myObject.move(0, 0, -0.02)
-            keyState.up = true;
+                document.getElementById('up').style.backgroundColor = "#9999ff";
+                keyState.up = true;
                 break;
             case 65: // a
-            keyState.left = true;
-            //myObject.move(0, 0.02, 0)
+                keyState.left = true;
+                document.getElementById('left').style.backgroundColor = "#9999ff";
+                //myObject.move(0, 0.02, 0)
                 break;
             case 83: // s
-            keyState.down = true;
-           // myObject.move(0, 0, 0.02)
+                keyState.down = true;
+                document.getElementById('down').style.backgroundColor = "#9999ff";
+                // myObject.move(0, 0, 0.02)
                 break;
             case 68: // d
-            keyState.right = true;
-            //myObject.move(0, -0.02, 0)
+                keyState.right = true;
+                document.getElementById('right').style.backgroundColor = "#9999ff";
+                //myObject.move(0, -0.02, 0)
                 break;
             case 32:
-            myObject.jump(myObject.x + 0.5);
-                break; 
+                document.getElementById('space').style.backgroundColor = "#9999ff";
+                myObject.jump(myObject.x + 0.5);
+                break;
             case 16:
-                keyState.shift = false;
+                keyState.shift = true;
+                document.getElementById('shift').style.backgroundColor = "#9999ff";
                 //myObject.move(-0.08, 0, 0)
                 break;
             case 38: // up
                 //GL.view_up();
-              
+
                 break;
             case 37: // left
-             
+
                 break;
             case 40: //down
-             
+
                 break;
             case 39: //right
-            
+
                 break;
         }
         true

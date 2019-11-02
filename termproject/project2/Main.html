@@ -1,15 +1,54 @@
 <!DOCTYPE html>
 <html>
 <style type="text/css">
+    * {
+        margin: 0;
+        padding: 0;
+        align-self: center;
+        text-align: center;
+    }
+
+    .container {
+
+        display: flex;
+    }
+
+    #top {
+        height: 33%;
+        align-items: center;
+    }
+
+    #mid {
+        height: 33%;
+        align-items: center;
+    }
+
+    #bot {
+        height: 33%;
+        align-items: center;
+    }
+
+    .leftThing {
+        width: 10%;
+        height: 100%;
+        align-items: center;
+    }
+
+    .content {
+        width: 10%;
+
+    }
+
+    .rightThing {
+        width: 10%;
+        align-items: center;
+    }
+
+
     canvas {
         background: white;
     }
 </style>
-<p> </p>
-<button id="left">left</button>
-<button id="stop">STOP</button>
-<button id="right">right</button>
-<p> </p>
 
 <div>
     radius 0.05<input id="radiusSlider" type="range" min="0.05" max="10" step="0.1" value="4">
@@ -23,6 +62,37 @@
     phi -90<input id="phiSlider" type="range" min="-90" max="90" step="5" value="0">
     90
 </div>
+<p> </p>
+<div>
+    <div id="top" class="container">
+        <div class="leftThing"></div>
+        <div class="content">
+            <button id="up">W</button>
+        </div>
+        <div class="rightThing"></div>
+    </div>
+    <div id="mid" class="container">
+        <div class="leftThing">
+            <button id="left">A</button>
+        </div>
+        <div class="content">
+            <button id="space">space</button>
+        </div>
+        <div class="rightThing">
+            <button id="right">F</button>
+        </div>
+    </div>
+    <div id="bot" class="container">
+        <div class="leftThing">
+            <button id="shift">shift</button>
+        </div>
+        <div class="content">
+            <button id="down">D</button>
+        </div>
+        <div class="rightThing"></div>
+    </div>
+</div>
+
 <!-- <div>
     fov 10<input id="fovSlider" type="range" min="10" max="120" step="5" value="45">
     120
