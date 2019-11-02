@@ -22,13 +22,9 @@ var vertexColors = [
 class Cube extends WebGLObject {
 
     constructor(vec3_, size = 1, id = 0, hasLine = false, trans = false) {
-        super(vec3_[0], vec3_[1], vec3_[2], size, id);
-        this.hasLine = hasLine;
-        this.mColors = [];
+        super(vec3_[0], vec3_[1], vec3_[2], size, id, hasLine, trans);
         this.mVertices = [];
-        this.mLineVertices = [];
-        this.mLineColor = [];
-        this.trans = trans;
+        this.isJumping = false
     }
 
     count = 0;
@@ -37,6 +33,8 @@ class Cube extends WebGLObject {
     mColors;
 
     callbackAction(a, b) { }
+
+    subAction(a,b ){}
 
     // No Gradation
     setColor(vec4List = 0) {
@@ -280,7 +278,31 @@ class Cube extends WebGLObject {
         }
     }
 
+    jump(zS){
+        if(this.isJumping) return;
+
+        this.isJumping = true;
+
+        let k = this.x;
+        let krt = 1;
+        this.subAction = (_, element)=>{
+           // element.z += 0.005 * krt;
+
+            element.move(0.008 * krt, 0, 0)
+
+            if(element.x > zS){
+                krt *=-1;
+            }
+            if(element.x < k){
+                element.x = k ;
+                element.isJumping = false;
+                element.subAction = ()=>{}
+            }
+        }
+    }
+
     // finally, You should call this method.
+
     using() {
         if (this.mColors.length == 0) {
             this.setOneColor(vec4(1, 1, 1, 0))

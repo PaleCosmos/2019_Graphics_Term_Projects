@@ -1,10 +1,16 @@
 class WebGLObject {
-    constructor(x, y, z, size, id = 0) {
+    constructor(x, y, z, size, id, hasLine, trans) {
         this.x = x;
         this.y = y;
         this.z = z;
         this.size = size;
         this.id = id;
+        this.hasLine = hasLine;
+        this.mColors = [];
+        this.mVertices = [];
+        this.mLineVertices = [];
+        this.mLineColor = [];
+        this.trans = trans;
     }
     callbackAction(a, b) { }
 
@@ -31,7 +37,7 @@ class WebGLObject {
     }
 
     // finally, You should call this method.
-    getObject() {
+    using() {
         return this;
     }
 }

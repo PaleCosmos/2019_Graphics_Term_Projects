@@ -7,19 +7,56 @@ var leng = 1;
 var bool = true
 var r2 = Math.sqrt(2) / 2;
 var values = {
-    left: [vec3(-0.2, -0, 1.5), 1],
-    right: [vec3(0.2, 0, 1.5), 1],
-    center: [vec3(0, 0, 1.5), 0],
-    up: [vec3(0, 0.2, 1.5), 1],
-    down: [vec3(0, -0.2, 1.5), 1],
+    left: [vec3(-0.2, -0, 0), 1],
+    right: [vec3(0.2, 0, 0), 1],
+    center: [vec3(0, 0, 0), 0],
+    up: [vec3(0, 0.2, 0), 1],
+    down: [vec3(0, -0.2, 0), 1],
 
-    rightup: [vec3(0, 0, 1.5+0.2), 1],
-    leftup: [vec3(0, 0, 1.5-0.2), 1]
+    rightup: [vec3(0, 0, 0 + 0.2), 1],
+    leftup: [vec3(0, 0, 0 - 0.2), 1]
 };
+var myObject;
+
+var keyState = {
+    up:false,
+    down:false,
+    left:false,
+    right:false,
+    shift:false
+}
+
+var centerPick = vec3(-1, -0, -1);
 
 window.onload = () => {
+
+
     GL = PaleGL.getInstance(document.getElementById("gl-canvas"))
-        .add(new Cube(vec3(0, 0, 1.5), 1, idConcat++, true,true).using())
+        .add(new Cube(vec3(-2, 0, -1), 2, idConcat++, true, false).setOneColor(
+            vec4(0.1, 0.5, 0.5, 1)
+        ).using())
+
+    myObject = new Cube(vec3(-1 + 0.1, 0 - 0.5, -1 + 0.5), 0.2, idConcat++, true, false).setOneColor(
+        vec4(1, 0, 0, 1)).setCallbackAction((_, element)=>{
+            if(keyState.up)element.move(0, 0, -0.02)
+            if(keyState.down)element.move(0, 0, 0.02)
+            if(keyState.left)myObject.move(0, 0.02, 0)
+            if(keyState.right)myObject.move(0, -0.02, 0)
+        
+        }).using()
+
+    GL.add(myObject)
+
+
+    //example(GL);
+    setListener();
+
+    GL.rendering();
+}
+
+function example(ad) {
+    ad
+        .add(new Cube(vec3(0, 0, 0), 1, idConcat++, true, true).using())
         .add(new Cube(values.left[0], 0.2, idConcat++, false).setColor_GL(
             setValue()
         ).setCallbackAction((_, element) => {
@@ -53,14 +90,14 @@ window.onload = () => {
                 //element.setColor_GL(setValue())
             }
 
-            if (element.z < -0.8 +1.5 && bet == 1) {
+            if (element.z < -0.8 + 0 && bet == 1) {
                 values.leftup[1] = -1
-            } else if (element.z < -0.8 +1.5&& bet == -1) {
+            } else if (element.z < -0.8 + 0 && bet == -1) {
                 values.leftup[1] = 1
             }
-            if (element.z > -0.2 +1.5&& bet == 1) {
+            if (element.z > -0.2 + 0 && bet == 1) {
                 values.leftup[1] = 1
-            } else if (element.z > -0.2+1.5 && bet == -1) {
+            } else if (element.z > -0.2 + 0 && bet == -1) {
                 values.leftup[1] = -1
             }
         }).using())
@@ -75,14 +112,14 @@ window.onload = () => {
                 element.setRotationByY(-1 / 20 * bet * values.rightup[1] * r2);
             }
 
-            if (element.z > 0.8+1.5 && bet == 1) {
+            if (element.z > 0.8 + 0 && bet == 1) {
                 values.rightup[1] = -1
-            } else if (element.z > 0.8+1.5 && bet == -1) {
+            } else if (element.z > 0.8 + 0 && bet == -1) {
                 values.rightup[1] = 1
             }
-            if (element.z < 0.2+1.5 && bet == 1) {
+            if (element.z < 0.2 + 0 && bet == 1) {
                 values.rightup[1] = 1
-            } else if (element.z < 0.2+1.5 && bet == -1) {
+            } else if (element.z < 0.2 + 0 && bet == -1) {
                 values.rightup[1] = -1
             }
         }).using())
@@ -164,11 +201,6 @@ window.onload = () => {
                 values.down[1] = 1
             }
         }).using())
-
-
-    setListener();
-
-    GL.rendering();
 }
 
 function setListener() {
@@ -188,50 +220,107 @@ function setListener() {
 }
 
 function addKeyListener(doc) {
-    // doc.addEventListener('keydown', (e) => {
-    //     switch (e.keyCode) {
-    //         case 87: // w
-    //             GL.move_front();
-    //             break;
-    //         case 65: // a
-    //             GL.move_left();
-    //             break;
-    //         case 83: // s
-    //             GL.move_back();
-    //             break;
-    //         case 68: // d
-    //             GL.move_right();
-    //             break;
-    //         case 38: // up
-    //             GL.view_up();
-    //             break;
-    //         case 37: // left
-    //             GL.view_left();
-    //             break;
-    //         case 40: //down
-    //             GL.view_down();
-    //             break;
-    //         case 39: //right
-    //             GL.view_right();
-    //             break;
-    //     }
-    // });
+    doc.addEventListener('keyup', (e) => {
+        console.log(e.keyCode)
+        switch (e.keyCode) {
+            case 87: // w
+            //myObject.move(0, 0, -0.02)
+            keyState.up = false;
+                break;
+            case 65: // a
+            keyState.left = false;
+            //myObject.move(0, 0.02, 0)
+                break;
+            case 83: // s
+            keyState.down = false;
+           // myObject.move(0, 0, 0.02)
+                break;
+            case 68: // d
+            keyState.right = false;
+            //myObject.move(0, -0.02, 0)
+                break;
+            case 32:
+                //myObject.jump(myObject.x + 0.5);
+                break; 
+            case 16:
+                keyState.shift = false;
+                //myObject.move(-0.08, 0, 0)
+                break;
+            case 38: // up
+                //GL.view_up();
+              
+                break;
+            case 37: // left
+             
+                break;
+            case 40: //down
+             
+                break;
+            case 39: //right
+            
+                break;
+        }
+        true
+    });
+    doc.addEventListener('keydown', (e) => {
+        console.log(e.keyCode)
+        switch (e.keyCode) {
+            case 87: // w
+            //myObject.move(0, 0, -0.02)
+            keyState.up = true;
+                break;
+            case 65: // a
+            keyState.left = true;
+            //myObject.move(0, 0.02, 0)
+                break;
+            case 83: // s
+            keyState.down = true;
+           // myObject.move(0, 0, 0.02)
+                break;
+            case 68: // d
+            keyState.right = true;
+            //myObject.move(0, -0.02, 0)
+                break;
+            case 32:
+            myObject.jump(myObject.x + 0.5);
+                break; 
+            case 16:
+                keyState.shift = false;
+                //myObject.move(-0.08, 0, 0)
+                break;
+            case 38: // up
+                //GL.view_up();
+              
+                break;
+            case 37: // left
+             
+                break;
+            case 40: //down
+             
+                break;
+            case 39: //right
+            
+                break;
+        }
+        true
+    });
 
-    document.getElementById("radiusSlider").onchange = function(event) {
+    document.getElementById("radiusSlider").onchange = function (event) {
         PaleGL.state.radius = event.target.value;
+        console.log("radius" + PaleGL.state.radius)
     };
-    document.getElementById("thetaSlider").onchange = function(event) {
-        PaleGL.state.theta = event.target.value* Math.PI/180.0;
+    document.getElementById("thetaSlider").onchange = function (event) {
+        PaleGL.state.theta = event.target.value * Math.PI / 180.0;
+        console.log("theta" + PaleGL.state.theta)
     };
-    document.getElementById("phiSlider").onchange = function(event) {
-        PaleGL.state.phi = event.target.value* Math.PI/180.0;
+    document.getElementById("phiSlider").onchange = function (event) {
+        PaleGL.state.phi = event.target.value * Math.PI / 180.0;
+        console.log("phi" + PaleGL.state.phi)
     };
-    document.getElementById("aspectSlider").onchange = function(event) {
-        PaleGL.state.aspect = event.target.value;
-    };
-    document.getElementById("fovSlider").onchange = function(event) {
-        PaleGL.state.fovy = event.target.value;
-    };
+    // document.getElementById("fovSlider").onchange = function(event) {
+    //     PaleGL.state.fovy = event.target.value;
+    //     console.log("fovy" + PaleGL.state.fovy)
+    // };
 };
 
 function setValue() {
