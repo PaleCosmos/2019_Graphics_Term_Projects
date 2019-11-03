@@ -37,7 +37,7 @@ class Cube extends WebGLObject {
 
     subAction(a, b) { }
 
-    gravityAction(a, b){}
+    gravityAction(a, b) { }
 
     // No Gradation
     setColor(vec4List = 0) {
@@ -154,7 +154,7 @@ class Cube extends WebGLObject {
         return this;
     }
 
-    setGravityAction(action){
+    setGravityAction(action) {
         this.gravityAction = action;
 
         return this;
@@ -291,7 +291,7 @@ class Cube extends WebGLObject {
         }
     }
 
-    teleport(x,y,z){
+    teleport(x, y, z) {
         this.mVertices.forEach((element, index, _) => {
             this.mVertices[index] = vec4(
                 element[0] - this.x + x,
@@ -305,7 +305,7 @@ class Cube extends WebGLObject {
                 this.mLineVertices[index] = vec4(
                     element[0] - this.x + x,
                     element[1] - this.y + y,
-                    element[2] - this.z+ z,
+                    element[2] - this.z + z,
                     element[3])
             });
         }
@@ -315,29 +315,50 @@ class Cube extends WebGLObject {
         this.z = z;
     }
 
+    teleportX(x) {
+        this.mVertices.forEach((element, index, _) => {
+            this.mVertices[index] = vec4(
+                element[0] - this.x + x,
+                element[1],
+                element[2],
+                element[3])
+        });
+
+        if (this.hasLine) {
+            this.mLineVertices.forEach((element, index, _) => {
+                this.mLineVertices[index] = vec4(
+                    element[0] - this.x + x,
+                    element[1],
+                    element[2],
+                    element[3])
+            });
+        }
+
+        this.x = x;
+    }
+
     jump(zS) {
         if (this.isJumping) return;
 
         this.isJumping = true;
 
         let k = this.x;
-        let flag = true;
-        let krt = 1;
+
         this.subAction = (_, element) => {
             // element.z += 0.005 * krt;
             let sorv = 1;
 
-            if (element.x > zS) {
-                krt *= -1;
-            }
-            if (element.x <= k && !flag) {
-                element.x = k;
+            // if (element.x > zS) {
+            //     krt *= -1;
+            // }
+
+            if (element.x >= zS) {
                 element.isJumping = false;
                 element.subAction = () => { }
                 //element.move(0.08 * -krt, 0, 0)
             } else {
-                flag = false;
-                element.move(0.08 * krt / sorv, 0, 0)
+
+                element.move(0.16, 0, 0)
             }
         }
     }
