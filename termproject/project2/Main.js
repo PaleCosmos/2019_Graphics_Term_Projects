@@ -17,33 +17,49 @@ var values = {
     leftup: [vec3(0, 0, 0 - 0.2), 1]
 };
 var myObject;
+var floor;
 
 var keyState = {
     up: false,
     down: false,
     left: false,
     right: false,
-    shift: false
+    shift: false,
+    near: false,
+    far: false,
 }
 
 var centerPick = vec3(-1, -0, -1);
 
 window.onload = () => {
 
-
     GL = PaleGL.getInstance(document.getElementById("gl-canvas"))
-        .add(new Cube(vec3(-2, 0, -1), 2, idConcat++, true, false).setOneColor(
-            vec4(0.1, 0.5, 0.5, 1)
-        ).using())
+floor=new Cube(vec3(-3, 0, -1), 4, idConcat++, true, false).setOneColor(
+    vec4(0.1, 0.5, 0.5, 1)
+).using()
+        GL.add(floor)
 
     myObject = new Cube(vec3(-1 + 0.1, 0 - 0.5, -1 + 0.5), 0.2, idConcat++, true, false).setOneColor(
         vec4(1, 0, 0, 1)).setCallbackAction((_, element) => {
+            GL.setAt(vec3(element.x, element.y, element.z))
             if (keyState.up) element.move(0, 0, -0.02)
             if (keyState.down) element.move(0, 0, 0.02)
             if (keyState.left) myObject.move(0, 0.02, 0)
             if (keyState.right) myObject.move(0, -0.02, 0)
             if (keyState.shift) myObject.changeColor()
+            if (keyState.far) GL.far()
+            if (keyState.near) GL.near()
 
+        }).setGravityAction((_,element)=>{
+            if((element.y-  element.size/2 ) > floor.y+ floor.size/2 ||
+            (element.y + element.size/2 ) < floor.y- floor.size/2||
+            (element.z- element.size/2 ) > floor.z + floor.size/2 ||
+            (element.z+ element.size/2 ) < floor.z - floor.size/2 )
+                element.move(-0.05, 0,0)
+            
+            if(element.x <= floor.x - floor.size/2){
+                element.teleport(floor.x + floor.size/2 + element.size *2, floor.y, floor.z)
+            }
         }).using()
 
     GL.add(myObject)
@@ -282,14 +298,13 @@ function addKeyListener(doc) {
                 //myObject.move(-0.08, 0, 0)
                 break;
             case 38: // up
-                //GL.view_up();
-
+                keyState.near = false;
                 break;
             case 37: // left
 
                 break;
             case 40: //down
-
+                keyState.far = false;
                 break;
             case 39: //right
 
@@ -329,14 +344,13 @@ function addKeyListener(doc) {
                 //myObject.move(-0.08, 0, 0)
                 break;
             case 38: // up
-                //GL.view_up();
-
+                keyState.near = true;
                 break;
             case 37: // left
 
                 break;
             case 40: //down
-
+                keyState.far = true;
                 break;
             case 39: //right
 

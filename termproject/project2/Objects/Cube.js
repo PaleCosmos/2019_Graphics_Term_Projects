@@ -37,6 +37,8 @@ class Cube extends WebGLObject {
 
     subAction(a, b) { }
 
+    gravityAction(a, b){}
+
     // No Gradation
     setColor(vec4List = 0) {
         this.mColors = [];
@@ -148,6 +150,12 @@ class Cube extends WebGLObject {
 
     setCallbackAction(callback) {
         this.callbackAction = callback;
+
+        return this;
+    }
+
+    setGravityAction(action){
+        this.gravityAction = action;
 
         return this;
     }
@@ -283,29 +291,54 @@ class Cube extends WebGLObject {
         }
     }
 
+    teleport(x,y,z){
+        this.mVertices.forEach((element, index, _) => {
+            this.mVertices[index] = vec4(
+                element[0] - this.x + x,
+                element[1] - this.y + y,
+                element[2] - this.z + z,
+                element[3])
+        });
+
+        if (this.hasLine) {
+            this.mLineVertices.forEach((element, index, _) => {
+                this.mLineVertices[index] = vec4(
+                    element[0] - this.x + x,
+                    element[1] - this.y + y,
+                    element[2] - this.z+ z,
+                    element[3])
+            });
+        }
+
+        this.x = x;
+        this.y = y;
+        this.z = z;
+    }
+
     jump(zS) {
         if (this.isJumping) return;
 
         this.isJumping = true;
 
         let k = this.x;
+        let flag = true;
         let krt = 1;
         this.subAction = (_, element) => {
             // element.z += 0.005 * krt;
             let sorv = 1;
 
-            element.move(0.08 * krt / sorv, 0, 0)
-
             if (element.x > zS) {
                 krt *= -1;
             }
-            if (element.x < k) {
+            if (element.x <= k && !flag) {
                 element.x = k;
                 element.isJumping = false;
                 element.subAction = () => { }
-                element.move(0.08 * -krt, 0, 0)
+                //element.move(0.08 * -krt, 0, 0)
+            } else {
+                flag = false;
+                element.move(0.08 * krt / sorv, 0, 0)
             }
-
         }
     }
 

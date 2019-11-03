@@ -16,11 +16,23 @@ class PaleGL {
         near: 0.001,
         far: 30.0,
         radius: 6.65,
-        theta: 0,
-        phi: 0.261799,
+        theta: 0.17453292519943295,
+        phi: 0.5235987755982988,
         dr: 5.0 * Math.PI / 180.0,
-        fovy: 20.0,
+        fovy: 30.0,
         aspect: 1.0
+    }
+
+    setAt(at) {
+        PaleGL.information.at = at;
+    }
+
+    near() {
+        PaleGL.state.fovy -= 0.1;
+    }
+
+    far() {
+        PaleGL.state.fovy += 0.1;
     }
 
     view_up() {
@@ -201,6 +213,7 @@ class PaleGL {
         let gl = PaleGL.information.gl;
 
         PaleGL.objects.forEach(element1 => {
+            element1.gravityAction(null, element1)
             if (!element1.trans) {
                 element1.mVertices.forEach((element, index, arr) => {
                     vertices.push(vec4(
