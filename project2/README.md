@@ -1,5 +1,5 @@
 # 2019년 2학기 그래픽스 Term Project #2
-<pre><a href="https://palecosmos.github.io/2019_Graphics_Exercises/termproject/project2/Main.html">https://palecosmos.github.io/2019_Graphics_Exercises/termproject/project2/Main.html</a></pre>
+<pre><a href="https://palecosmos.github.io/2019_Graphics_Term_Projects/project2/Main.html">https://palecosmos.github.io/2019_Graphics_Term_Projects/project2/Main.html</a></pre>
 ![준비중](temp.gif)
 
 ## Requirements
