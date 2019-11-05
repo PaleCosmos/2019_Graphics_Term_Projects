@@ -108,8 +108,8 @@ class PaleGL {
         console.log(PaleGL.information.eye)
     }
 
-    addFloor(fl){
-        fl.forEach(element=>{
+    addFloor(fl) {
+        fl.forEach(element => {
             PaleGL.information.numVertices += element.count;
             PaleGL.objects.push(element)
         })
@@ -211,7 +211,6 @@ class PaleGL {
         return PaleGL.instance;
     }
 
-
     rendering() {
         PaleGL.render();
     }
@@ -279,13 +278,12 @@ class PaleGL {
 
         let s = PaleGL.state;
 
-        if(!PaleGL.isDraw)
-        {
+        if (!PaleGL.isDraw) {
             PaleGL.isDraw = !PaleGL.isDraw
             pi.eye = vec3(s.radius * Math.sin(s.phi), s.radius * Math.sin(s.theta),
-            s.radius * Math.cos(s.phi));
+                s.radius * Math.cos(s.phi));
         }
-     
+
 
         PaleGL.mvMatrix = lookAt(pi.eye, pi.at, pi.up);
         PaleGL.pmMatrix = perspective(s.fovy, s.aspect, s.near, s.far);

@@ -328,7 +328,7 @@ class Player extends WebGLObject {
             let vecValue = Math.sqrt(Math.pow(mVector[0], 2) + Math.pow(mVector[1], 2) + Math.pow(mVector[2], 2));
 
             let siz = Math.sqrt(Math.pow(mVector[1], 2) + Math.pow(mVector[2], 2))
-                if(siz ==0)return;
+            if (siz == 0) return;
             // 방향벡터
             let realVctor = vec3(
                 0,
@@ -346,21 +346,21 @@ class Player extends WebGLObject {
                 x = 0
                 y = realVctor2[1] * -0.02 * yi
                 z = realVctor2[2] * -0.02 * yi
-            } else if(yi !=0 && zi !=0){
+            } else if (yi != 0 && zi != 0) {
                 let root2 = Math.sqrt(2)
                 x = 0
-                y = realVctor[1] * -0.002 * zi *root2/2 +
-                (root2/2)*realVctor2[1] * -0.02 * yi;
-                z = realVctor[2] * -0.002 * zi * root2/2 +
-                (root2/2)*realVctor2[2] * -0.02 * yi;
+                y = realVctor[1] * -0.002 * zi * root2 / 2 +
+                    (root2 / 2) * realVctor2[1] * -0.02 * yi;
+                z = realVctor[2] * -0.002 * zi * root2 / 2 +
+                    (root2 / 2) * realVctor2[2] * -0.02 * yi;
             }
 
             let kas = PaleGL.information.eye
 
             PaleGL.information.eye = vec3(
                 kas[0],
-                kas[1]+y,
-                kas[2]+z)
+                kas[1] + y,
+                kas[2] + z)
 
             //    console.log(x,',',y,',',z)
         }
@@ -452,45 +452,52 @@ class Player extends WebGLObject {
         }
     }
 
-    viewRight(){
+    viewRight(isView = true) {
         let value = -0.02
         let sin = Math.sin(value)
         let cos = Math.cos(value)
 
         let myEye = PaleGL.information.eye
         let myAt = vec3(this.x, this.y, this.z)
-        
+
         let tempEye = vec3(
             myEye[0],
             myEye[1] - myAt[1],
             myEye[2] - myAt[2]
         )
+        if (isView) {
             this.setRotationByX(value)
+        }
+
+
         PaleGL.information.eye = vec3(
             myEye[0],
-           ( tempEye[1]*cos - tempEye[2]*sin) + myAt[1],
-            (tempEye[1]*sin + tempEye[2]*cos + myAt[2])
+            (tempEye[1] * cos - tempEye[2] * sin) + myAt[1],
+            (tempEye[1] * sin + tempEye[2] * cos + myAt[2])
         )
     }
 
-    viewLeft(){
+    viewLeft(isView = true) {
         let value = 0.02
         let sin = Math.sin(value)
         let cos = Math.cos(value)
 
         let myEye = PaleGL.information.eye
         let myAt = vec3(this.x, this.y, this.z)
-        
+
         let tempEye = vec3(
             myEye[0],
             myEye[1] - myAt[1],
             myEye[2] - myAt[2]
         )
-        this.setRotationByX(value)
+        if (isView) {
+            this.setRotationByX(value)
+        }
+
         PaleGL.information.eye = vec3(
             myEye[0],
-           ( tempEye[1]*cos - tempEye[2]*sin) + myAt[1],
-            (tempEye[1]*sin + tempEye[2]*cos + myAt[2])
+            (tempEye[1] * cos - tempEye[2] * sin) + myAt[1],
+            (tempEye[1] * sin + tempEye[2] * cos + myAt[2])
         )
     }
 

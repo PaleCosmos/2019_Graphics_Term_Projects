@@ -7,101 +7,75 @@
         align-self: center;
         text-align: center;
     }
-
-    .container {
-
-        display: flex;
-    }
-
-    #top {
-        height: 33%;
-        align-items: center;
-    }
-
-    #mid {
-        height: 33%;
-        align-items: center;
-    }
-
-    #bot {
-        height: 33%;
-        align-items: center;
-    }
-
-    .leftThing {
-        width: 10%;
-        height: 100%;
-        align-items: center;
-    }
-
-    .content {
-        width: 10%;
-
-    }
-
-    .rightThing {
-        width: 10%;
-        align-items: center;
-    }
-
-
-    canvas {
-        background: white;
-    }
 </style>
 
-<div>
-    radius 0.05<input id="radiusSlider" type="range" min="0.05" max="10" step="0.1" value="4">
-    10
-</div>
-<div>
-    theta -90<input id="thetaSlider" type="range" min="-90" max="90" step="5" value="0">
-    90
-</div>
-<div>
-    phi -90<input id="phiSlider" type="range" min="-90" max="90" step="5" value="0">
-    90
-</div>
-<p> </p>
-<div>
-    <div id="top" class="container">
-        <div class="leftThing">
-            <button id="leftView">L</button>
-        </div>
-        <div class="content">
-            <button id="up">W</button>
-        </div>
-        <div class="rightThing">
-            <button id="rightView">R</button>
-        </div>
-    </div>
-    <div id="mid" class="container">
-        <div class="leftThing">
-            <button id="left">A</button>
-        </div>
-        <div class="content">
-            <button id="space">space</button>
-        </div>
-        <div class="rightThing">
-            <button id="right">F</button>
-        </div>
-    </div>
-    <div id="bot" class="container">
-        <div class="leftThing">
-            <button id="shift">shift</button>
-        </div>
-        <div class="content">
-            <button id="down">D</button>
-        </div>
-        <div class="rightThing"></div>
-    </div>
-</div>
-<br/>
+<h1>박상현짱</h1>
+<table style="float: left; display: flexbox;">
+    <tr>
+        <td>
+        </td>
+        <td id="up">
+            W
+        </td>
+        <td>
+        </td>
+    </tr>
+    <tr>
+        <td id="left">
+            A
+        </td>
+        <td id="space">
+              space
+        </td>
+        <td id="right">
+            D
+        </td>
+    </tr>
+    <tr>
+        <td>
+        </td>
+        <td id="down">
+            S
+        </td>
+        <td>
+        </td>
+    </tr>
+</table>
 
-<!-- <div>
-    fov 10<input id="fovSlider" type="range" min="10" max="120" step="5" value="45">
-    120
-</div> -->
+<table style="float: right; display: flexbox;">
+    <tr>
+        <td id="leftView2">
+            [
+        </td>
+        <td id="viewClose">
+            U
+        </td>
+        <td id="rightView2">
+            ]
+        </td>
+    </tr>
+
+    <tr>
+        <td id="leftView">
+            L
+        </td>
+        <td id="shift">
+            shift
+        </td>
+        <td id="rightView">
+            R
+        </td>
+    </tr>
+    <tr>
+        <td>
+        </td>
+        <td id="viewFar">
+            D
+        </td>
+        <td>
+        </td>
+    </tr>
+</table>
 
 <script id="vertex-shader" type="x-shader/x-vertex">
 
@@ -132,34 +106,6 @@ main()
     gl_FragColor = fColor;
 }
 </script>
-
-<script id="3d-vertex-shader" type="x-shader/x-vertex">
-    attribute vec4 a_position;
-    attribute vec4 a_color;
-    
-    uniform mat4 u_matrix;
-    
-    varying vec4 v_color;
-    
-    void main() {
-      // Multiply the position by the matrix.
-      gl_Position = u_matrix * a_position;
-    
-      // Pass the color to the fragment shader.
-      v_color = a_color;
-    }
-    </script>
-<!-- fragment shader -->
-<script id="3d-fragment-shader" type="x-shader/x-fragment">
-    precision mediump float;
-    
-    // Passed in from the vertex shader.
-    varying vec4 v_color;
-    
-    void main() {
-       gl_FragColor = v_color;
-    }
-    </script>
 
 <!-- WebGL Utils -->
 <script type="text/javascript" src="Common/webgl-utils.js"></script>

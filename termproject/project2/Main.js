@@ -28,13 +28,14 @@ var keyState = {
     near: false,
     far: false,
     viewRight: false,
+    viewLeft: false,
+    viewRight2: false,
     viewLeft: false
 }
 
 var centerPick = vec3(-1, -0, -1);
 
 window.onload = () => {
-
 
     GL = PaleGL.getInstance(document.getElementById("gl-canvas"))
 
@@ -73,8 +74,10 @@ window.onload = () => {
             if (keyState.shift) element.changeColor()
             if (keyState.far) GL.far()
             if (keyState.near) GL.near()
-            if(keyState.viewLeft) element.viewLeft()
-            if(keyState.viewRight) element.viewRight()
+            if (keyState.viewLeft) element.viewLeft()
+            if (keyState.viewRight) element.viewRight()
+            if (keyState.viewLeft2) element.viewLeft(false)
+            if (keyState.viewRight2) element.viewRight(false)
         }).setGravityAction(floors).using()
 
     GL.addFloor(floors).add(myObject)
@@ -236,7 +239,6 @@ function example(ad) {
 }
 
 function setListener() {
-
     document.getElementById('up').addEventListener('mousedown', (e) => {
         keyState.up = true;
     });
@@ -265,11 +267,25 @@ function setListener() {
         keyState.viewLeft = false;
     });
 
+    document.getElementById('leftView2').addEventListener('mousedown', (e) => {
+        keyState.viewLeft2 = true;
+    });
+    document.getElementById('leftView2').addEventListener('mouseup', (e) => {
+        keyState.viewLeft2 = false;
+    });
+
     document.getElementById('rightView').addEventListener('mousedown', (e) => {
         keyState.viewRight = true;
     });
     document.getElementById('rightView').addEventListener('mouseup', (e) => {
         keyState.viewRight = false;
+    });
+
+    document.getElementById('rightView2').addEventListener('mousedown', (e) => {
+        keyState.viewRight2 = true;
+    });
+    document.getElementById('rightView2').addEventListener('mouseup', (e) => {
+        keyState.viewRight2 = false;
     });
 
     document.getElementById('right').addEventListener('mousedown', (e) => {
@@ -279,6 +295,18 @@ function setListener() {
         keyState.right = false;
     });
 
+    document.getElementById('viewClose').addEventListener('mousedown', (e) => {
+        keyState.near = true;
+    });
+    document.getElementById('viewClose').addEventListener('mouseup', (e) => {
+        keyState.near = false;
+    });
+    document.getElementById('viewFar').addEventListener('mousedown', (e) => {
+        keyState.far = true;
+    });
+    document.getElementById('viewFar').addEventListener('mouseup', (e) => {
+        keyState.far = false;
+    });
     document.getElementById('shift').addEventListener('mousedown', (e) => {
         keyState.shift = true;
     });
@@ -327,6 +355,7 @@ function addKeyListener(doc) {
                 //myObject.move(-0.08, 0, 0)
                 break;
             case 38: // up
+                document.getElementById('viewClose').style.backgroundColor = "white";
                 keyState.near = false;
                 break;
             case 37: // left
@@ -334,11 +363,21 @@ function addKeyListener(doc) {
                 keyState.viewLeft = false;
                 break;
             case 40: //down
+                document.getElementById('viewFar').style.backgroundColor = "white";
+
                 keyState.far = false;
                 break;
             case 39: //right
                 document.getElementById('rightView').style.backgroundColor = "white";
                 keyState.viewRight = false;
+                break;
+            case 219: // [
+                document.getElementById('leftView2').style.backgroundColor = "white";
+                keyState.viewLeft2 = false;
+                break;
+            case 221: // ]
+                document.getElementById('rightView2').style.backgroundColor = "white";
+                keyState.viewRight2 = false;
                 break;
         }
         true
@@ -376,40 +415,32 @@ function addKeyListener(doc) {
                 //myObject.move(-0.08, 0, 0)
                 break;
             case 38: // up
+                document.getElementById('viewClose').style.backgroundColor = "#9999ff";
                 keyState.near = true;
                 break;
             case 37: // left
                 document.getElementById('leftView').style.backgroundColor = "#9999ff";
-
                 keyState.viewLeft = true;
                 break;
             case 40: //down
+                document.getElementById('viewFar').style.backgroundColor = "#9999ff";
                 keyState.far = true;
                 break;
             case 39: //right
                 document.getElementById('rightView').style.backgroundColor = "#9999ff";
                 keyState.viewRight = true;
                 break;
+            case 219: // [
+                document.getElementById('leftView2').style.backgroundColor = "#9999ff";
+                keyState.viewLeft2 = true;
+                break;
+            case 221: // ]
+                document.getElementById('rightView2').style.backgroundColor = "#9999ff";
+                keyState.viewRight2 = true;
+                break;
         }
         true
     });
-
-    document.getElementById("radiusSlider").onchange = function (event) {
-        PaleGL.state.radius = event.target.value;
-        console.log("radius" + PaleGL.state.radius)
-    };
-    document.getElementById("thetaSlider").onchange = function (event) {
-        PaleGL.state.theta = event.target.value * Math.PI / 180.0;
-        console.log("theta" + PaleGL.state.theta)
-    };
-    document.getElementById("phiSlider").onchange = function (event) {
-        PaleGL.state.phi = event.target.value * Math.PI / 180.0;
-        console.log("phi" + PaleGL.state.phi)
-    };
-    // document.getElementById("fovSlider").onchange = function(event) {
-    //     PaleGL.state.fovy = event.target.value;
-    //     console.log("fovy" + PaleGL.state.fovy)
-    // };
 };
 
 function setValue() {
