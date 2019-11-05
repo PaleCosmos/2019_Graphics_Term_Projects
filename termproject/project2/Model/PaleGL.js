@@ -106,6 +106,15 @@ class PaleGL {
         console.log(PaleGL.information.eye)
     }
 
+    addFloor(fl){
+        fl.forEach(element=>{
+            PaleGL.information.numVertices += element.count;
+            PaleGL.objects.push(element)
+        })
+
+        return this;
+    }
+
     move_back() {
         let pi = PaleGL.information;
         let temp = pi.eye;

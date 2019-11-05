@@ -19,7 +19,7 @@ var vertexColors = [
     vec4(0.0, 1.0, 1.0, 1.0),  // cyan
 ];
 
-class Cube extends WebGLObject {
+class Player extends WebGLObject {
 
     constructor(vec3_, size = 1, id = 0, hasLine = false, trans = false) {
         super(vec3_[0], vec3_[1], vec3_[2], size, id, hasLine, trans);
@@ -154,9 +154,44 @@ class Cube extends WebGLObject {
         return this;
     }
 
-    setGravityAction(action) {
-        this.gravityAction = action;
+    setGravityAction(floors) {
+        this.gravityAction = (_, element)=>{
+            let bool = true;
+            let xf = -1;
 
+            floors.forEach((floor, index, _) =>{
+                if ((element.y - element.size / 2) <= floor.y + floor.size / 2 &&
+                (element.y + element.size / 2) >= floor.y - floor.size / 2 &&
+                (element.z - element.size / 2) <= floor.z + floor.size / 2 &&
+                (element.z + element.size / 2) >= floor.z - floor.size / 2 &&
+                (element.x - element.size / 2) <= floor.x + floor.size / 2) {
+                // element.teleportX(floor.x + floor.size / 2 + element.size / 2)
+                bool = false;
+                xf = index;
+            } 
+            })
+
+            if(bool){
+                element.move(-0.08, 0, 0)
+            }else{
+                element.teleportX(floors[xf].x + floors[xf].size / 2 + element.size / 2)
+            }
+        }
+        // {
+        //     if ((element.y - element.size / 2) <= floor.y + floor.size / 2 &&
+        //         (element.y + element.size / 2) >= floor.y - floor.size / 2 &&
+        //         (element.z - element.size / 2) <= floor.z + floor.size / 2 &&
+        //         (element.z + element.size / 2) >= floor.z - floor.size / 2 &&
+        //         (element.x - element.size / 2) <= floor.x + floor.size / 2) {
+        //         element.teleportX(floor.x + floor.size / 2 + element.size / 2)
+        //     } else {
+        //         element.move(-0.08, 0, 0)
+        //     }
+
+        //     if (element.x <= floor.x - floor.size / 2) {
+        //         element.teleport(floor.x + floor.size / 2 + element.size / 2, floor.y, floor.z)
+        //     }
+        // }
         return this;
     }
 
@@ -335,6 +370,25 @@ class Cube extends WebGLObject {
         }
 
         this.x = x;
+    }
+
+    jump(zS) {
+        if (this.isJumping) return;
+
+        this.isJumping = true;
+
+        let k = this.x;
+
+        this.subAction = (_, element) => {
+            if (element.x >= zS) {
+                element.isJumping = false;
+                element.subAction = () => { }
+                //element.move(0.08 * -krt, 0, 0)
+            } else {
+
+                element.move(0.16, 0, 0)
+            }
+        }
     }
 
     // finally, You should call this method.

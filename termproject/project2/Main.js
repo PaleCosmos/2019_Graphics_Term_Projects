@@ -17,7 +17,7 @@ var values = {
     leftup: [vec3(0, 0, 0 - 0.2), 1]
 };
 var myObject;
-var floor;
+var floors = [];
 
 var keyState = {
     up: false,
@@ -33,13 +33,21 @@ var centerPick = vec3(-1, -0, -1);
 
 window.onload = () => {
 
-    GL = PaleGL.getInstance(document.getElementById("gl-canvas"))
-    floor = new Cube(vec3(-3, 0, -1), 4, idConcat++, true, false).setOneColor(
-        vec4(0.1, 0.5, 0.5, 1)
-    ).using()
-    GL.add(floor)
 
-    myObject = new Cube(vec3(-1 + 0.1, 0 - 0.5, -1 + 0.5), 0.2, idConcat++, true, false).setOneColor(
+    GL = PaleGL.getInstance(document.getElementById("gl-canvas"))
+
+    floors.push(new Cube(vec3(-3, 0, -1), 4, idConcat++, true, false).setOneColor(
+        vec4(0.1, 0.5, 0.5, 1)
+    ).using());
+    floors.push(new Cube(vec3(-3, 4 + 0.3, -1), 4, idConcat++, true, false).setOneColor(
+        vec4(0.1, 0.5, 0.5, 1)
+    ).using());
+
+    floors.push(new Cube(vec3(-3, 8 + 0.6, -1), 4, idConcat++, true, false).setOneColor(
+        vec4(0.1, 0.5, 0.5, 1)
+    ).using());
+
+    myObject = new Player(vec3(-1 + 0.1, 0 - 0.5, -1 + 0.5), 0.2, idConcat++, true, false).setOneColor(
         vec4(1, 0, 0, 1)).setCallbackAction((_, element) => {
             GL.setAt(vec3(element.x, element.y, element.z))
             if (keyState.up && keyState.left) element.move(0, 0.02 * r2, -0.02 * r2)
@@ -48,29 +56,15 @@ window.onload = () => {
             else if (keyState.down && keyState.right) element.move(0, -0.02 * r2, 0.02 * r2)
             else if (keyState.up) element.move(0, 0, -0.02)
             else if (keyState.down) element.move(0, 0, 0.02)
-            else if (keyState.left) myObject.move(0, 0.02, 0)
-            else if (keyState.right) myObject.move(0, -0.02, 0)
-            if (keyState.shift) myObject.changeColor()
+            else if (keyState.left) element.move(0, 0.02, 0)
+            else if (keyState.right) element.move(0, -0.02, 0)
+            if (keyState.shift) element.changeColor()
             if (keyState.far) GL.far()
             if (keyState.near) GL.near()
 
-        }).setGravityAction((_, element) => {
-            if ((element.y - element.size / 2) <= floor.y + floor.size / 2 &&
-                (element.y + element.size / 2) >= floor.y - floor.size / 2 &&
-                (element.z - element.size / 2) <= floor.z + floor.size / 2 &&
-                (element.z + element.size / 2) >= floor.z - floor.size / 2 &&
-                (element.x - element.size / 2) <= floor.x + floor.size / 2) {
-                element.teleportX(floor.x + floor.size / 2 + element.size / 2)
-            } else {
-                element.move(-0.08, 0, 0)
-            }
+        }).setGravityAction(floors).using()
 
-            if (element.x <= floor.x - floor.size / 2) {
-                element.teleport(floor.x + floor.size / 2 + element.size / 2, floor.y, floor.z)
-            }
-        }).using()
-
-    GL.add(myObject)
+    GL.addFloor(floors).add(myObject)
 
 
     //example(GL);
@@ -345,7 +339,7 @@ function addKeyListener(doc) {
             case 32:
                 document.getElementById('space').style.backgroundColor = "#9999ff";
 
-                if (myObject.x - myObject.size / 2 == floor.x + floor.size / 2)
+                //if (myObject.x - myObject.size / 2 == floor.x + floor.size / 2)
                     myObject.jump(myObject.x + 0.5);
                 break;
             case 16:
