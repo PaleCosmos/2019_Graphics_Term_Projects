@@ -27,6 +27,8 @@ var keyState = {
     shift: false,
     near: false,
     far: false,
+    viewRight: false,
+    viewLeft: false
 }
 
 var centerPick = vec3(-1, -0, -1);
@@ -71,7 +73,8 @@ window.onload = () => {
             if (keyState.shift) element.changeColor()
             if (keyState.far) GL.far()
             if (keyState.near) GL.near()
-
+            if(keyState.viewLeft) element.viewLeft()
+            if(keyState.viewRight) element.viewRight()
         }).setGravityAction(floors).using()
 
     GL.addFloor(floors).add(myObject)
@@ -255,6 +258,20 @@ function setListener() {
         keyState.left = false;
     });
 
+    document.getElementById('leftView').addEventListener('mousedown', (e) => {
+        keyState.viewLeft = true;
+    });
+    document.getElementById('leftView').addEventListener('mouseup', (e) => {
+        keyState.viewLeft = false;
+    });
+
+    document.getElementById('rightView').addEventListener('mousedown', (e) => {
+        keyState.viewRight = true;
+    });
+    document.getElementById('rightView').addEventListener('mouseup', (e) => {
+        keyState.viewRight = false;
+    });
+
     document.getElementById('right').addEventListener('mousedown', (e) => {
         keyState.right = true;
     });
@@ -313,13 +330,15 @@ function addKeyListener(doc) {
                 keyState.near = false;
                 break;
             case 37: // left
-
+                document.getElementById('leftView').style.backgroundColor = "white";
+                keyState.viewLeft = false;
                 break;
             case 40: //down
                 keyState.far = false;
                 break;
             case 39: //right
-
+                document.getElementById('rightView').style.backgroundColor = "white";
+                keyState.viewRight = false;
                 break;
         }
         true
@@ -348,9 +367,8 @@ function addKeyListener(doc) {
                 break;
             case 32:
                 document.getElementById('space').style.backgroundColor = "#9999ff";
-
                 //if (myObject.x - myObject.size / 2 == floor.x + floor.size / 2)
-                    myObject.jump(myObject.x + 0.5);
+                myObject.jump(myObject.x + 0.5);
                 break;
             case 16:
                 keyState.shift = true;
@@ -361,13 +379,16 @@ function addKeyListener(doc) {
                 keyState.near = true;
                 break;
             case 37: // left
+                document.getElementById('leftView').style.backgroundColor = "#9999ff";
 
+                keyState.viewLeft = true;
                 break;
             case 40: //down
                 keyState.far = true;
                 break;
             case 39: //right
-
+                document.getElementById('rightView').style.backgroundColor = "#9999ff";
+                keyState.viewRight = true;
                 break;
         }
         true

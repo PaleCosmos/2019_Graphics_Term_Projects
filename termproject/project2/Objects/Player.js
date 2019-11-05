@@ -155,25 +155,25 @@ class Player extends WebGLObject {
     }
 
     setGravityAction(floors) {
-        this.gravityAction = (_, element)=>{
+        this.gravityAction = (_, element) => {
             let bool = true;
             let xf = -1;
 
-            floors.forEach((floor, index, _) =>{
+            floors.forEach((floor, index, _) => {
                 if ((element.y - element.size / 2) <= floor.y + floor.size / 2 &&
-                (element.y + element.size / 2) >= floor.y - floor.size / 2 &&
-                (element.z - element.size / 2) <= floor.z + floor.size / 2 &&
-                (element.z + element.size / 2) >= floor.z - floor.size / 2 &&
-                (element.x - element.size / 2) <= floor.x + floor.size / 2) {
-                // element.teleportX(floor.x + floor.size / 2 + element.size / 2)
-                bool = false;
-                xf = index;
-            } 
+                    (element.y + element.size / 2) >= floor.y - floor.size / 2 &&
+                    (element.z - element.size / 2) <= floor.z + floor.size / 2 &&
+                    (element.z + element.size / 2) >= floor.z - floor.size / 2 &&
+                    (element.x - element.size / 2) <= floor.x + floor.size / 2) {
+                    // element.teleportX(floor.x + floor.size / 2 + element.size / 2)
+                    bool = false;
+                    xf = index;
+                }
             })
 
-            if(bool){
+            if (bool) {
                 element.move(-0.08, 0, 0, true)
-            }else{
+            } else {
                 element.teleportX(floors[xf].x + floors[xf].size / 2 + element.size / 2)
             }
         }
@@ -302,33 +302,72 @@ class Player extends WebGLObject {
     changeColor() {
         this.setOneColor(vertexColors[(this.colorState++) % 6])
     }
+    // y < 0 -> up
+    // z < 0 -> right
 
-    move(x, y, z, isJump = false) {
-        if(true){
-            this.x += x;
-            this.y += y;
-            this.z += z;
-        }else{
+    move(x1, y1, z1, isJump = false) {
+        let x = x1;
+        let y = y1;
+        let z = z1;
+
+        let xi = 0
+        let yi = y < 0 ? -1 : y == 0 ? 0 : 1
+        let zi = z < 0 ? -1 : z == 0 ? 0 : 1
+
+        if (!isJump) {
+            // console.log(xi, '  ', yi, '  ', zi)
             let eye = PaleGL.information.eye;
-            let vecValue = Math.sqrt(Math.pow(this.x - eye[0], 2) + Math.pow(this.y - eye[1], 2)+ Math.pow( this.z - eye[2], 2), 2)
 
             let mVector = vec3(
-                (this.x - eye[0]) / vecValue,
-                (this.y - eye[1]) / vecValue,
-                (this.z - eye[2]) / vecValue)
+                (this.x - eye[0]),
+                (this.y - eye[1]),
+                (this.z - eye[2]))
 
-            let siz = Math.sqrt(Math.pow(mVector[0],2) + Math.pow(mVector[1],2))
-            let realVctor  =vec3(
-                mVector[0]/siz,
-                mVector[1]/siz,
-                0
-            )   
 
-            this.x += realVctor[0]
-            this.y += realVctor[1]
-            
+
+            let vecValue = Math.sqrt(Math.pow(mVector[0], 2) + Math.pow(mVector[1], 2) + Math.pow(mVector[2], 2));
+
+            let siz = Math.sqrt(Math.pow(mVector[1], 2) + Math.pow(mVector[2], 2))
+                if(siz ==0)return;
+            // 방향벡터
+            let realVctor = vec3(
+                0,
+                vecValue * mVector[1] / siz,
+                vecValue * mVector[2] / siz
+            )
+
+            let realVctor2 = externing(realVctor, vec3(1, 0, 0))
+
+            if (yi == 0 && zi != 0) {
+                x = 0
+                y = realVctor[1] * -0.002 * zi
+                z = realVctor[2] * -0.002 * zi
+            } else if (yi != 0 && zi == 0) {
+                x = 0
+                y = realVctor2[1] * -0.02 * yi
+                z = realVctor2[2] * -0.02 * yi
+            } else if(yi !=0 && zi !=0){
+                let root2 = Math.sqrt(2)
+                x = 0
+                y = realVctor[1] * -0.002 * zi *root2/2 +
+                (root2/2)*realVctor2[1] * -0.02 * yi;
+                z = realVctor[2] * -0.002 * zi * root2/2 +
+                (root2/2)*realVctor2[2] * -0.02 * yi;
+            }
+
+            let kas = PaleGL.information.eye
+
+            PaleGL.information.eye = vec3(
+                kas[0],
+                kas[1]+y,
+                kas[2]+z)
+
+            //    console.log(x,',',y,',',z)
         }
-      
+        this.x += x;
+        this.y += y;
+        this.z += z;
+
         this.mVertices.forEach((element, index, _) => {
             this.mVertices[index] = vec4(
                 element[0] + x,
@@ -408,9 +447,51 @@ class Player extends WebGLObject {
                 //element.move(0.08 * -krt, 0, 0)
             } else {
 
-                element.move(0.16, 0, 0, this.isJumping)
+                element.move(0.16, 0, 0, true)
             }
         }
+    }
+
+    viewRight(){
+        let value = -0.02
+        let sin = Math.sin(value)
+        let cos = Math.cos(value)
+
+        let myEye = PaleGL.information.eye
+        let myAt = vec3(this.x, this.y, this.z)
+        
+        let tempEye = vec3(
+            myEye[0],
+            myEye[1] - myAt[1],
+            myEye[2] - myAt[2]
+        )
+            this.setRotationByX(value)
+        PaleGL.information.eye = vec3(
+            myEye[0],
+           ( tempEye[1]*cos - tempEye[2]*sin) + myAt[1],
+            (tempEye[1]*sin + tempEye[2]*cos + myAt[2])
+        )
+    }
+
+    viewLeft(){
+        let value = 0.02
+        let sin = Math.sin(value)
+        let cos = Math.cos(value)
+
+        let myEye = PaleGL.information.eye
+        let myAt = vec3(this.x, this.y, this.z)
+        
+        let tempEye = vec3(
+            myEye[0],
+            myEye[1] - myAt[1],
+            myEye[2] - myAt[2]
+        )
+        this.setRotationByX(value)
+        PaleGL.information.eye = vec3(
+            myEye[0],
+           ( tempEye[1]*cos - tempEye[2]*sin) + myAt[1],
+            (tempEye[1]*sin + tempEye[2]*cos + myAt[2])
+        )
     }
 
     // finally, You should call this method.
@@ -424,4 +505,22 @@ class Player extends WebGLObject {
 
         return this;
     }
+}
+
+function externing(a, b) {
+    let vec = vec3(
+        (a[1] * b[2] - a[0 * b[1]]),
+        (-a[0] * b[2] + a[2] * b[0]),
+        (a[0] * b[1] - a[1] * b[0])
+    )
+
+    let square = Math.sqrt(Math.pow(vec[0], 2) + Math.pow(vec[1], 2) + Math.pow(vec[2], 2));
+
+    let vecA = vec3(
+        vec[0] / square,
+        vec[1] / square,
+        vec[2] / square
+    )
+
+    return vecA;
 }

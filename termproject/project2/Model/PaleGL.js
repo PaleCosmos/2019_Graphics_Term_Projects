@@ -1,10 +1,12 @@
 class PaleGL {
     static instance = null;
 
+    static isDraw = false;
+
     static information = {
         canvas: null,
         gl: null,
-        at: vec3(0.0, 0.0, 0.0), // vector!
+        at: vec3(0.0, 0.0, 0.0),
         up: vec3(1, 0, 0), // vector
         eye: vec3(1, 1, 1), // point
         numVertices: 0,
@@ -159,7 +161,6 @@ class PaleGL {
             temp[2] + value[2] * speed,
         )
         console.log(PaleGL.information.eye)
-
     }
 
     static objects = [];
@@ -278,8 +279,13 @@ class PaleGL {
 
         let s = PaleGL.state;
 
-        pi.eye = vec3(s.radius * Math.sin(s.phi), s.radius * Math.sin(s.theta),
+        if(!PaleGL.isDraw)
+        {
+            PaleGL.isDraw = !PaleGL.isDraw
+            pi.eye = vec3(s.radius * Math.sin(s.phi), s.radius * Math.sin(s.theta),
             s.radius * Math.cos(s.phi));
+        }
+     
 
         PaleGL.mvMatrix = lookAt(pi.eye, pi.at, pi.up);
         PaleGL.pmMatrix = perspective(s.fovy, s.aspect, s.near, s.far);
