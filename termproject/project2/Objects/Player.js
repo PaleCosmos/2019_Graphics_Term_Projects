@@ -172,7 +172,7 @@ class Player extends WebGLObject {
             })
 
             if(bool){
-                element.move(-0.08, 0, 0)
+                element.move(-0.08, 0, 0, true)
             }else{
                 element.teleportX(floors[xf].x + floors[xf].size / 2 + element.size / 2)
             }
@@ -303,10 +303,32 @@ class Player extends WebGLObject {
         this.setOneColor(vertexColors[(this.colorState++) % 6])
     }
 
-    move(x, y, z) {
-        this.x += x;
-        this.y += y;
-        this.z += z;
+    move(x, y, z, isJump = false) {
+        if(true){
+            this.x += x;
+            this.y += y;
+            this.z += z;
+        }else{
+            let eye = PaleGL.information.eye;
+            let vecValue = Math.sqrt(Math.pow(this.x - eye[0], 2) + Math.pow(this.y - eye[1], 2)+ Math.pow( this.z - eye[2], 2), 2)
+
+            let mVector = vec3(
+                (this.x - eye[0]) / vecValue,
+                (this.y - eye[1]) / vecValue,
+                (this.z - eye[2]) / vecValue)
+
+            let siz = Math.sqrt(Math.pow(mVector[0],2) + Math.pow(mVector[1],2))
+            let realVctor  =vec3(
+                mVector[0]/siz,
+                mVector[1]/siz,
+                0
+            )   
+
+            this.x += realVctor[0]
+            this.y += realVctor[1]
+            
+        }
+      
         this.mVertices.forEach((element, index, _) => {
             this.mVertices[index] = vec4(
                 element[0] + x,
@@ -386,7 +408,7 @@ class Player extends WebGLObject {
                 //element.move(0.08 * -krt, 0, 0)
             } else {
 
-                element.move(0.16, 0, 0)
+                element.move(0.16, 0, 0, this.isJumping)
             }
         }
     }

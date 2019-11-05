@@ -276,12 +276,6 @@ class PaleGL {
 
         let pi = PaleGL.information;
 
-        // let atVec = vec3(
-        //     pi.eye[0] + pi.at[0],
-        //     pi.eye[1] + pi.at[1],
-        //     pi.eye[2] + pi.at[2],
-        // );
-
         let s = PaleGL.state;
 
         pi.eye = vec3(s.radius * Math.sin(s.phi), s.radius * Math.sin(s.theta),
@@ -289,7 +283,6 @@ class PaleGL {
 
         PaleGL.mvMatrix = lookAt(pi.eye, pi.at, pi.up);
         PaleGL.pmMatrix = perspective(s.fovy, s.aspect, s.near, s.far);
-
 
         gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(PaleGL.mvMatrix))
         gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(PaleGL.pmMatrix))

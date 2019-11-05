@@ -39,6 +39,16 @@ window.onload = () => {
     floors.push(new Cube(vec3(-3, 0, -1), 4, idConcat++, true, false).setOneColor(
         vec4(0.1, 0.5, 0.5, 1)
     ).using());
+
+    floors.push(new Cube(vec3(-3, 0, 3 + 0.3), 4, idConcat++, true, false).setOneColor(
+        vec4(0.1, 0.5, 0.5, 1)
+    ).using());
+
+    floors.push(new Cube(vec3(-3, 0, 7 + 0.6), 4, idConcat++, true, false).setOneColor(
+        vec4(0.1, 0.5, 0.5, 1)
+    ).using());
+
+
     floors.push(new Cube(vec3(-3, 4 + 0.3, -1), 4, idConcat++, true, false).setOneColor(
         vec4(0.1, 0.5, 0.5, 1)
     ).using());
