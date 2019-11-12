@@ -26,7 +26,7 @@ window.onload = () => {
 
     addFloorObject();
 
-    myObject = new Player(vec3(-1 + 0.1, 0 - 0.5, -1 + 0.5), 0.2, idConcat++, true, false).setOneColor(
+    myObject = new Player(firstBirth, 0.2, idConcat++, true, false).setOneColor(
         vec4(1, 0, 0, 1)).setCallbackAction(playerObjectCallbackAction).setGravityAction(floors).using()
 
     setListener();
@@ -38,14 +38,14 @@ window.onload = () => {
 
 const playerObjectCallbackAction = (_, element) => {
     GL.setAt(vec3(element.x, element.y, element.z))
-    if (keyState.up && keyState.left) element.move(0, 0.02 * r2, -0.02 * r2)
-    else if (keyState.up && keyState.right) element.move(0, -0.02 * r2, -0.02 * r2)
-    else if (keyState.down && keyState.left) element.move(0, 0.02 * r2, 0.02 * r2)
-    else if (keyState.down && keyState.right) element.move(0, -0.02 * r2, 0.02 * r2)
-    else if (keyState.up) element.move(0, 0, -0.02)
-    else if (keyState.down) element.move(0, 0, 0.02)
-    else if (keyState.left) element.move(0, 0.02, 0)
-    else if (keyState.right) element.move(0, -0.02, 0)
+    if (keyState.up && keyState.left) element.move(0, 0.02 * r2, -0.02 * r2,false,floors)
+    else if (keyState.up && keyState.right) element.move(0, -0.02 * r2, -0.02 * r2,false,floors)
+    else if (keyState.down && keyState.left) element.move(0, 0.02 * r2, 0.02 * r2,false,floors)
+    else if (keyState.down && keyState.right) element.move(0, -0.02 * r2, 0.02 * r2,false,floors)
+    else if (keyState.up) element.move(0, 0, -0.02,false,floors)
+    else if (keyState.down) element.move(0, 0, 0.02,false,floors)
+    else if (keyState.left) element.move(0, 0.02, 0,false,floors)
+    else if (keyState.right) element.move(0, -0.02, 0,false,floors)
     if (keyState.shift) element.changeColor()
     if (keyState.far) GL.far()
     if (keyState.near) GL.near()
@@ -56,6 +56,16 @@ const playerObjectCallbackAction = (_, element) => {
 }
 
 function addFloorObject() {
+    floors.push(new Cube(vec3(-1+0.1, 0, -1), 0.2, idConcat++, true, false).setOneColor(
+        vec4(0.5, 0, 0.5, 1)
+    ).using());
+    floors.push(new Cube(vec3(-1+0.1, 0.2, -1), 0.2, idConcat++, true, false).setOneColor(
+        vec4(0.5, 0, 0.5, 1)
+    ).using());
+    floors.push(new Cube(vec3(-1+0.3, 0.2, -1), 0.2, idConcat++, true, false).setOneColor(
+        vec4(0.5, 0, 0.5, 1)
+    ).using());
+
     floors.push(new Cube(vec3(-3, 0, -1), 4, idConcat++, true, false).setOneColor(
         vec4(0.5, 0, 0.5, 1)
     ).using());

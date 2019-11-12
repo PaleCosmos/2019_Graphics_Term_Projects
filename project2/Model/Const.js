@@ -2,6 +2,10 @@ const PI = Math.PI
 function rt(i){Math.sqrt(i)};
 const r2 = Math.sqrt(2) / 2;
 
+var infMin = 0.0001
+
+var firstBirth = vec3(-1 + 0.1 + infMin+5, 0 - 0.5, -1 + 0.5);
+
 var externing = (a, b) =>{
     let vec = vec3(
         (a[1] * b[2] - a[0 * b[1]]),

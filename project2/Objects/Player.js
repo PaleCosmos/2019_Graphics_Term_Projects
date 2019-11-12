@@ -8,7 +8,8 @@ class Player extends WebGLObject {
     }
 
     count = 0;
-
+    isDie = false;
+    canJump =true;
     mVertices;
     mColors;
 
@@ -155,6 +156,7 @@ class Player extends WebGLObject {
             } else {
                 element.teleportX(floors[xf].x + floors[xf].size / 2 + element.size / 2)
             }
+           
         }
 
         return this;
@@ -270,10 +272,14 @@ class Player extends WebGLObject {
     // y < 0 -> up
     // z < 0 -> right
 
-    move(x1, y1, z1, isJump = false) {
+    move(x1, y1, z1, isJump = false, floors=null) {
         let x = x1;
         let y = y1;
         let z = z1;
+
+        let mx = this.x;
+        let my = this.y;
+        let mz = this.z;
 
         let yi = y < 0 ? -1 : y == 0 ? 0 : 1
         let zi = z < 0 ? -1 : z == 0 ? 0 : 1
@@ -286,8 +292,6 @@ class Player extends WebGLObject {
                 (this.x - eye[0]),
                 (this.y - eye[1]),
                 (this.z - eye[2]))
-
-
 
             let vecValue = Math.sqrt(Math.pow(mVector[0], 2) + Math.pow(mVector[1], 2) + Math.pow(mVector[2], 2));
 
@@ -328,6 +332,8 @@ class Player extends WebGLObject {
 
             //    console.log(x,',',y,',',z)
         }
+
+
         this.x += x;
         this.y += y;
         this.z += z;
@@ -348,6 +354,37 @@ class Player extends WebGLObject {
                     element[2] + z,
                     element[3])
             });
+        }
+
+        let cricri = false
+
+        if (floors != null) {
+            //alert('d ')
+            floors.forEach((floor, index, _) => {
+                if ((this.y - this.size / 2) <= floor.y + floor.size / 2 &&
+                    (this.y + this.size / 2) >= floor.y - floor.size / 2 &&
+                    (this.z - this.size / 2) <= floor.z + floor.size / 2 &&
+                    (this.z + this.size / 2) >= floor.z - floor.size / 2 &&
+                    (this.x - this.size / 2) < floor.x + floor.size / 2) {
+                    // element.teleportX(floor.x + floor.size / 2 + element.size / 2)
+                    cricri = true;
+                }else if((this.y - this.size / 2) <= floor.y + floor.size / 2 &&
+                (this.y + this.size / 2) >= floor.y - floor.size / 2 &&
+                (this.z - this.size / 2) <= floor.z + floor.size / 2 &&
+                (this.z + this.size / 2) >= floor.z - floor.size / 2 &&
+                (this.x - this.size / 2) <=floor.x + floor.size / 2) {
+                    this.canJump = true;
+                }
+            })
+        }
+        if(cricri){
+            this.teleport(mx, my, mz);            
+        }
+
+        if(this.x <= -10)
+        {
+            alert('You died');
+            this.teleport(firstBirth[0],firstBirth[1],firstBirth[2])
         }
     }
 
@@ -398,16 +435,17 @@ class Player extends WebGLObject {
     }
 
     jump(zS) {
-        if (this.isJumping) return;
+        if (this.isJumping || !this.canJump) return;
 
         this.isJumping = true;
+        this.canJump = false;
 
         this.subAction = (_, element) => {
             if (element.x >= zS) {
                 element.isJumping = false;
+                
                 element.subAction = () => { }
             } else {
-
                 element.move(0.16, 0, 0, true)
             }
         }
