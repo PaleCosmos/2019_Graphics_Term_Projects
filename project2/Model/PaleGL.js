@@ -220,20 +220,34 @@ class PaleGL {
         let vertices = [];
         let colors = [];
         let gl = PaleGL.information.gl;
+        let num = 0;
+        let num2=0;
 
         PaleGL.objects.forEach(element1 => {
             element1.gravityAction(null, element1)
             if (!element1.trans) {
                 element1.mVertices.forEach((element, index, arr) => {
-                    vertices.push(vec4(
-                        element[0],
-                        element[1] * (PaleGL.information.canvas.height / PaleGL.information.canvas.width),
-                        element[2],
-                        element[3]
-                    ))
+                    if(element1.id == myObject.id && num<36)
+                    {
+                        num ++;
+                    }else{
+                        vertices.push(vec4(
+                            element[0],
+                            element[1] * (PaleGL.information.canvas.height / PaleGL.information.canvas.width),
+                            element[2],
+                            element[3]
+                        ))
+                    }
+ 
                 });
                 element1.mColors.forEach(element => {
-                    colors.push(element)
+                    
+                    if(element1.id == myObject.id && num2<36)
+                    {
+                        num2 ++;
+                    }else{
+                        colors.push(element)
+                    }
                 });
             }
             element1.callbackAction(null, element1)

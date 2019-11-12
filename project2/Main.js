@@ -26,8 +26,8 @@ window.onload = () => {
 
     addFloorObject();
 
-    myObject = new Player(firstBirth, 0.2, idConcat++, true, false).setOneColor(
-        vec4(1, 0, 0, 1)).setCallbackAction(playerObjectCallbackAction).setGravityAction(floors).using()
+    myObject = new Player(firstBirth, 0.2, idConcat++, false, false).setOneColor(
+        vec4(1, 1, 1, 0)).setCallbackAction(playerObjectCallbackAction).setGravityAction(floors).using()
 
     setListener();
 

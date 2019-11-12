@@ -3,13 +3,14 @@ class Player extends WebGLObject {
     constructor(vec3_, size = 1, id = 0, hasLine = false, trans = false) {
         super(vec3_[0], vec3_[1], vec3_[2], size, id, hasLine, trans);
         this.mVertices = [];
-        this.isJumping = false
+        this.isJumping = false;
+        this.mColors = [];
         this.colorState = 0;
     }
 
     count = 0;
     isDie = false;
-    canJump =true;
+    canJump = true;
     mVertices;
     mColors;
 
@@ -44,8 +45,9 @@ class Player extends WebGLObject {
         return this;
     }
 
-    setOneColor(cr = 0) {
-        this.mColors = [];
+    setOneColor(cr = 0, flag = false) {
+        if(flag)
+            this.mColors = [];
         if (cr != 0) {
             for (var k = 0; k < 36; k++) {
                 this.mColors.push(cr)
@@ -55,18 +57,23 @@ class Player extends WebGLObject {
         return this;
     }
 
+    tempVertices = [];
+    tempLines = [];
+
     quad(a, b, c, d) {
-        this.mVertices.push(vertices[a]);
-        this.mVertices.push(vertices[b]);
-        this.mVertices.push(vertices[c]);
-        this.mVertices.push(vertices[a]);
-        this.mVertices.push(vertices[c]);
-        this.mVertices.push(vertices[d]);
+
+        
+        this.tempVertices.push(vertices[a]);
+        this.tempVertices.push(vertices[b]);
+        this.tempVertices.push(vertices[c]);
+        this.tempVertices.push(vertices[a]);
+        this.tempVertices.push(vertices[c]);
+        this.tempVertices.push(vertices[d]);
 
         this.count += 6;
     }
 
-    colorCube() {
+    colorCube(objectSize = vec3(1,1,1), vecter = vec3(0,0,0)) {
         this.quad(1, 0, 3, 2);
         this.quad(2, 3, 7, 6);
         this.quad(3, 0, 4, 7);
@@ -74,38 +81,69 @@ class Player extends WebGLObject {
         this.quad(4, 5, 6, 7);
         this.quad(5, 4, 0, 1);
 
-        this.mVertices.forEach((element, index, _) => {
-            this.mVertices[index] = vec4(
-                element[0] * this.size + this.x,
-                element[1] * this.size + this.y,
-                element[2] * this.size + this.z,
+        this.tempVertices.forEach((element, index, _) => {
+            this.tempVertices[index] = vec4(
+                element[0] * this.size * objectSize[0] + this.x + vecter[0],
+                element[1] * this.size * objectSize[1] + this.y + vecter[1],
+                element[2] * this.size * objectSize[2] + this.z + vecter[2],
                 element[3])
         });
 
-        if (this.hasLine) {
+        this.tempVertices.forEach(element => {
+            this.mVertices.push(element)
+        })
+
+        this.tempVertices = [];
+
+        if (this.hasLine && objectSize[0] == 1) {
             this.lining();
         }
+    }
+
+    setPlayer() {
+        this.colorCube(vec3(0.16,0.1,0.1), vec3(0.06-this.size/2,-0.05,-0.05))
+        this.setOneColor(vec4(1,1,0,1))
+
+        this.colorCube(vec3(0.16,0.1,0.1), vec3(0.06-this.size/2,-0.05,0.05))
+        this.setOneColor(vec4(1,1,0,1))
+
+        this.colorCube(vec3(0.16,0.1,0.1), vec3(0.06-this.size/2,0.05,-0.05))
+        this.setOneColor(vec4(1,1,0,1))
+
+        this.colorCube(vec3(0.16,0.1,0.1), vec3(0.06-this.size/2,0.05,0.05))
+        this.setOneColor(vec4(1,1,0,1))
+
+        this.colorCube(vec3(0.4,0.8,1), vec3(0.15-this.size/2,0,0))
+        this.setOneColor(vec4(1,1,0,1))
+
+        this.colorCube(vec3(0.3,0.6,0.6), vec3(0.22-this.size/2,0,-0.1))
+        this.setOneColor(vec4(1,1,0,1))
+
     }
 
     lining() {
         for (let k = 0; k < 4; k++) {
             let aft = (k + 1) % 4;
-            this.mLineVertices.push(vertices[k]);
-            this.mLineVertices.push(vertices[aft]);
-            this.mLineVertices.push(vertices[k + 4]);
-            this.mLineVertices.push(vertices[aft + 4]);
-            this.mLineVertices.push(vertices[k]);
-            this.mLineVertices.push(vertices[k + 4]);
+            this.tempLines.push(vertices[k]);
+            this.tempLines.push(vertices[aft]);
+            this.tempLines.push(vertices[k + 4]);
+            this.tempLines.push(vertices[aft + 4]);
+            this.tempLines.push(vertices[k]);
+            this.tempLines.push(vertices[k + 4]);
         }
 
-        this.mLineVertices.forEach((element, index, arr) => {
-            this.mLineVertices[index] = vec4(
+        this.tempLines.forEach((element, index, arr) => {
+            this.tempLines[index] = vec4(
                 element[0] * this.size + this.x,
                 element[1] * this.size + this.y,
                 element[2] * this.size + this.z,
                 element[3])
-
         })
+
+        this.tempLines.forEach(element=>{
+         this.mLineVertices.push(element)
+        })  
+        this.tempLines = [];
     }
 
     resizing(size) {
@@ -130,7 +168,6 @@ class Player extends WebGLObject {
 
     setCallbackAction(callback) {
         this.callbackAction = callback;
-
         return this;
     }
 
@@ -156,7 +193,7 @@ class Player extends WebGLObject {
             } else {
                 element.teleportX(floors[xf].x + floors[xf].size / 2 + element.size / 2)
             }
-           
+
         }
 
         return this;
@@ -269,10 +306,8 @@ class Player extends WebGLObject {
     changeColor() {
         this.setOneColor(vertexColors[(this.colorState++) % 6])
     }
-    // y < 0 -> up
-    // z < 0 -> right
 
-    move(x1, y1, z1, isJump = false, floors=null) {
+    move(x1, y1, z1, isJump = false, floors = null) {
         let x = x1;
         let y = y1;
         let z = z1;
@@ -296,7 +331,9 @@ class Player extends WebGLObject {
             let vecValue = Math.sqrt(Math.pow(mVector[0], 2) + Math.pow(mVector[1], 2) + Math.pow(mVector[2], 2));
 
             let siz = Math.sqrt(Math.pow(mVector[1], 2) + Math.pow(mVector[2], 2))
+
             if (siz == 0) return;
+
             // 방향벡터
             let realVctor = vec3(
                 0,
@@ -368,23 +405,22 @@ class Player extends WebGLObject {
                     (this.x - this.size / 2) < floor.x + floor.size / 2) {
                     // element.teleportX(floor.x + floor.size / 2 + element.size / 2)
                     cricri = true;
-                }else if((this.y - this.size / 2) <= floor.y + floor.size / 2 &&
-                (this.y + this.size / 2) >= floor.y - floor.size / 2 &&
-                (this.z - this.size / 2) <= floor.z + floor.size / 2 &&
-                (this.z + this.size / 2) >= floor.z - floor.size / 2 &&
-                (this.x - this.size / 2) <=floor.x + floor.size / 2) {
+                } else if ((this.y - this.size / 2) <= floor.y + floor.size / 2 &&
+                    (this.y + this.size / 2) >= floor.y - floor.size / 2 &&
+                    (this.z - this.size / 2) <= floor.z + floor.size / 2 &&
+                    (this.z + this.size / 2) >= floor.z - floor.size / 2 &&
+                    (this.x - this.size / 2) <= floor.x + floor.size / 2) {
                     this.canJump = true;
                 }
             })
         }
-        if(cricri){
-            this.teleport(mx, my, mz);            
+        if (cricri) {
+            this.teleport(mx, my, mz);
         }
 
-        if(this.x <= -10)
-        {
+        if (this.x <= -10) {
             alert('You died');
-            this.teleport(firstBirth[0],firstBirth[1],firstBirth[2])
+            this.teleport(firstBirth[0], firstBirth[1], firstBirth[2])
         }
     }
 
@@ -443,7 +479,7 @@ class Player extends WebGLObject {
         this.subAction = (_, element) => {
             if (element.x >= zS) {
                 element.isJumping = false;
-                
+
                 element.subAction = () => { }
             } else {
                 element.move(0.16, 0, 0, true)
@@ -508,6 +544,8 @@ class Player extends WebGLObject {
         }
 
         this.colorCube();
+
+        this.setPlayer();
 
         return this;
     }
