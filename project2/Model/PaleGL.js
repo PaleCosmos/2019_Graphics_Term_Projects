@@ -294,8 +294,7 @@ class PaleGL {
 
         if (!PaleGL.isDraw) {
             PaleGL.isDraw = !PaleGL.isDraw
-            pi.eye = vec3(s.radius * Math.sin(s.phi), s.radius * Math.sin(s.theta),
-                s.radius * Math.cos(s.phi));
+            PaleGL.setEye();
         }
 
 
@@ -312,5 +311,10 @@ class PaleGL {
         }
 
         requestAnimationFrame(PaleGL.render);
+    }
+
+    static setEye(){
+        PaleGL.information.eye = vec3(PaleGL.state.radius * Math.sin(PaleGL.state.phi), PaleGL.state.radius * Math.sin(PaleGL.state.theta),
+        PaleGL.state.radius * Math.cos(PaleGL.state.phi));
     }
 }

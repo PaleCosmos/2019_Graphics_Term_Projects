@@ -316,6 +316,9 @@ class Player extends WebGLObject {
         let my = this.y;
         let mz = this.z;
 
+        let kas = PaleGL.information.eye
+
+
         let yi = y < 0 ? -1 : y == 0 ? 0 : 1
         let zi = z < 0 ? -1 : z == 0 ? 0 : 1
 
@@ -360,7 +363,6 @@ class Player extends WebGLObject {
                     r2 * realVctor2[2] * -0.02 * yi;
             }
 
-            let kas = PaleGL.information.eye
 
             PaleGL.information.eye = vec3(
                 kas[0],
@@ -416,10 +418,17 @@ class Player extends WebGLObject {
         }
         if (cricri) {
             this.teleport(mx, my, mz);
+            if(!isJump){
+                PaleGL.information.eye = vec3(
+                    kas[0],
+                    kas[1] ,
+                    kas[2] )
+            }
         }
 
         if (this.x <= -10) {
             alert('You died');
+            PaleGL.setEye();
             this.teleport(firstBirth[0], firstBirth[1], firstBirth[2])
         }
     }
