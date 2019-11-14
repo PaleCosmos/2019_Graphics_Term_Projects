@@ -13,8 +13,8 @@ class Player extends WebGLObject {
     canJump = true;
     mVertices;
     mColors;
-    movingContent = [0,0,0,0];
-    tempMoving = vec3(0,0,0);
+    movingContent = [0, 0, 0, 0];
+    tempMoving = vec3(0, 0, 0);
     legSpeed = 0
 
     callbackAction(a, b) { }
@@ -49,7 +49,7 @@ class Player extends WebGLObject {
     }
 
     setOneColor(cr = 0, flag = false) {
-        if(flag)
+        if (flag)
             this.mColors = [];
         if (cr != 0) {
             for (var k = 0; k < 36; k++) {
@@ -65,7 +65,7 @@ class Player extends WebGLObject {
 
     quad(a, b, c, d) {
 
-        
+
         this.tempVertices.push(vertices[a]);
         this.tempVertices.push(vertices[b]);
         this.tempVertices.push(vertices[c]);
@@ -76,7 +76,7 @@ class Player extends WebGLObject {
         this.count += 6;
     }
 
-    colorCube(objectSize = vec3(1,1,1), vecter = vec3(0,0,0)) {
+    colorCube(objectSize = vec3(1, 1, 1), vecter = vec3(0, 0, 0)) {
         this.quad(1, 0, 3, 2);
         this.quad(2, 3, 7, 6);
         this.quad(3, 0, 4, 7);
@@ -103,27 +103,28 @@ class Player extends WebGLObject {
         }
     }
 
+    seeVactor = vec3(0, 0, 0);
+
     setPlayer() {
-        this.colorCube(vec3(0.16,0.1,0.1), vec3(0.06-this.size/2,-0.05,-0.05))
-        this.setOneColor(vec4(1,1,0,1)) // 36 - 71
+        this.colorCube(vec3(0.16, 0.1, 0.1), vec3(0.06 - this.size / 2, -0.05, -0.05))
+        this.setOneColor(vec4(1, 1, 0, 1)) // 36 - 71
 
-        this.colorCube(vec3(0.16,0.1,0.1), vec3(0.06-this.size/2,-0.05,0.05))
-        this.setOneColor(vec4(1,1,0,1)) // 72 -107
+        this.colorCube(vec3(0.16, 0.1, 0.1), vec3(0.06 - this.size / 2, -0.05, 0.05))
+        this.setOneColor(vec4(1, 1, 0, 1)) // 72 -107
 
-        this.colorCube(vec3(0.16,0.1,0.1), vec3(0.06-this.size/2,0.05,-0.05))
-        this.setOneColor(vec4(1,1,0,1)) // 108 - 143
+        this.colorCube(vec3(0.16, 0.1, 0.1), vec3(0.06 - this.size / 2, 0.05, -0.05))
+        this.setOneColor(vec4(1, 1, 0, 1)) // 108 - 143
 
-        this.colorCube(vec3(0.16,0.1,0.1), vec3(0.06-this.size/2,0.05,0.05))
-        this.setOneColor(vec4(1,1,0,1)) // 144 - 179
+        this.colorCube(vec3(0.16, 0.1, 0.1), vec3(0.06 - this.size / 2, 0.05, 0.05))
+        this.setOneColor(vec4(1, 1, 0, 1)) // 144 - 179
 
 
 
-        this.colorCube(vec3(0.4,0.8,1), vec3(0.15-this.size/2,0,0))
-        this.setOneColor(vec4(1,1,0,1))
+        this.colorCube(vec3(0.4, 0.8, 1), vec3(0.15 - this.size / 2, 0, 0))
+        this.setOneColor(vec4(1, 1, 0, 1)) // 몸통 180 - 215
 
-        this.colorCube(vec3(0.3,0.6,0.6), vec3(0.22-this.size/2,0,-0.1))
-        this.setOneColor(vec4(1,1,0,1))
-
+        this.colorCube(vec3(0.3, 0.6, 0.6), vec3(0.22 - this.size / 2, 0, -0.1))
+        this.setOneColor(vec4(1, 1, 0, 1)) // 대가뤼 216 - 251
     }
 
     lining() {
@@ -145,9 +146,9 @@ class Player extends WebGLObject {
                 element[3])
         })
 
-        this.tempLines.forEach(element=>{
-         this.mLineVertices.push(element)
-        })  
+        this.tempLines.forEach(element => {
+            this.mLineVertices.push(element)
+        })
         this.tempLines = [];
     }
 
@@ -383,20 +384,33 @@ class Player extends WebGLObject {
         this.x += x;
         this.y += y;
         this.z += z;
- 
+
+        let zero = vec3(0, 0, 0)
+        let one = vec3(0, 0, 0)
+
+
+        for (let vva = 0; vva < 36; vva++) {
+            zero[0] += this.mVertices[vva + 180][0]
+            zero[1] += this.mVertices[vva + 180][1]
+            zero[2] += this.mVertices[vva + 180][2]
+            one[0] += this.mVertices[vva + 216][0]
+            one[1] += this.mVertices[vva + 216][1]
+            one[2] += this.mVertices[vva + 216][2]
+        }
+
+        let best = vec3(0, (zero[1] / 36) - (one[1] / 36), (zero[2] / 36) - (one[2] / 36));
+        let bb = Math.sqrt(Math.pow(best[0], 2) + Math.pow(best[1], 2), 2)
+
         this.mVertices.forEach((element, index, _) => {
-            let volt = Math.floor((index-36)/36); //0, 1, 2, 3
+            let volt = Math.floor((index - 36) / 36); //0, 1, 2, 3
 
-            let vv = index >=36 && index<180;
-
-            let bb = Math.sqrt(Math.pow(y,2)+Math.pow(z,2),2)
-
-            let tt= 0.001*Math.sin(this.legSpeed)*((volt%2==0)?1:-1)
+            let vv = index >= 36 && index < 180;
+            let tt = 0.001 * Math.sin(this.legSpeed) * ((volt % 2 == 0) ? 1 : -1)
 
             this.mVertices[index] = vec4(
                 element[0] + x,
-                element[1] + y + ((y==0&&z==0)?0:(y/bb))*(vv?tt:0),
-                element[2] + z + ((y==0&&z==0)?0:(z/bb))*(vv?tt:0),
+                element[1] + y + ((best[0] == 0 && best[1] == 0) ? 0 : (best[0] / bb)) * (vv ? tt : 0),
+                element[2] + z + ((best[0] == 0 && best[1] == 0) ? 0 : (best[1] / bb)) * (vv ? tt : 0),
                 element[3])
         });
 
@@ -428,20 +442,20 @@ class Player extends WebGLObject {
                     (this.z - this.size / 2) <= floor.z + floor.size / 2 &&
                     (this.z + this.size / 2) >= floor.z - floor.size / 2 &&
                     (this.x - this.size / 2) <= floor.x + floor.size / 2) {
-                        cricri2 = true;
+                    cricri2 = true;
                 }
             })
         }
         if (cricri) {
             this.teleport(mx, my, mz);
-            if(!isJump){
+            if (!isJump) {
                 PaleGL.information.eye = vec3(
                     kas[0],
-                    kas[1] ,
-                    kas[2] )
+                    kas[1],
+                    kas[2])
             }
         }
-        if(cricri2){
+        if (cricri2) {
             this.canJump = true;
             console.log('aaa')
         }
