@@ -3,6 +3,7 @@ var idConcat = 0;
 var GL;
 var myObject;
 var floors = [];
+var checks = [];
 
 var keyState = {
     up: false,
@@ -42,6 +43,7 @@ function doWork(){
     setListener();
 
     GL.addFloor(floors)
+    .addChecks(checks)
     .add(new Cube(vec3(-3, 0, -1), 40, idConcat++, true, false).setOneColor(
         vec4(0.5, 0, 0.5, 0.5)
     ).using())
@@ -106,6 +108,13 @@ function addFloorObject() {
     floors.push(new Cube(vec3(-3, 5 + 0.3, -1), 4, idConcat++, true, false).setOneColor(
         vec4(0, 1, 0, 1)
     ).using());
+    floors.push(new Cube(vec3(-1, 5 + 0.3, -1), 1, idConcat++, true, false).setOneColor(
+        vec4(0, 1, 0, 1)
+    ).using());
+
+    checks.push(new Cube(vec3(-0.4, 5 + 0.3, -1), 0.1, idConcat++, true, false).setOneColor(
+        vec4(1, 1, 0, 1)
+    ).using());
 
     floors.push(new Cube(vec3(-1, 5 + 0.3, 1.5), 0.2, idConcat++, true, false).setOneColor(
         vec4(0, 1, 0, 1)
@@ -119,11 +128,39 @@ function addFloorObject() {
         vec4(0, 1, 0, 1)
     ).using());
 
-
     floors.push(new Cube(vec3(-0.6, 5.3 , 2.4), 0.2, idConcat++, true, false).setOneColor(
         vec4(0, 1, 0, 1)
     ).using());
 
+    floors.push(new Cube(vec3(-0.6, 5.3 , 2.9), 0.2, idConcat++, true, false).setOneColor(
+        vec4(0, 1, 0, 1)
+    ).using());
+
+    floors.push(new Cube(vec3(-0.6, 4.7 , 3.4), 0.2, idConcat++, true, false).setOneColor(
+        vec4(0, 1, 0, 1)
+    ).using());
+
+    floors.push(new Cube(vec3(-0.3, 4.9 , 3.9), 0.2, idConcat++, true, false).setOneColor(
+        vec4(0, 1, 0, 1)
+    ).using());
+
+    floors.push(new Cube(vec3(-0.3, 4.9 , 4.5), 0.2, idConcat++, true, false).setOneColor(
+        vec4(0, 1, 0, 1)
+    ).using());
+
+    floors.push(new Cube(vec3(-0.1, 4.9 , 4.9), 0.2, idConcat++, true, false).setOneColor(
+        vec4(0, 1, 0, 1)
+    ).using());
+
+
+    // blue
+
+    floors.push(new Cube(vec3(0, 5 + 0.3, 7+0.3), 1, idConcat++, true, false).setOneColor(
+        vec4(0, 0, 1, 1)
+    ).using());
+    checks.push(new Cube(vec3(0.6, 5 + 0.3, 7+0.3), 0.1, idConcat++, true, false).setOneColor(
+        vec4(1, 1, 0, 1)
+    ).using());
 
     floors.push(new Cube(vec3(-2, 5 + 0.3, 7+0.3), 4, idConcat++, true, false).setOneColor(
         vec4(0, 0, 1, 1)

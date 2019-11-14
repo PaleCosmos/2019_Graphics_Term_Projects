@@ -4,7 +4,7 @@ const r2 = Math.sqrt(2) / 2;
 
 var infMin = 0.0001
 
-var firstBirth = vec3(-1 + 0.1 + infMin+3, 0 - 0.5, -1 );
+var firstBirth = vec3(-1 + 0.1 + 3, 0 - 0.5, -1 );
 
 var externing = (a, b) =>{
     let vec = vec3(
@@ -23,6 +23,14 @@ var externing = (a, b) =>{
 
     return vecA;
 }
+
+var distanceOf = (a, b) =>{
+    
+    return Math.sqrt(Math.pow(a[0]-b[0],2)+Math.pow(a[1]-b[1],2)+Math.pow(a[2]-b[2],2),2)
+}
+
+var checkPoints = [vec3(0.6, 5.3, -1),
+vec3(1.6, 5 + 0.3, 7+0.3)];
 
 var vertices = [
     vec4(-0.5, -0.5, 0.5, 1.0),

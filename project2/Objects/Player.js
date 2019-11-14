@@ -447,6 +447,24 @@ class Player extends WebGLObject {
                 }
             })
         }
+
+        let idx = -1;
+
+        checks.some((element, index, _)=>{
+            let distance = distanceOf(vec3(element.x, element.y, element.z), vec3(this.x, this.y, this.z))
+            if(distance<0.05){
+                idx = index;
+                return false;
+            }
+        })
+
+        if(idx!= -1){
+            let au = new Audio('./Audio/Coin.wav');
+            au.play()
+            firstBirth = checkPoints[idx];
+            checks[idx].teleport(-100,-100,-100);
+        }
+
         if (cricri) {
             this.teleport(mx, my, mz);
             if (!isJump) {
@@ -463,7 +481,7 @@ class Player extends WebGLObject {
 
         if (this.x <= -10) {
             let au = new Audio('./Audio/dies.wav');
-            au.play
+            au.play()
             PaleGL.setEye();
             this.teleport(firstBirth[0], firstBirth[1], firstBirth[2])
         }

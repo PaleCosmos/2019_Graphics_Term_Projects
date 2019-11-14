@@ -117,6 +117,15 @@ class PaleGL {
         return this;
     }
 
+    addChecks(ch){
+        ch.forEach(element => {
+            PaleGL.information.numVertices += element.count;
+            PaleGL.objects.push(element)
+        })
+
+        return this;
+    }
+
     move_back() {
         let pi = PaleGL.information;
         let temp = pi.eye;
