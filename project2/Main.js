@@ -18,10 +18,21 @@ var keyState = {
     viewLeft2: false
 }
 
+var BGM = null;
+
 const centerPick = vec3(-1, -0, -1);
 
 window.onload = () => {
-    
+    document.getElementById('starting').addEventListener('click', (e) => {
+        BGM = new Audio('./Audio/henesis.mp3')
+        BGM.loop = true;
+        BGM.play();
+        document.getElementById('starting').setAttribute('class','button2')
+        doWork();
+    });
+}
+
+function doWork(){
     GL = PaleGL.getInstance(document.getElementById("gl-canvas"))
     addFloorObject();
 
@@ -55,7 +66,7 @@ const playerObjectCallbackAction = (_, element) => {
     else if (keyState.left) element.move(0, 0.02, 0,false,floors)
     else if (keyState.right) element.move(0, -0.02, 0,false,floors)
     if (keyState.shift) element.changeColor()
-    if (keyState.far) GL.far()
+    if (keyState.far) GL.far()   
     if (keyState.near) GL.near()
     if (keyState.viewLeft) element.viewLeft()
     if (keyState.viewRight) element.viewRight()
@@ -64,33 +75,57 @@ const playerObjectCallbackAction = (_, element) => {
 }
 
 function addFloorObject() {
-    floors.push(new Cube(vec3(-1+0.1, 0, -1), 0.2, idConcat++, true, false).setOneColor(
-        vec4(0.5, 0, 0.5, 1)
-    ).using());
-    floors.push(new Cube(vec3(-1+0.1, 0.2, -1), 0.2, idConcat++, true, false).setOneColor(
-        vec4(0.5, 0, 0.5, 1)
-    ).using());
-    floors.push(new Cube(vec3(-1+0.3, 0.2, -1), 0.2, idConcat++, true, false).setOneColor(
+
+     //purple square
+    floors.push(new Cube(vec3(-2+0.15, 1.5, -1), 0.3, idConcat++, true, false).setOneColor(
         vec4(0.5, 0, 0.5, 1)
     ).using());
 
-    floors.push(new Cube(vec3(-3, 0, -1), 4, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-2+0.3, 1.8, -1), 0.3, idConcat++, true, false).setOneColor(
         vec4(0.5, 0, 0.5, 1)
     ).using());
 
-    // floors.push(new Cube(vec3(-3, 0, 3 + 0.3), 4, idConcat++, true, false).setOneColor(
-    //     vec4(1, 0.5, 0, 1)
-    // ).using());
+    floors.push(new Cube(vec3(-2+0.45, 2.1, -1), 0.3, idConcat++, true, false).setOneColor(
+        vec4(0.5, 0, 0.5, 1)
+    ).using());
 
-    // floors.push(new Cube(vec3(-3, 0, 7 + 0.6), 4, idConcat++, true, false).setOneColor(
-    //     vec4(1, 1, 0, 1)
-    // ).using());
+    floors.push(new Cube(vec3(-2+0.6, 2.4, -1), 0.3, idConcat++, true, false).setOneColor(
+        vec4(0.5, 0, 0.5, 1)
+    ).using());
 
-    floors.push(new Cube(vec3(-3, 4 + 0.3, -1), 4, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-2+0.75, 2.7, -1), 0.3, idConcat++, true, false).setOneColor(
+        vec4(0.5, 0, 0.5, 1)
+    ).using());
+
+    floors.push(new Cube(vec3(-3.5, 0, -1), 3, idConcat++, true, false).setOneColor(
+        vec4(0.5, 0, 0.5, 1)
+    ).using());
+
+   //green square
+
+    floors.push(new Cube(vec3(-3, 5 + 0.3, -1), 4, idConcat++, true, false).setOneColor(
         vec4(0, 1, 0, 1)
     ).using());
 
-    floors.push(new Cube(vec3(-3, 8 + 0.6, -1), 4, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-1, 5 + 0.3, 1.5), 0.2, idConcat++, true, false).setOneColor(
+        vec4(0, 1, 0, 1)
+    ).using());
+
+    floors.push(new Cube(vec3(-0.8, 4.9 , 1.7), 0.2, idConcat++, true, false).setOneColor(
+        vec4(0, 1, 0, 1)
+    ).using());
+
+    floors.push(new Cube(vec3(-0.6, 5.3 , 1.9), 0.2, idConcat++, true, false).setOneColor(
+        vec4(0, 1, 0, 1)
+    ).using());
+
+
+    floors.push(new Cube(vec3(-0.6, 5.3 , 2.4), 0.2, idConcat++, true, false).setOneColor(
+        vec4(0, 1, 0, 1)
+    ).using());
+
+
+    floors.push(new Cube(vec3(-2, 5 + 0.3, 7+0.3), 4, idConcat++, true, false).setOneColor(
         vec4(0, 0, 1, 1)
     ).using());
 };

@@ -197,6 +197,7 @@ class Player extends WebGLObject {
             if (bool) {
                 element.move(-0.08, 0, 0, true)
             } else {
+                  
                 element.canJump = true;
                 element.teleportX(floors[xf].x + floors[xf].size / 2 + element.size / 2)
             }
@@ -461,7 +462,8 @@ class Player extends WebGLObject {
         }
 
         if (this.x <= -10) {
-            new Audio('./Audio/dies.wav').play();
+            let au = new Audio('./Audio/dies.wav');
+            au.play
             PaleGL.setEye();
             this.teleport(firstBirth[0], firstBirth[1], firstBirth[2])
         }

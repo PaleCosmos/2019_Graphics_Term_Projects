@@ -4,7 +4,7 @@ const r2 = Math.sqrt(2) / 2;
 
 var infMin = 0.0001
 
-var firstBirth = vec3(-1 + 0.1 + infMin+5, 0 - 0.5, -1 + 0.5);
+var firstBirth = vec3(-1 + 0.1 + infMin+3, 0 - 0.5, -1 );
 
 var externing = (a, b) =>{
     let vec = vec3(
