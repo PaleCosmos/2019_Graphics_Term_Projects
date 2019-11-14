@@ -16,7 +16,7 @@ class PaleGL {
 
     static state = {
         near: 0.001,
-        far: 30.0,
+        far: 100.0,
         radius: 6.65,
         theta: 0.17453292519943295,
         phi: 0.5235987755982988,

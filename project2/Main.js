@@ -21,19 +21,24 @@ var keyState = {
 const centerPick = vec3(-1, -0, -1);
 
 window.onload = () => {
-
+    
     GL = PaleGL.getInstance(document.getElementById("gl-canvas"))
-
     addFloorObject();
 
-    myObject = new Player(firstBirth, 0.2, idConcat++, false, false).setOneColor(
+    myObject = new Player(firstBirth, 0.2, idConcat++, true, false).setOneColor(
         vec4(1, 1, 1, 0)).setCallbackAction(playerObjectCallbackAction).setGravityAction(floors).using()
 
     setListener();
 
     GL.addFloor(floors)
-    .add(new Cube(vec3(-3, 0, -1), 20, idConcat++, true, false).setOneColor(
+    .add(new Cube(vec3(-3, 0, -1), 40, idConcat++, true, false).setOneColor(
         vec4(0.5, 0, 0.5, 0.5)
+    ).using())
+    .add(new Cube(vec3(-39, 0, -1), 40, idConcat++, true, false).setOneColor(
+        vec4(1, 0, 0, 1)
+    ).using())
+    .add(new Cube(vec3(33, 0, -1), 40, idConcat++, true, false).setOneColor(
+        vec4(0, 0, 1, 1)
     ).using())
         .add(myObject)
         .rendering();
