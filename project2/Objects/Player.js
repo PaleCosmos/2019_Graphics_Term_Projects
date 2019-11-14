@@ -13,6 +13,9 @@ class Player extends WebGLObject {
     canJump = true;
     mVertices;
     mColors;
+    movingContent = [0,0,0,0];
+    tempMoving = vec3(0,0,0);
+    legSpeed = 0
 
     callbackAction(a, b) { }
 
@@ -102,16 +105,18 @@ class Player extends WebGLObject {
 
     setPlayer() {
         this.colorCube(vec3(0.16,0.1,0.1), vec3(0.06-this.size/2,-0.05,-0.05))
-        this.setOneColor(vec4(1,1,0,1))
+        this.setOneColor(vec4(1,1,0,1)) // 36 - 71
 
         this.colorCube(vec3(0.16,0.1,0.1), vec3(0.06-this.size/2,-0.05,0.05))
-        this.setOneColor(vec4(1,1,0,1))
+        this.setOneColor(vec4(1,1,0,1)) // 72 -107
 
         this.colorCube(vec3(0.16,0.1,0.1), vec3(0.06-this.size/2,0.05,-0.05))
-        this.setOneColor(vec4(1,1,0,1))
+        this.setOneColor(vec4(1,1,0,1)) // 108 - 143
 
         this.colorCube(vec3(0.16,0.1,0.1), vec3(0.06-this.size/2,0.05,0.05))
-        this.setOneColor(vec4(1,1,0,1))
+        this.setOneColor(vec4(1,1,0,1)) // 144 - 179
+
+
 
         this.colorCube(vec3(0.4,0.8,1), vec3(0.15-this.size/2,0,0))
         this.setOneColor(vec4(1,1,0,1))
@@ -191,6 +196,7 @@ class Player extends WebGLObject {
             if (bool) {
                 element.move(-0.08, 0, 0, true)
             } else {
+                element.canJump = true;
                 element.teleportX(floors[xf].x + floors[xf].size / 2 + element.size / 2)
             }
 
@@ -308,6 +314,7 @@ class Player extends WebGLObject {
     }
 
     move(x1, y1, z1, isJump = false, floors = null) {
+        this.legSpeed += 0.1;
         let x = x1;
         let y = y1;
         let z = z1;
@@ -376,12 +383,20 @@ class Player extends WebGLObject {
         this.x += x;
         this.y += y;
         this.z += z;
-
+ 
         this.mVertices.forEach((element, index, _) => {
+            let volt = Math.floor((index-36)/36); //0, 1, 2, 3
+
+            let vv = index >=36 && index<180;
+
+            let bb = Math.sqrt(Math.pow(y,2)+Math.pow(z,2),2)
+
+            let tt= 0.001*Math.sin(this.legSpeed)*((volt%2==0)?1:-1)
+
             this.mVertices[index] = vec4(
                 element[0] + x,
-                element[1] + y,
-                element[2] + z,
+                element[1] + y + ((y==0&&z==0)?0:(y/bb))*(vv?tt:0),
+                element[2] + z + ((y==0&&z==0)?0:(z/bb))*(vv?tt:0),
                 element[3])
         });
 
@@ -396,6 +411,7 @@ class Player extends WebGLObject {
         }
 
         let cricri = false
+        let cricri2 = false
 
         if (floors != null) {
             //alert('d ')
@@ -412,7 +428,7 @@ class Player extends WebGLObject {
                     (this.z - this.size / 2) <= floor.z + floor.size / 2 &&
                     (this.z + this.size / 2) >= floor.z - floor.size / 2 &&
                     (this.x - this.size / 2) <= floor.x + floor.size / 2) {
-                    this.canJump = true;
+                        cricri2 = true;
                 }
             })
         }
@@ -424,6 +440,10 @@ class Player extends WebGLObject {
                     kas[1] ,
                     kas[2] )
             }
+        }
+        if(cricri2){
+            this.canJump = true;
+            console.log('aaa')
         }
 
         if (this.x <= -10) {
