@@ -6,6 +6,8 @@ var infMin = 0.0001
 
 var firstBirth = vec3(-1 + 0.1 + 3, 0 - 0.5, -1 );
 
+var playerBodyColor = vec4(0.9,0.8,0,1)
+
 var externing = (a, b) =>{
     let vec = vec3(
         (a[1] * b[2] - a[0 * b[1]]),

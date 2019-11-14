@@ -107,24 +107,57 @@ class Player extends WebGLObject {
 
     setPlayer() {
         this.colorCube(vec3(0.16, 0.1, 0.1), vec3(0.06 - this.size / 2, -0.05, -0.1))
-        this.setOneColor(vec4(1, 1, 0, 1)) // 36 - 71
+        this.setOneColor(playerBodyColor) // 36 - 71
 
         this.colorCube(vec3(0.16, 0.1, 0.1), vec3(0.06 - this.size / 2, -0.05, 0.1))
-        this.setOneColor(vec4(1, 1, 0, 1)) // 72 -107
+        this.setOneColor(playerBodyColor) // 72 -107
 
         this.colorCube(vec3(0.16, 0.1, 0.1), vec3(0.06 - this.size / 2, 0.05, -0.1))
-        this.setOneColor(vec4(1, 1, 0, 1)) // 108 - 143
+        this.setOneColor(playerBodyColor) // 108 - 143
 
         this.colorCube(vec3(0.16, 0.1, 0.1), vec3(0.06 - this.size / 2, 0.05, 0.1))
-        this.setOneColor(vec4(1, 1, 0, 1)) // 144 - 179
+        this.setOneColor(playerBodyColor) // 144 - 179
 
 
 
         this.colorCube(vec3(0.4, 0.8, 1), vec3(0.15 - this.size / 2, 0, 0))
-        this.setOneColor(vec4(1, 1, 0, 1)) // 몸통 180 - 215
+        this.setOneColor(playerBodyColor) // 몸통 180 - 215
 
         this.colorCube(vec3(0.3, 0.6, 0.6), vec3(0.25 - this.size / 2, 0, -0.1))
-        this.setOneColor(vec4(1, 1, 0, 1)) // 대가뤼 216 - 251
+        this.setOneColor(playerBodyColor) // 대가뤼 216 - 251
+
+        this.colorCube(vec3(0.4, 0.6, 0.3), vec3(0.28- this.size / 2, 0, -0.07))
+        this.setOneColor(playerBodyColor) // 대가뤼 위에거
+
+        this.colorCube(vec3(0.15, 0.15, 0.15), vec3(0.3- this.size / 2, 0.03, -0.1))
+        this.setOneColor(vec4(1, 1, 1, 1)) // 눈
+
+        this.colorCube(vec3(0.15, 0.15, 0.15), vec3(0.3- this.size / 2, -0.03, -0.1))
+        this.setOneColor(vec4(1, 1, 1, 1)) // 눈
+
+        this.colorCube(vec3(0.1, 0.1, 0.1), vec3(0.3- this.size / 2, 0.03, -0.115))
+        this.setOneColor(vec4(0, 0, 0, 1)) // 눈
+
+        this.colorCube(vec3(0.1, 0.1, 0.1), vec3(0.3- this.size / 2, -0.03, -0.115))
+        this.setOneColor(vec4(0, 0, 0, 1)) // 눈
+
+        this.colorCube(vec3(0.1, 0.1, 0.1), vec3(0.29- this.size / 2, 0, -0.16))
+        this.setOneColor(vec4(0, 0, 0, 1)) // 코
+
+        this.colorCube(vec3(0.28, 0.22, 0.28), vec3(0.31- this.size / 2, 0.05, -0.05))
+        this.setOneColor(vec4(0.8, 0.5, 0, 1)) // 귀
+
+        this.colorCube(vec3(0.28, 0.22, 0.28), vec3(0.31- this.size / 2, -0.05, -0.05))
+        this.setOneColor(vec4(0.8, 0.5, 0, 1)) // 귀
+
+        this.colorCube(vec3(0.05, 0.1, 0.25), vec3(0.25- this.size / 2, 0, -0.16))
+        this.setOneColor(vec4(1, 0, 0, 1)) // 혀
+
+        this.colorCube(vec3(0.055, 0.01, 0.13), vec3(0.25- this.size / 2, 0, -0.17))
+        this.setOneColor(vec4(0, 0, 0, 1)) // 혀계곡
+
+        this.colorCube(vec3(0.15, 0.15, 0.15), vec3(0.15- this.size / 2, 0, 0.11))
+        this.setOneColor(vec4(0.8, 0.5, 0, 1)) // 꼬리; 12*(36)
     }
 
     lining() {
@@ -357,30 +390,29 @@ class Player extends WebGLObject {
 
             if (yi == 0 && zi != 0) {
                 x = 0
-                y = realVctor[1] * -0.002 * zi
-                z = realVctor[2] * -0.002 * zi
+                y = realVctor[1] * -(playerSpeed/10) * zi
+                z = realVctor[2] * -(playerSpeed/10) * zi
             } else if (yi != 0 && zi == 0) {
                 x = 0
-                y = realVctor2[1] * -0.02 * yi
-                z = realVctor2[2] * -0.02 * yi
+                y = realVctor2[1] * -playerSpeed * yi
+                z = realVctor2[2] * -playerSpeed * yi
             } else if (yi != 0 && zi != 0) {
 
                 x = 0
-                y = realVctor[1] * -0.002 * zi * r2 +
-                    r2 * realVctor2[1] * -0.02 * yi;
-                z = realVctor[2] * -0.002 * zi * r2 +
-                    r2 * realVctor2[2] * -0.02 * yi;
+                y = realVctor[1] * -(playerSpeed/10) * zi * r2 +
+                    r2 * realVctor2[1] * -playerSpeed * yi;
+                z = realVctor[2] * -(playerSpeed/10)* zi * r2 +
+                    r2 * realVctor2[2] * -playerSpeed * yi;
             }
-
 
             PaleGL.information.eye = vec3(
                 kas[0],
                 kas[1] + y,
                 kas[2] + z)
+    
 
             //    console.log(x,',',y,',',z)
         }
-
 
         this.x += x;
         this.y += y;
@@ -388,7 +420,6 @@ class Player extends WebGLObject {
 
         let zero = vec3(0, 0, 0)
         let one = vec3(0, 0, 0)
-
 
         for (let vva = 0; vva < 36; vva++) {
             zero[0] += this.mVertices[vva + 180][0]
@@ -400,18 +431,25 @@ class Player extends WebGLObject {
         }
 
         let best = vec3(0, (zero[1] / 36) - (one[1] / 36), (zero[2] / 36) - (one[2] / 36));
+        let best0= externing(best, vec3(1,0,0));
+        let best2 = vec3(0, best0[1],best0[2])
         let bb = Math.sqrt(Math.pow(best[2], 2) + Math.pow(best[1], 2), 2)
+        let bb2 = Math.sqrt(Math.pow(best2[2], 2) + Math.pow(best2[1], 2), 2)
+
 
         this.mVertices.forEach((element, index, _) => {
             let volt = Math.floor((index - 36) / 36); //0, 1, 2, 3
 
-            let vv = index >= 36 && index < 180;
-            let tt = 0.005 * Math.sin(this.legSpeed) * ((volt % 2 == 0) ? 1 : -1)
+            let vv = (index >= 36 && index < 180);
+            let vv2 = (index >= 36*17 && index < 18*36) ;
+
+            let tt = 0.004 * Math.sin(this.legSpeed) * ((volt % 2 == 0) ? 1 : -1)
+            let tt2 = 0.004 * Math.cos(this.legSpeed)
 
             this.mVertices[index] = vec4(
                 element[0] + x,
-                element[1] + y + ((best[2] == 0 && best[1] == 0) ? 0 : (best[1] / bb)) * (vv ? tt : 0),
-                element[2] + z + ((best[2] == 0 && best[1] == 0) ? 0 : (best[2] / bb)) * (vv ? tt : 0),
+                element[1] + y + ((best[2] == 0 && best[1] == 0) ? 0 : (best[1] / bb)) * (vv ? tt : 0)+  (best2[1] / bb2) * (vv2 ? tt2 : 0),
+                element[2] + z + ((best[2] == 0 && best[1] == 0) ? 0 : (best[2] / bb)) * (vv ? tt : 0)+ (best2[2] / bb2) * (vv2 ? tt2 : 0),
                 element[3])
         });
 
@@ -452,7 +490,7 @@ class Player extends WebGLObject {
 
         checks.some((element, index, _)=>{
             let distance = distanceOf(vec3(element.x, element.y, element.z), vec3(this.x, this.y, this.z))
-            if(distance<0.05){
+            if(distance<0.08){
                 idx = index;
                 return false;
             }

@@ -5,6 +5,13 @@ var myObject;
 var floors = [];
 var checks = [];
 
+var bows=[];
+
+var isDebug = false
+var jumpHeight = 0.5;
+
+var playerSpeed = 0.02;
+
 var keyState = {
     up: false,
     down: false,
@@ -12,7 +19,7 @@ var keyState = {
     right: false,
     shift: false,
     near: false,
-    far: false,
+    far: false,                      
     viewRight: false,
     viewLeft: false,
     viewRight2: false,
@@ -24,20 +31,43 @@ var BGM = null;
 const centerPick = vec3(-1, -0, -1);
 
 window.onload = () => {
-    document.getElementById('starting').addEventListener('click', (e) => {
+    if(isDebug){
+        bows  = [
+            new Audio('./Audio/bow1.mp3'),
+            new Audio('./Audio/bow2.wav'),
+            new Audio('./Audio/bow3.wav'),
+            new Audio('./Audio/bow4.mp3'),
+            new Audio('./Audio/bow5.wav'),
+            new Audio('./Audio/bow6.wav')
+        ];
         BGM = new Audio('./Audio/henesis.mp3')
         BGM.loop = true;
         BGM.play();
         document.getElementById('starting').setAttribute('class','button2')
         doWork();
-    });
+    }else{
+        document.getElementById('starting').addEventListener('click', (e) => {
+            bows  = [
+                new Audio('./Audio/bow1.mp3'),
+                new Audio('./Audio/bow3.wav'),
+                new Audio('./Audio/bow4.mp3'),
+                new Audio('./Audio/bow5.wav'),
+                new Audio('./Audio/bow6.wav')
+            ];
+            BGM = new Audio('./Audio/henesis.mp3')
+            BGM.loop = true;
+            BGM.play();
+            document.getElementById('starting').setAttribute('class','button2')
+            doWork();
+        });
+    }
 }
 
 function doWork(){
     GL = PaleGL.getInstance(document.getElementById("gl-canvas"))
     addFloorObject();
 
-    myObject = new Player(firstBirth, 0.2, idConcat++, true, false).setOneColor(
+    myObject = new Player(firstBirth, 0.2, idConcat++, false, false).setOneColor(
         vec4(1, 1, 1, 0)).setCallbackAction(playerObjectCallbackAction).setGravityAction(floors).using()
 
     setListener();
@@ -59,15 +89,14 @@ function doWork(){
 
 const playerObjectCallbackAction = (_, element) => {
     GL.setAt(vec3(element.x, element.y, element.z))
-    if (keyState.up && keyState.left) element.move(0, 0.02 * r2, -0.02 * r2,false,floors)
-    else if (keyState.up && keyState.right) element.move(0, -0.02 * r2, -0.02 * r2,false,floors)
-    else if (keyState.down && keyState.left) element.move(0, 0.02 * r2, 0.02 * r2,false,floors)
-    else if (keyState.down && keyState.right) element.move(0, -0.02 * r2, 0.02 * r2,false,floors)
-    else if (keyState.up) element.move(0, 0, -0.02,false,floors)
-    else if (keyState.down) element.move(0, 0, 0.02,false,floors)
-    else if (keyState.left) element.move(0, 0.02, 0,false,floors)
-    else if (keyState.right) element.move(0, -0.02, 0,false,floors)
-    if (keyState.shift) element.changeColor()
+    if (keyState.up && keyState.left) element.move(0, playerSpeed * r2, -playerSpeed * r2,false,floors)
+    else if (keyState.up && keyState.right) element.move(0, -playerSpeed * r2, -playerSpeed * r2,false,floors)
+    else if (keyState.down && keyState.left) element.move(0, playerSpeed * r2, playerSpeed * r2,false,floors)
+    else if (keyState.down && keyState.right) element.move(0, -playerSpeed * r2, playerSpeed * r2,false,floors)
+    else if (keyState.up) element.move(0, 0, -playerSpeed,false,floors)
+    else if (keyState.down) element.move(0, 0, playerSpeed,false,floors)
+    else if (keyState.left) element.move(0, playerSpeed, 0,false,floors)
+    else if (keyState.right) element.move(0, -playerSpeed, 0,false,floors)
     if (keyState.far) GL.far()   
     if (keyState.near) GL.near()
     if (keyState.viewLeft) element.viewLeft()
@@ -243,7 +272,7 @@ function setListener() {
         keyState.shift = false;
     });
     document.getElementById('space').addEventListener('mouseup', (e) => {
-        myObject.jump(myObject.x + 0.5);
+        myObject.jump(myObject.x + jumpHeight);
     });
 
 
@@ -328,6 +357,16 @@ function addKeyListener(doc) {
                 myObject.jump(myObject.x + 0.5);
                 break;
             case 16:
+                let isBow = false;
+                for (let ii=0;ii<6;ii++){
+                    if(!bows[ii].pause)
+                    {
+                        isBow = true;
+                    }
+                }
+                if(isBow){
+                    bows[Math.floor(Math.random() * 5)];
+                }
                 keyState.shift = true;
                 document.getElementById('shift').style.backgroundColor = "#9999ff";
                 break;
