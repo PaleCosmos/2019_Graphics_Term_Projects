@@ -17,6 +17,13 @@
         height: 50px;
         visibility: hidden;;
     }
+    .canvas1{
+        display: none;;
+    
+    }
+    .canvas2{
+       display: block;
+    }
 </style>
 
 <button id="starting" class="button1" >시작</button>
@@ -25,27 +32,27 @@
         <td>
         </td>
         <td id="up">
-            W
+            🆆
         </td>
         <td>
         </td>
     </tr>
     <tr>
         <td id="left">
-            A
+            🅰
         </td>
         <td id="space">
-              space
+             space 
         </td>
         <td id="right">
-            D
+            🅳
         </td>
     </tr>
     <tr>
         <td>
         </td>
         <td id="down">
-            S
+            🆂
         </td>
         <td>
         </td>
@@ -54,11 +61,14 @@
 
 <table style="float: right; display: flexbox;">
     <tr>
+        <td id="viewUp">
+            🅾
+        </td>
         <td id="leftView2">
             [
         </td>
         <td id="viewClose">
-            U
+            ⬆️
         </td>
         <td id="rightView2">
             ]
@@ -66,21 +76,26 @@
     </tr>
 
     <tr>
+        <td>
+        </td>
         <td id="leftView">
-            L
+            ⬅️
         </td>
         <td id="shift">
             shift
         </td>
         <td id="rightView">
-            R
+            ➡️
         </td>
     </tr>
     <tr>
+        <td id="viewDown">
+            🅺
+        </td>
         <td>
         </td>
         <td id="viewFar">
-            D
+            ⬇️
         </td>
         <td>
         </td>
@@ -136,7 +151,7 @@ main()
 
 <body>
 
-    <canvas id="gl-canvas" width="800" height="800">
+    <canvas id="gl-canvas" class="canvas1" width="800" height="800">
         Oops ... your browser doesn't support the HTML5 canvas element
     </canvas>
 

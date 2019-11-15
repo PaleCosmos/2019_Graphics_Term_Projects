@@ -6,6 +6,9 @@ var floors = [];
 var checks = [];
 
 var bows=[];
+var bow0;
+
+var isBowing = false;
 
 var isDebug = false
 var jumpHeight = 0.5;
@@ -23,7 +26,9 @@ var keyState = {
     viewRight: false,
     viewLeft: false,
     viewRight2: false,
-    viewLeft2: false
+    viewLeft2: false,
+    viewUp:false,
+    viewDown:false
 }
 
 var BGM = null;
@@ -40,10 +45,13 @@ window.onload = () => {
             new Audio('./Audio/bow5.wav'),
             new Audio('./Audio/bow6.wav')
         ];
+        bow0 = bows[0];
         BGM = new Audio('./Audio/henesis.mp3')
         BGM.loop = true;
         BGM.play();
         document.getElementById('starting').setAttribute('class','button2')
+        document.getElementById('gl-canvas').setAttribute('class','canvas2')
+
         doWork();
     }else{
         document.getElementById('starting').addEventListener('click', (e) => {
@@ -54,10 +62,13 @@ window.onload = () => {
                 new Audio('./Audio/bow5.wav'),
                 new Audio('./Audio/bow6.wav')
             ];
+            bow0 = bows[0];
             BGM = new Audio('./Audio/henesis.mp3')
             BGM.loop = true;
             BGM.play();
             document.getElementById('starting').setAttribute('class','button2')
+            document.getElementById('gl-canvas').setAttribute('class','canvas2')
+
             doWork();
         });
     }
@@ -97,12 +108,15 @@ const playerObjectCallbackAction = (_, element) => {
     else if (keyState.down) element.move(0, 0, playerSpeed,false,floors)
     else if (keyState.left) element.move(0, playerSpeed, 0,false,floors)
     else if (keyState.right) element.move(0, -playerSpeed, 0,false,floors)
+    if(keyState.shift) bow0.play();
     if (keyState.far) GL.far()   
     if (keyState.near) GL.near()
     if (keyState.viewLeft) element.viewLeft()
     if (keyState.viewRight) element.viewRight()
     if (keyState.viewLeft2) element.viewLeft(false)
     if (keyState.viewRight2) element.viewRight(false)
+    if(keyState.viewUp) element.viewUp()
+    if(keyState.viewDown) element.viewDown()
 }
 
 function addFloorObject() {
@@ -181,9 +195,7 @@ function addFloorObject() {
         vec4(0, 1, 0, 1)
     ).using());
 
-
     // blue
-
     floors.push(new Cube(vec3(0, 5 + 0.3, 7+0.3), 1, idConcat++, true, false).setOneColor(
         vec4(0, 0, 1, 1)
     ).using());
@@ -216,6 +228,19 @@ function setListener() {
     });
     document.getElementById('left').addEventListener('mouseup', (e) => {
         keyState.left = false;
+    });
+    document.getElementById('viewUp').addEventListener('mousedown', (e) => {
+        keyState.viewUp = true;
+    });
+    document.getElementById('viewUp').addEventListener('mouseup', (e) => {
+        keyState.viewUp = false;
+    });
+
+    document.getElementById('viewDown').addEventListener('mousedown', (e) => {
+        keyState.viewDown = true;
+    });
+    document.getElementById('viewDown').addEventListener('mouseup', (e) => {
+        keyState.viewDown = false;
     });
 
     document.getElementById('leftView').addEventListener('mousedown', (e) => {
@@ -299,6 +324,14 @@ function addKeyListener(doc) {
                 keyState.right = false;
                 document.getElementById('right').style.backgroundColor = "white";
                 break;
+            case 79://o
+                keyState.viewUp = false;
+                document.getElementById('viewUp').style.backgroundColor = "white";
+                break;
+            case 75://o
+                keyState.viewDown = false;
+                document.getElementById('viewDown').style.backgroundColor = "white";
+                break;
             case 32:
                 document.getElementById('space').style.backgroundColor = "white";
                 break;
@@ -333,6 +366,7 @@ function addKeyListener(doc) {
         }
         true
     });
+
     doc.addEventListener('keydown', (e) => {
         console.log(e.keyCode)
         switch (e.keyCode) {
@@ -343,6 +377,14 @@ function addKeyListener(doc) {
             case 65: // a
                 keyState.left = true;
                 document.getElementById('left').style.backgroundColor = "#9999ff";
+                break;
+            case 79://o
+                keyState.viewUp = true;
+                document.getElementById('viewUp').style.backgroundColor = "#9999ff";
+                break;
+            case 75://o
+                keyState.viewDown = true;
+                document.getElementById('viewDown').style.backgroundColor = "#9999ff";
                 break;
             case 83: // s
                 keyState.down = true;
@@ -357,16 +399,6 @@ function addKeyListener(doc) {
                 myObject.jump(myObject.x + 0.5);
                 break;
             case 16:
-                let isBow = false;
-                for (let ii=0;ii<6;ii++){
-                    if(!bows[ii].pause)
-                    {
-                        isBow = true;
-                    }
-                }
-                if(isBow){
-                    bows[Math.floor(Math.random() * 5)];
-                }
                 keyState.shift = true;
                 document.getElementById('shift').style.backgroundColor = "#9999ff";
                 break;
