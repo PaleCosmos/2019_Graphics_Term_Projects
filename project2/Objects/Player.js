@@ -592,70 +592,55 @@ class Player extends WebGLObject {
 
     viewUp()
     {
-        let value = -0.2
-        let sin = Math.sin(value)
-        let cos = Math.cos(value)
-        let cos_ = 1-cos;
-
-        let myEye = PaleGL.information.eye
-        let myAt = vec3(this.x, this.y, this.z)
-
-        let r = vec3(
-            -myEye[0] + myAt[0],
-            -myEye[1] + myAt[1],
-            -myEye[2] + myAt[2]
-        );
-        
-        let bubson = externing(r, vec3(1,0,0))
-        let subb = Math.sqrt(
-            Math.pow(bubson[0],2)+
-            Math.pow(bubson[1],2),
-            Math.pow(bubson[2],2)
-            ,2)
-
-        let n = vec3(bubson[0]/subb, bubson[1]/subb, bubson[2]/subb);
-        r = myEye
-        let r1 = vec3(cos*r[0], cos*r[1], cos*r[2])
-        let r2_= cos_*(r[0]*n[0]+r[1]*n[1]+r[2]*n[2]);
-        let r2 = vec3(n[0]*r2_, n[1]*r2_, n[2]*r2_);
-        let r3_ = externing(n,r);
-        let r3 = vec3(sin*r3_[0],sin*r3_[1],sin*r3_[2])
-
-        PaleGL.information.eye = vec3(r1[0]+r2[0]+r3[0],r1[1]+r2[1]+r3[1],r1[2]+r2[2]+r3[2])
-    }
-
-    viewDown(){
         let value = 0.2
         let sin = Math.sin(value)
         let cos = Math.cos(value)
-        let cos_ = 1-cos;
-
-        let myEye = PaleGL.information.eye
         let myAt = vec3(this.x, this.y, this.z)
+        let cos_ = 1-cos;
+        let realEye = PaleGL.information.eye
+        let myEye = vec3(realEye[0] -myAt[0], realEye[1]-myAt[1], realEye[2]-myAt[2])
 
         let r = vec3(
-            -myEye[0] + myAt[0],
-            -myEye[1] + myAt[1],
-            -myEye[2] + myAt[2]
+            myEye[0],
+            myEye[1],
+            myEye[2]
         );
         
-        let bubson = externing(r, vec3(1,0,0))
-        let subb = Math.sqrt(
-            Math.pow(bubson[0],2)+
-            Math.pow(bubson[1],2),
-            Math.pow(bubson[2],2)
-            ,2)
+        let bb = externing(r, vec3(1,0,0))
+        bb = vec3(bb[0]-myAt[0],bb[1]-myAt[1], bb[2]-myAt[2])
+        
+        let susuba = vec3(
+            (bb[0]*bb[0]*cos_ + cos)*myEye[0] +(bb[0]*bb[1]*cos_ - bb[2]*sin)*myEye[1] +(bb[0]*bb[2]*cos_+bb[1]*sin)*myEye[1],
+            (bb[0]*bb[1]*cos_ + bb[2]*sin)*myEye[0] + (bb[1]*bb[1]*cos_ + cos)*myEye[1] +(bb[2]*bb[1]*cos_ - bb[0]*sin)*myEye[2],
+            (bb[0]*bb[2]+cos_ - bb[1]*sin)*myEye[0] + (bb[1]*bb[2]*cos_ + bb[0]*sin)*myEye[1] + (bb[2]*bb[2]*cos_+cos)*myEye[2])
 
-        let n = vec3(bubson[0]/subb, bubson[1]/subb, bubson[2]/subb);
-        r = myEye
-        let r1 = vec3(cos*r[0], cos*r[1], cos*r[2])
-        let r2_= cos_*(r[0]*n[0]+r[1]*n[1]+r[2]*n[2]);
-        let r2 = vec3(n[0]*r2_, n[1]*r2_, n[2]*r2_);
-        let r3_ = externing(n,r);
-        let r3 = vec3(sin*r3_[0],sin*r3_[1],sin*r3_[2])
+        PaleGL.information.eye = vec3(susuba[0] + myAt[0], susuba[1]+myAt[1], susuba[2]+myAt[2])
+    }
 
-        PaleGL.information.eye = vec3(r1[0]+r2[0]+r3[0],r1[1]+r2[1]+r3[1],r1[2]+r2[2]+r3[2])
-   
+    viewDown(){
+        let value = -0.2
+        let sin = Math.sin(value)
+        let cos = Math.cos(value)
+        let myAt = vec3(this.x, this.y, this.z)
+        let cos_ = 1-cos;
+        let realEye = PaleGL.information.eye
+        let myEye = vec3(realEye[0] -myAt[0], realEye[1]-myAt[1], realEye[2]-myAt[2])
+
+        let r = vec3(
+            myEye[0],
+            myEye[1],
+            myEye[2]
+        );
+        
+        let bb = externing(r, vec3(1,0,0))
+        bb = vec3(bb[0]-myAt[0],bb[1]-myAt[1], bb[2]-myAt[2])
+        
+        let susuba = vec3(
+            (bb[0]*bb[0]*cos_ + cos)*myEye[0] +(bb[0]*bb[1]*cos_ - bb[2]*sin)*myEye[1] +(bb[0]*bb[2]*cos_+bb[1]*sin)*myEye[1],
+            (bb[0]*bb[1]*cos_ + bb[2]*sin)*myEye[0] + (bb[1]*bb[1]*cos_ + cos)*myEye[1] +(bb[2]*bb[1]*cos_ - bb[0]*sin)*myEye[2],
+            (bb[0]*bb[2]+cos_ - bb[1]*sin)*myEye[0] + (bb[1]*bb[2]*cos_ + bb[0]*sin)*myEye[1] + (bb[2]*bb[2]*cos_+cos)*myEye[2])
+
+        PaleGL.information.eye = vec3(susuba[0] + myAt[0], susuba[1]+myAt[1], susuba[2]+myAt[2])
     }
 
     viewRight(isView = true) {
