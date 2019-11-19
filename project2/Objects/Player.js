@@ -592,55 +592,65 @@ class Player extends WebGLObject {
 
     viewUp()
     {
-        let value = 0.2
+        let value = -0.02
         let sin = Math.sin(value)
         let cos = Math.cos(value)
         let myAt = vec3(this.x, this.y, this.z)
         let cos_ = 1-cos;
         let realEye = PaleGL.information.eye
-        let myEye = vec3(realEye[0] -myAt[0], realEye[1]-myAt[1], realEye[2]-myAt[2])
+        let myEye = vec3(realEye[0] , realEye[1], realEye[2])
 
         let r = vec3(
-            myEye[0],
-            myEye[1],
-            myEye[2]
+            myEye[0]-myAt[0],
+            myEye[1]-myAt[1],
+            myEye[2]-myAt[2]
         );
         
         let bb = externing(r, vec3(1,0,0))
-        bb = vec3(bb[0]-myAt[0],bb[1]-myAt[1], bb[2]-myAt[2])
-        
-        let susuba = vec3(
-            (bb[0]*bb[0]*cos_ + cos)*myEye[0] +(bb[0]*bb[1]*cos_ - bb[2]*sin)*myEye[1] +(bb[0]*bb[2]*cos_+bb[1]*sin)*myEye[1],
-            (bb[0]*bb[1]*cos_ + bb[2]*sin)*myEye[0] + (bb[1]*bb[1]*cos_ + cos)*myEye[1] +(bb[2]*bb[1]*cos_ - bb[0]*sin)*myEye[2],
-            (bb[0]*bb[2]+cos_ - bb[1]*sin)*myEye[0] + (bb[1]*bb[2]*cos_ + bb[0]*sin)*myEye[1] + (bb[2]*bb[2]*cos_+cos)*myEye[2])
+        let bbs = Math.sqrt(
+            Math.pow(bb[0],2),
+            Math.pow(bb[1],2),
+            Math.pow(bb[2],2)
+            ,2);
 
-        PaleGL.information.eye = vec3(susuba[0] + myAt[0], susuba[1]+myAt[1], susuba[2]+myAt[2])
+        bb = vec3(bb[0],bb[1], bb[2])
+        
+        let KX = (bb[0]*bb[0]*cos_ + cos)*myEye[0] +(bb[0]*bb[1]*cos_+sin*bb[1])*myEye[1] +(bb[0]*bb[2]*cos_ - sin*bb[1])*myEye[2]
+        let KY = (bb[1]*bb[2]*cos_ - sin*bb[2])*myEye[0]+(bb[1]*bb[1]*cos_ + cos)*myEye[1]+(bb[1]*bb[2]*cos_ + sin*bb[0])*myEye[2]
+        let KZ = (bb[2]*bb[1]*cos_+sin*bb[1])*myEye[0]+(bb[2]*bb[1]*cos_-sin*bb[0])*myEye[1]+(bb[2]*bb[2]*cos_+cos)*myEye[2]
+
+        PaleGL.information.eye = vec3(KX, KY, KZ)
     }
 
     viewDown(){
-        let value = -0.2
+        let value = 0.02
         let sin = Math.sin(value)
         let cos = Math.cos(value)
         let myAt = vec3(this.x, this.y, this.z)
         let cos_ = 1-cos;
         let realEye = PaleGL.information.eye
-        let myEye = vec3(realEye[0] -myAt[0], realEye[1]-myAt[1], realEye[2]-myAt[2])
+        let myEye = vec3(realEye[0] , realEye[1], realEye[2])
 
         let r = vec3(
-            myEye[0],
-            myEye[1],
-            myEye[2]
+            myEye[0]-myAt[0],
+            myEye[1]-myAt[1],
+            myEye[2]-myAt[2]
         );
         
         let bb = externing(r, vec3(1,0,0))
-        bb = vec3(bb[0]-myAt[0],bb[1]-myAt[1], bb[2]-myAt[2])
-        
-        let susuba = vec3(
-            (bb[0]*bb[0]*cos_ + cos)*myEye[0] +(bb[0]*bb[1]*cos_ - bb[2]*sin)*myEye[1] +(bb[0]*bb[2]*cos_+bb[1]*sin)*myEye[1],
-            (bb[0]*bb[1]*cos_ + bb[2]*sin)*myEye[0] + (bb[1]*bb[1]*cos_ + cos)*myEye[1] +(bb[2]*bb[1]*cos_ - bb[0]*sin)*myEye[2],
-            (bb[0]*bb[2]+cos_ - bb[1]*sin)*myEye[0] + (bb[1]*bb[2]*cos_ + bb[0]*sin)*myEye[1] + (bb[2]*bb[2]*cos_+cos)*myEye[2])
+        let bbs = Math.sqrt(
+            Math.pow(bb[0],2),
+            Math.pow(bb[1],2),
+            Math.pow(bb[2],2)
+            ,2);
 
-        PaleGL.information.eye = vec3(susuba[0] + myAt[0], susuba[1]+myAt[1], susuba[2]+myAt[2])
+        bb = vec3(bb[0],bb[1], bb[2])
+        
+        let KX = (bb[0]*bb[0]*cos_ + cos)*myEye[0] +(bb[0]*bb[1]*cos_+sin*bb[1])*myEye[1] +(bb[0]*bb[2]*cos_ - sin*bb[1])*myEye[2]
+        let KY = (bb[1]*bb[2]*cos_ - sin*bb[2])*myEye[0]+(bb[1]*bb[1]*cos_ + cos)*myEye[1]+(bb[1]*bb[2]*cos_ + sin*bb[0])*myEye[2]
+        let KZ = (bb[2]*bb[1]*cos_+sin*bb[1])*myEye[0]+(bb[2]*bb[1]*cos_-sin*bb[0])*myEye[1]+(bb[2]*bb[2]*cos_+cos)*myEye[2]
+
+        PaleGL.information.eye = vec3(KX, KY, KZ)
     }
 
     viewRight(isView = true) {
