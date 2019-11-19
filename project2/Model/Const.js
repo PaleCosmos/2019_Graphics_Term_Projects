@@ -26,6 +26,14 @@ var externing = (a, b) => {
     return vecA;
 }
 
+var sizeOfVector = (a)=>{
+    return Math.sqrt(
+        Math.pow(a[0],2)+
+        Math.pow(a[1],2)+
+        Math.pow(a[2],2)
+        ,2)
+}
+
 var interning = (a, b) => {
     return (a[0] * b[0] + a[1] * b[1] + a[2] * b[2])
 }

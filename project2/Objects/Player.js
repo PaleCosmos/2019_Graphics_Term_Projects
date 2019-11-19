@@ -21,7 +21,11 @@ class Player extends WebGLObject {
 
     subAction(a, b) { }
 
+    rotationAction(a, b) {}
+
     gravityAction(a, b) { }
+
+
 
     // No Gradation
     setColor(vec4List = 0) {
@@ -126,37 +130,37 @@ class Player extends WebGLObject {
         this.colorCube(vec3(0.3, 0.6, 0.6), vec3(0.25 - this.size / 2, 0, -0.1))
         this.setOneColor(playerBodyColor) // 대가뤼 216 - 251
 
-        this.colorCube(vec3(0.4, 0.6, 0.3), vec3(0.28- this.size / 2, 0, -0.07))
+        this.colorCube(vec3(0.4, 0.6, 0.3), vec3(0.28 - this.size / 2, 0, -0.07))
         this.setOneColor(playerBodyColor) // 대가뤼 위에거
 
-        this.colorCube(vec3(0.15, 0.15, 0.15), vec3(0.3- this.size / 2, 0.03, -0.1))
+        this.colorCube(vec3(0.15, 0.15, 0.15), vec3(0.3 - this.size / 2, 0.03, -0.1))
         this.setOneColor(vec4(1, 1, 1, 1)) // 눈
 
-        this.colorCube(vec3(0.15, 0.15, 0.15), vec3(0.3- this.size / 2, -0.03, -0.1))
+        this.colorCube(vec3(0.15, 0.15, 0.15), vec3(0.3 - this.size / 2, -0.03, -0.1))
         this.setOneColor(vec4(1, 1, 1, 1)) // 눈
 
-        this.colorCube(vec3(0.1, 0.1, 0.1), vec3(0.3- this.size / 2, 0.03, -0.115))
+        this.colorCube(vec3(0.1, 0.1, 0.1), vec3(0.3 - this.size / 2, 0.03, -0.115))
         this.setOneColor(vec4(0, 0, 0, 1)) // 눈
 
-        this.colorCube(vec3(0.1, 0.1, 0.1), vec3(0.3- this.size / 2, -0.03, -0.115))
+        this.colorCube(vec3(0.1, 0.1, 0.1), vec3(0.3 - this.size / 2, -0.03, -0.115))
         this.setOneColor(vec4(0, 0, 0, 1)) // 눈
 
-        this.colorCube(vec3(0.1, 0.1, 0.1), vec3(0.29- this.size / 2, 0, -0.16))
+        this.colorCube(vec3(0.1, 0.1, 0.1), vec3(0.29 - this.size / 2, 0, -0.16))
         this.setOneColor(vec4(0, 0, 0, 1)) // 코
 
-        this.colorCube(vec3(0.28, 0.22, 0.28), vec3(0.31- this.size / 2, 0.05, -0.05))
+        this.colorCube(vec3(0.28, 0.22, 0.28), vec3(0.31 - this.size / 2, 0.05, -0.05))
         this.setOneColor(vec4(0.8, 0.5, 0, 1)) // 귀
 
-        this.colorCube(vec3(0.28, 0.22, 0.28), vec3(0.31- this.size / 2, -0.05, -0.05))
+        this.colorCube(vec3(0.28, 0.22, 0.28), vec3(0.31 - this.size / 2, -0.05, -0.05))
         this.setOneColor(vec4(0.8, 0.5, 0, 1)) // 귀
 
-        this.colorCube(vec3(0.05, 0.1, 0.25), vec3(0.25- this.size / 2, 0, -0.16))
+        this.colorCube(vec3(0.05, 0.1, 0.25), vec3(0.25 - this.size / 2, 0, -0.16))
         this.setOneColor(vec4(1, 0, 0, 1)) // 혀
 
-        this.colorCube(vec3(0.055, 0.01, 0.13), vec3(0.25- this.size / 2, 0, -0.17))
+        this.colorCube(vec3(0.055, 0.01, 0.13), vec3(0.25 - this.size / 2, 0, -0.17))
         this.setOneColor(vec4(0, 0, 0, 1)) // 혀계곡
 
-        this.colorCube(vec3(0.15, 0.15, 0.15), vec3(0.15- this.size / 2, 0, 0.11))
+        this.colorCube(vec3(0.15, 0.15, 0.15), vec3(0.15 - this.size / 2, 0, 0.11))
         this.setOneColor(vec4(0.8, 0.5, 0, 1)) // 꼬리; 12*(36)
     }
 
@@ -230,7 +234,7 @@ class Player extends WebGLObject {
             if (bool) {
                 element.move(-0.08, 0, 0, true)
             } else {
-                  
+
                 element.canJump = true;
                 element.teleportX(floors[xf].x + floors[xf].size / 2 + element.size / 2)
             }
@@ -363,6 +367,7 @@ class Player extends WebGLObject {
 
         let yi = y < 0 ? -1 : y == 0 ? 0 : 1
         let zi = z < 0 ? -1 : z == 0 ? 0 : 1
+        let b = null
 
         if (!isJump) {
             // console.log(xi, '  ', yi, '  ', zi)
@@ -390,8 +395,8 @@ class Player extends WebGLObject {
 
             if (yi == 0 && zi != 0) {
                 x = 0
-                y = realVctor[1] * -(playerSpeed/10) * zi
-                z = realVctor[2] * -(playerSpeed/10) * zi
+                y = realVctor[1] * -(playerSpeed / 10) * zi
+                z = realVctor[2] * -(playerSpeed / 10) * zi
             } else if (yi != 0 && zi == 0) {
                 x = 0
                 y = realVctor2[1] * -playerSpeed * yi
@@ -399,9 +404,9 @@ class Player extends WebGLObject {
             } else if (yi != 0 && zi != 0) {
 
                 x = 0
-                y = realVctor[1] * -(playerSpeed/10) * zi * r2 +
+                y = realVctor[1] * -(playerSpeed / 10) * zi * r2 +
                     r2 * realVctor2[1] * -playerSpeed * yi;
-                z = realVctor[2] * -(playerSpeed/10)* zi * r2 +
+                z = realVctor[2] * -(playerSpeed / 10) * zi * r2 +
                     r2 * realVctor2[2] * -playerSpeed * yi;
             }
 
@@ -409,7 +414,10 @@ class Player extends WebGLObject {
                 kas[0],
                 kas[1] + y,
                 kas[2] + z)
-    
+
+            // 0,y,z 벡터와
+            // 0, 
+
 
             //    console.log(x,',',y,',',z)
         }
@@ -430,26 +438,28 @@ class Player extends WebGLObject {
             one[2] += this.mVertices[vva + 216][2]
         }
 
-        let best = vec3(0, (zero[1] / 36) - (one[1] / 36), (zero[2] / 36) - (one[2] / 36));
-        let best0= externing(best, vec3(1,0,0));
-        let best2 = vec3(0, best0[1],best0[2])
+        let best = vec3(0, (zero[1] / 36) - (one[1] / 36), (zero[2] / 36) - (one[2] / 36)); //댕댕벡터
+        b= best;
+        let best0 = externing(best, vec3(1, 0, 0));
+        let best2 = vec3(0, best0[1], best0[2])
         let bb = Math.sqrt(Math.pow(best[2], 2) + Math.pow(best[1], 2), 2)
         let bb2 = Math.sqrt(Math.pow(best2[2], 2) + Math.pow(best2[1], 2), 2)
 
+     
 
         this.mVertices.forEach((element, index, _) => {
             let volt = Math.floor((index - 36) / 36); //0, 1, 2, 3
 
             let vv = (index >= 36 && index < 180);
-            let vv2 = (index >= 36*17 && index < 18*36) ;
+            let vv2 = (index >= 36 * 17 && index < 18 * 36);
 
             let tt = 0.004 * Math.sin(this.legSpeed) * ((volt % 2 == 0) ? 1 : -1)
             let tt2 = 0.004 * Math.cos(this.legSpeed)
 
             this.mVertices[index] = vec4(
                 element[0] + x,
-                element[1] + y + ((best[2] == 0 && best[1] == 0) ? 0 : (best[1] / bb)) * (vv ? tt : 0)+  (best2[1] / bb2) * (vv2 ? tt2 : 0),
-                element[2] + z + ((best[2] == 0 && best[1] == 0) ? 0 : (best[2] / bb)) * (vv ? tt : 0)+ (best2[2] / bb2) * (vv2 ? tt2 : 0),
+                element[1] + y + ((best[2] == 0 && best[1] == 0) ? 0 : (best[1] / bb)) * (vv ? tt : 0) + (best2[1] / bb2) * (vv2 ? tt2 : 0),
+                element[2] + z + ((best[2] == 0 && best[1] == 0) ? 0 : (best[2] / bb)) * (vv ? tt : 0) + (best2[2] / bb2) * (vv2 ? tt2 : 0),
                 element[3])
         });
 
@@ -462,6 +472,8 @@ class Player extends WebGLObject {
                     element[3])
             });
         }
+
+
 
         let cricri = false
         let cricri2 = false
@@ -488,19 +500,19 @@ class Player extends WebGLObject {
 
         let idx = -1;
 
-        checks.some((element, index, _)=>{
+        checks.some((element, index, _) => {
             let distance = distanceOf(vec3(element.x, element.y, element.z), vec3(this.x, this.y, this.z))
-            if(distance<0.08){
+            if (distance < 0.08) {
                 idx = index;
                 return false;
             }
         })
 
-        if(idx!= -1){
+        if (idx != -1) {
             let au = new Audio('./Audio/Coin.wav');
             au.play()
             firstBirth = checkPoints[idx];
-            checks[idx].teleport(-100,-100,-100);
+            checks[idx].teleport(-100, -100, -100);
         }
 
         if (cricri) {
@@ -522,6 +534,34 @@ class Player extends WebGLObject {
             au.play()
             PaleGL.setEye();
             this.teleport(firstBirth[0], firstBirth[1], firstBirth[2])
+        }
+        if(!isJump)
+        {
+            //best와 (0, y1, z1)의 사이각을 구한다.
+            // best -> z = (b[2]/b[1])*(y-b[1])-b[2]
+            // -> z = (z1/y1)*(y - y1) - z1
+
+            // tan0 = Math.abs((b[2]/b[1] - z1/y1)/(1+(b[2]/b[1])*(z1/y1)))
+            //let t = Math.abs((best[2]/best[1] - z/y)/(1+(best[2]/best[1])*(z/y)))
+            
+            let size1= sizeOfVector(vec3(0, y, z));
+            let size2 =sizeOfVector(b);
+            let cos1 = y/size1
+            let sin1 = z/size1
+            let cos2 = b[1]/size2
+            let sin2 = b[2]/size2
+            
+
+            let realCos = cos1*cos2 + sin1*sin2;
+            let realSin = sin1*cos2 - cos1*sin2;
+            let realTan = realSin/realCos;
+
+            let speed = (realSin>=0)?(-0.05):(0.05);
+
+                if((realSin<0.1|| realSin>-0.1))
+                    this.setRotationByX(speed)
+            
+            //}
         }
     }
 
@@ -590,65 +630,64 @@ class Player extends WebGLObject {
         }
     }
 
-    viewUp()
-    {
+    viewUp() {
         let value = -0.02
         let sin = Math.sin(value)
         let cos = Math.cos(value)
         let myAt = vec3(this.x, this.y, this.z)
-        let cos_ = 1-cos;
+        let cos_ = 1 - cos;
         let realEye = PaleGL.information.eye
-        let myEye = vec3(realEye[0] , realEye[1], realEye[2])
+        let myEye = vec3(realEye[0], realEye[1], realEye[2])
 
         let r = vec3(
-            myEye[0]-myAt[0],
-            myEye[1]-myAt[1],
-            myEye[2]-myAt[2]
+            myEye[0] - myAt[0],
+            myEye[1] - myAt[1],
+            myEye[2] - myAt[2]
         );
-        
-        let bb = externing(r, vec3(1,0,0))
-        let bbs = Math.sqrt(
-            Math.pow(bb[0],2),
-            Math.pow(bb[1],2),
-            Math.pow(bb[2],2)
-            ,2);
 
-        bb = vec3(bb[0],bb[1], bb[2])
-        
-        let KX = (bb[0]*bb[0]*cos_ + cos)*myEye[0] +(bb[0]*bb[1]*cos_+sin*bb[1])*myEye[1] +(bb[0]*bb[2]*cos_ - sin*bb[1])*myEye[2]
-        let KY = (bb[1]*bb[2]*cos_ - sin*bb[2])*myEye[0]+(bb[1]*bb[1]*cos_ + cos)*myEye[1]+(bb[1]*bb[2]*cos_ + sin*bb[0])*myEye[2]
-        let KZ = (bb[2]*bb[1]*cos_+sin*bb[1])*myEye[0]+(bb[2]*bb[1]*cos_-sin*bb[0])*myEye[1]+(bb[2]*bb[2]*cos_+cos)*myEye[2]
+        let bb = externing(r, vec3(1, 0, 0))
+        let bbs = Math.sqrt(
+            Math.pow(bb[0], 2),
+            Math.pow(bb[1], 2),
+            Math.pow(bb[2], 2)
+            , 2);
+
+        bb = vec3(bb[0], bb[1], bb[2])
+
+        let KX = (bb[0] * bb[0] * cos_ + cos) * myEye[0] + (bb[0] * bb[1] * cos_ + sin * bb[1]) * myEye[1] + (bb[0] * bb[2] * cos_ - sin * bb[1]) * myEye[2]
+        let KY = (bb[1] * bb[2] * cos_ - sin * bb[2]) * myEye[0] + (bb[1] * bb[1] * cos_ + cos) * myEye[1] + (bb[1] * bb[2] * cos_ + sin * bb[0]) * myEye[2]
+        let KZ = (bb[2] * bb[1] * cos_ + sin * bb[1]) * myEye[0] + (bb[2] * bb[1] * cos_ - sin * bb[0]) * myEye[1] + (bb[2] * bb[2] * cos_ + cos) * myEye[2]
 
         PaleGL.information.eye = vec3(KX, KY, KZ)
     }
 
-    viewDown(){
+    viewDown() {
         let value = 0.02
         let sin = Math.sin(value)
         let cos = Math.cos(value)
         let myAt = vec3(this.x, this.y, this.z)
-        let cos_ = 1-cos;
+        let cos_ = 1 - cos;
         let realEye = PaleGL.information.eye
-        let myEye = vec3(realEye[0] , realEye[1], realEye[2])
+        let myEye = vec3(realEye[0], realEye[1], realEye[2])
 
         let r = vec3(
-            myEye[0]-myAt[0],
-            myEye[1]-myAt[1],
-            myEye[2]-myAt[2]
+            myEye[0] - myAt[0],
+            myEye[1] - myAt[1],
+            myEye[2] - myAt[2]
         );
-        
-        let bb = externing(r, vec3(1,0,0))
-        let bbs = Math.sqrt(
-            Math.pow(bb[0],2),
-            Math.pow(bb[1],2),
-            Math.pow(bb[2],2)
-            ,2);
 
-        bb = vec3(bb[0],bb[1], bb[2])
-        
-        let KX = (bb[0]*bb[0]*cos_ + cos)*myEye[0] +(bb[0]*bb[1]*cos_+sin*bb[1])*myEye[1] +(bb[0]*bb[2]*cos_ - sin*bb[1])*myEye[2]
-        let KY = (bb[1]*bb[2]*cos_ - sin*bb[2])*myEye[0]+(bb[1]*bb[1]*cos_ + cos)*myEye[1]+(bb[1]*bb[2]*cos_ + sin*bb[0])*myEye[2]
-        let KZ = (bb[2]*bb[1]*cos_+sin*bb[1])*myEye[0]+(bb[2]*bb[1]*cos_-sin*bb[0])*myEye[1]+(bb[2]*bb[2]*cos_+cos)*myEye[2]
+        let bb = externing(r, vec3(1, 0, 0))
+        let bbs = Math.sqrt(
+            Math.pow(bb[0], 2),
+            Math.pow(bb[1], 2),
+            Math.pow(bb[2], 2)
+            , 2);
+
+        bb = vec3(bb[0], bb[1], bb[2])
+
+        let KX = (bb[0] * bb[0] * cos_ + cos) * myEye[0] + (bb[0] * bb[1] * cos_ + sin * bb[1]) * myEye[1] + (bb[0] * bb[2] * cos_ - sin * bb[1]) * myEye[2]
+        let KY = (bb[1] * bb[2] * cos_ - sin * bb[2]) * myEye[0] + (bb[1] * bb[1] * cos_ + cos) * myEye[1] + (bb[1] * bb[2] * cos_ + sin * bb[0]) * myEye[2]
+        let KZ = (bb[2] * bb[1] * cos_ + sin * bb[1]) * myEye[0] + (bb[2] * bb[1] * cos_ - sin * bb[0]) * myEye[1] + (bb[2] * bb[2] * cos_ + cos) * myEye[2]
 
         PaleGL.information.eye = vec3(KX, KY, KZ)
     }

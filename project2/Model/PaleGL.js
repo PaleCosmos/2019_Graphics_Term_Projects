@@ -234,6 +234,9 @@ class PaleGL {
 
         PaleGL.objects.forEach(element1 => {
             element1.gravityAction(null, element1)
+            
+            element1.rotationAction(null, element1)
+
             if (!element1.trans) {
                 element1.mVertices.forEach((element, index, arr) => {
                     if(element1.id == myObject.id && num<36)

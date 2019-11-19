@@ -5,12 +5,15 @@ var myObject;
 var floors = [];
 var checks = [];
 
-var bows=[];
+var bows = [];
 var bow0;
 
 var isBowing = false;
-
+/////////////////////////////  DEBUG MODE
 var isDebug = false
+var DebugSwitcher = 2
+/////////////////////////////
+
 var jumpHeight = 0.5;
 
 var playerSpeed = 0.02;
@@ -22,13 +25,13 @@ var keyState = {
     right: false,
     shift: false,
     near: false,
-    far: false,                      
+    far: false,
     viewRight: false,
     viewLeft: false,
     viewRight2: false,
     viewLeft2: false,
-    viewUp:false,
-    viewDown:false
+    viewUp: false,
+    viewDown: false
 }
 
 var BGM = null;
@@ -36,8 +39,11 @@ var BGM = null;
 const centerPick = vec3(-1, -0, -1);
 
 window.onload = () => {
-    if(isDebug){
-        bows  = [
+    if (isDebug) {
+        if(DebugSwitcher!=0){
+            firstBirth = checkPoints[DebugSwitcher-1];
+        }
+        bows = [
             new Audio('./Audio/bow1.mp3'),
             new Audio('./Audio/bow2.wav'),
             new Audio('./Audio/bow3.wav'),
@@ -49,13 +55,13 @@ window.onload = () => {
         BGM = new Audio('./Audio/henesis.mp3')
         BGM.loop = true;
         BGM.play();
-        document.getElementById('starting').setAttribute('class','button2')
-        document.getElementById('gl-canvas').setAttribute('class','canvas2')
+        document.getElementById('starting').setAttribute('class', 'button2')
+        document.getElementById('gl-canvas').setAttribute('class', 'canvas2')
 
         doWork();
-    }else{
+    } else {
         document.getElementById('starting').addEventListener('click', (e) => {
-            bows  = [
+            bows = [
                 new Audio('./Audio/bow1.mp3'),
                 new Audio('./Audio/bow3.wav'),
                 new Audio('./Audio/bow4.mp3'),
@@ -66,15 +72,15 @@ window.onload = () => {
             BGM = new Audio('./Audio/henesis.mp3')
             BGM.loop = true;
             BGM.play();
-            document.getElementById('starting').setAttribute('class','button2')
-            document.getElementById('gl-canvas').setAttribute('class','canvas2')
+            document.getElementById('starting').setAttribute('class', 'button2')
+            document.getElementById('gl-canvas').setAttribute('class', 'canvas2')
 
             doWork();
         });
     }
 }
 
-function doWork(){
+function doWork() {
     GL = PaleGL.getInstance(document.getElementById("gl-canvas"))
     addFloorObject();
 
@@ -84,61 +90,79 @@ function doWork(){
     setListener();
 
     GL.addFloor(floors)
-    .addChecks(checks)
-    .add(new Cube(vec3(-3, 0, -1), 40, idConcat++, true, false).setOneColor(
-        vec4(0.5, 0, 0.5, 0.5)
-    ).using())
-    .add(new Cube(vec3(-39, 0, -1), 40, idConcat++, true, false).setOneColor(
-        vec4(1, 0, 0, 1)
-    ).using())
-    .add(new Cube(vec3(33, 0, -1), 40, idConcat++, true, false).setOneColor(
-        vec4(0, 0, 1, 1)
-    ).using())
+        .addChecks(checks)
+
+        .add(new Cube(vec3(-43, 0, -1), 40, idConcat++, true, false).setOneColor(
+            vec4(1, 0, 0, 1)
+        ).using()) // floor
+
+        .add(new Cube(vec3(37, 0, -1), 40, idConcat++, true, false).setOneColor(
+            vec4(0, 0, 1, 1)
+        ).using()) // top
+        //////////
+        .add(new Cube(vec3(-3, 40, -1), 40, idConcat++, true, false).setOneColor(
+            vec4(0, 1, 1, 1)
+        ).using())
+        .add(new Cube(vec3(-3, -40, -1), 40, idConcat++, true, false).setOneColor(
+            vec4(0, 1, 1, 1)
+        ).using())
+        .add(new Cube(vec3(-3, 0, 39), 40, idConcat++, true, false).setOneColor(
+            vec4(0, 1, 1, 1)
+        ).using())
+        .add(new Cube(vec3(-3, 0, -41), 40, idConcat++, true, false).setOneColor(
+            vec4(0, 1, 1, 1)
+        ).using())
+        .add(
+            new Cube(vec3(0, 2 + 0.8, 7 + 0.3), 0.3, idConcat++, true, false).setOneColor(
+                vec4(0, 0, 1, 1)
+            ).using()
+        )
+        ////////////
         .add(myObject)
         .rendering();
 }
 
 const playerObjectCallbackAction = (_, element) => {
     GL.setAt(vec3(element.x, element.y, element.z))
-    if (keyState.up && keyState.left) element.move(0, playerSpeed * r2, -playerSpeed * r2,false,floors)
-    else if (keyState.up && keyState.right) element.move(0, -playerSpeed * r2, -playerSpeed * r2,false,floors)
-    else if (keyState.down && keyState.left) element.move(0, playerSpeed * r2, playerSpeed * r2,false,floors)
-    else if (keyState.down && keyState.right) element.move(0, -playerSpeed * r2, playerSpeed * r2,false,floors)
-    else if (keyState.up) element.move(0, 0, -playerSpeed,false,floors)
-    else if (keyState.down) element.move(0, 0, playerSpeed,false,floors)
-    else if (keyState.left) element.move(0, playerSpeed, 0,false,floors)
-    else if (keyState.right) element.move(0, -playerSpeed, 0,false,floors)
-    if(keyState.shift) bow0.play();
-    if (keyState.far) GL.far()   
+    if (keyState.up && keyState.left) element.move(0, playerSpeed * r2, -playerSpeed * r2, false, floors)
+    else if (keyState.up && keyState.right) element.move(0, -playerSpeed * r2, -playerSpeed * r2, false, floors)
+    else if (keyState.down && keyState.left) element.move(0, playerSpeed * r2, playerSpeed * r2, false, floors)
+    else if (keyState.down && keyState.right) element.move(0, -playerSpeed * r2, playerSpeed * r2, false, floors)
+    else if (keyState.up) element.move(0, 0, -playerSpeed, false, floors)
+    else if (keyState.down) element.move(0, 0, playerSpeed, false, floors)
+    else if (keyState.left) element.move(0, playerSpeed, 0, false, floors)
+    else if (keyState.right) element.move(0, -playerSpeed, 0, false, floors)
+    if (keyState.shift) bow0.play();
+    if (keyState.far) GL.far()
     if (keyState.near) GL.near()
-    if (keyState.viewLeft) element.viewLeft()
-    if (keyState.viewRight) element.viewRight()
-    if (keyState.viewLeft2) element.viewLeft(false)
-    if (keyState.viewRight2) element.viewRight(false)
-    if(keyState.viewUp) element.viewUp()
-    if(keyState.viewDown) element.viewDown()
+    if (keyState.viewLeft2) element.viewLeft()
+    if (keyState.viewRight2) element.viewRight()
+    if (keyState.viewLeft) element.viewLeft(false)
+    if (keyState.viewRight) element.viewRight(false)
+    if (keyState.viewUp) element.viewUp()
+    if (keyState.viewDown) element.viewDown()
 }
 
 function addFloorObject() {
 
-     //purple square
-    floors.push(new Cube(vec3(-2+0.15, 1.5, -1), 0.3, idConcat++, true, false).setOneColor(
+    //purple square
+    floors.push(new Cube(vec3(-2 + 0.15, 1.5, -1), 0.3, idConcat++, true, false).setOneColor(
         vec4(0.5, 0, 0.5, 1)
     ).using());
 
-    floors.push(new Cube(vec3(-2+0.3, 1.8, -1), 0.3, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-2 + 0.3, 1.8, -1), 0.3, idConcat++, true, false).setOneColor(
         vec4(0.5, 0, 0.5, 1)
     ).using());
 
-    floors.push(new Cube(vec3(-2+0.45, 2.1, -1), 0.3, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-2 + 0.45, 2.1, -1), 0.3, idConcat++, true, false).setOneColor(
         vec4(0.5, 0, 0.5, 1)
     ).using());
 
-    floors.push(new Cube(vec3(-2+0.6, 2.4, -1), 0.3, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-2 + 0.6, 2.4, -1), 0.3, idConcat++, true, false).setOneColor(
         vec4(0.5, 0, 0.5, 1)
     ).using());
 
-    floors.push(new Cube(vec3(-2+0.75, 2.7, -1), 0.3, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-2 + 0.75, 2.7, -1), 0.3, idConcat++, true, false).setOneColor(
         vec4(0.5, 0, 0.5, 1)
     ).using());
 
@@ -146,7 +170,7 @@ function addFloorObject() {
         vec4(0.5, 0, 0.5, 1)
     ).using());
 
-   //green square
+    //green square
 
     floors.push(new Cube(vec3(-3, 5 + 0.3, -1), 4, idConcat++, true, false).setOneColor(
         vec4(0, 1, 0, 1)
@@ -163,47 +187,54 @@ function addFloorObject() {
         vec4(0, 1, 0, 1)
     ).using());
 
-    floors.push(new Cube(vec3(-0.8, 4.9 , 1.7), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-0.8, 4.9, 1.7), 0.2, idConcat++, true, false).setOneColor(
         vec4(0, 1, 0, 1)
     ).using());
 
-    floors.push(new Cube(vec3(-0.6, 5.3 , 1.9), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-0.6, 5.3, 1.9), 0.2, idConcat++, true, false).setOneColor(
         vec4(0, 1, 0, 1)
     ).using());
 
-    floors.push(new Cube(vec3(-0.6, 5.3 , 2.4), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-0.6, 5.3, 2.4), 0.2, idConcat++, true, false).setOneColor(
         vec4(0, 1, 0, 1)
     ).using());
 
-    floors.push(new Cube(vec3(-0.6, 5.3 , 2.9), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-0.6, 5.3, 2.9), 0.2, idConcat++, true, false).setOneColor(
         vec4(0, 1, 0, 1)
     ).using());
 
-    floors.push(new Cube(vec3(-0.6, 4.7 , 3.4), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-0.6, 4.7, 3.4), 0.2, idConcat++, true, false).setOneColor(
         vec4(0, 1, 0, 1)
     ).using());
 
-    floors.push(new Cube(vec3(-0.3, 4.9 , 3.9), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-0.3, 4.9, 3.9), 0.2, idConcat++, true, false).setOneColor(
         vec4(0, 1, 0, 1)
     ).using());
 
-    floors.push(new Cube(vec3(-0.3, 4.9 , 4.5), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-0.3, 4.9, 4.5), 0.2, idConcat++, true, false).setOneColor(
         vec4(0, 1, 0, 1)
     ).using());
 
-    floors.push(new Cube(vec3(-0.1, 4.9 , 4.9), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-0.1, 4.9, 4.9), 0.2, idConcat++, true, false).setOneColor(
         vec4(0, 1, 0, 1)
     ).using());
 
-    // blue
-    floors.push(new Cube(vec3(0, 5 + 0.3, 7+0.3), 1, idConcat++, true, false).setOneColor(
+    // blue squares
+    floors.push(new Cube(vec3(0, 5 + 0.3, 7 + 0.3), 1, idConcat++, true, false).setOneColor(
         vec4(0, 0, 1, 1)
     ).using());
-    checks.push(new Cube(vec3(0.6, 5 + 0.3, 7+0.3), 0.1, idConcat++, true, false).setOneColor(
+    checks.push(new Cube(vec3(0.6, 5 + 0.3, 7 + 0.3), 0.1, idConcat++, true, false).setOneColor(
         vec4(1, 1, 0, 1)
     ).using());
 
-    floors.push(new Cube(vec3(-2, 5 + 0.3, 7+0.3), 4, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-2, 5 + 0.3, 7 + 0.3), 4, idConcat++, true, false).setOneColor(
+        vec4(0, 0, 1, 1)
+    ).using());
+
+    floors.push(new Cube(vec3(-5, 2 + 0.3, 7 + 0.3), 0.3, idConcat++, true, false).setOneColor(
+        vec4(0, 0, 1, 1)
+    ).using());
+    floors.push(new Cube(vec3(-5, 1.6, 7 + 0.3), 0.2, idConcat++, true, false).setOneColor(
         vec4(0, 0, 1, 1)
     ).using());
 };
