@@ -382,6 +382,8 @@ class Player extends WebGLObject {
 
             let siz = Math.sqrt(Math.pow(mVector[1], 2) + Math.pow(mVector[2], 2))
 
+       
+
             if (siz == 0) return;
 
             // 방향벡터
@@ -391,23 +393,30 @@ class Player extends WebGLObject {
                 vecValue * mVector[2] / siz
             )
 
+            let kkvk = sizeOfVector(realVctor);
+
             let realVctor2 = externing(realVctor, vec3(1, 0, 0))
+
+            let kkvx = sizeOfVector(realVctor2);
+
+            realVctor2 = vec3(
+                0,realVctor2[1]*(kkvk/kkvx),realVctor2[2]*(kkvk/kkvx)
+            )
 
             if (yi == 0 && zi != 0) {
                 x = 0
-                y = realVctor[1] * -(playerSpeed / 10) * zi
-                z = realVctor[2] * -(playerSpeed / 10) * zi
+                y = realVctor[1] * -(playerSpeed ) * zi
+                z = realVctor[2] * -(playerSpeed) * zi
             } else if (yi != 0 && zi == 0) {
                 x = 0
-                y = realVctor2[1] * -playerSpeed * yi
-                z = realVctor2[2] * -playerSpeed * yi
+                y = realVctor2[1] * -(playerSpeed) * yi
+                z = realVctor2[2] * -(playerSpeed) * yi
             } else if (yi != 0 && zi != 0) {
-
                 x = 0
-                y = realVctor[1] * -(playerSpeed / 10) * zi * r2 +
-                    r2 * realVctor2[1] * -playerSpeed * yi;
-                z = realVctor[2] * -(playerSpeed / 10) * zi * r2 +
-                    r2 * realVctor2[2] * -playerSpeed * yi;
+                y = realVctor[1] * -(playerSpeed ) * zi * r2 +
+                    r2 * realVctor2[1] * -(playerSpeed) * yi;
+                z = realVctor[2] * -(playerSpeed ) * zi * r2 +
+                    r2 * realVctor2[2] * -(playerSpeed) * yi;
             }
 
             PaleGL.information.eye = vec3(
@@ -488,6 +497,7 @@ class Player extends WebGLObject {
                     (this.x - this.size / 2) < floor.x + floor.size / 2) {
                     // element.teleportX(floor.x + floor.size / 2 + element.size / 2)
                     cricri = true;
+                  
                 } else if ((this.y - this.size / 2) <= floor.y + floor.size / 2 &&
                     (this.y + this.size / 2) >= floor.y - floor.size / 2 &&
                     (this.z - this.size / 2) <= floor.z + floor.size / 2 &&
@@ -554,11 +564,10 @@ class Player extends WebGLObject {
 
             let realCos = cos1*cos2 + sin1*sin2;
             let realSin = sin1*cos2 - cos1*sin2;
-            let realTan = realSin/realCos;
+            
+            let speed = (realSin>=0)?(-0.1):(0.1);
 
-            let speed = (realSin>=0)?(-0.05):(0.05);
-
-                if((realSin<0.1|| realSin>-0.1))
+                if((realSin>=0.05|| realSin<=-0.05))
                     this.setRotationByX(speed)
             
             //}

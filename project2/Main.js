@@ -16,7 +16,7 @@ var DebugSwitcher = 2
 
 var jumpHeight = 0.5;
 
-var playerSpeed = 0.02;
+var playerSpeed = 0.003;
 
 var keyState = {
     up: false,
@@ -238,7 +238,7 @@ function addFloorObject() {
 
     //moveObejct
     let sspeed = 0.08;
-    floors.push(new Cube(vec3(-1, 1.6, 7 + 0.3), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-1, 1.6, 6.5 + 0.3), 0.2, idConcat++, true, false).setOneColor(
         vec4(0, 0, 1, 1)
     ).setCallbackAction((_, element)=>{
         if((element.y+element.size/2 >= myObject.y-myObject.size/2&&
@@ -267,7 +267,7 @@ function addFloorObject() {
         vec4(0, 0, 1, 1)
     ).using());
 
-    floors.push(new Cube(vec3(0.2, 0.39, 7.3 + 0.3), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(0.2, 0.3, 7.3 + 0.3), 0.2, idConcat++, true, false).setOneColor(
         vec4(0, 0, 1, 1)
     ).setCallbackAction((_, element)=>{
         if((element.y+element.size/2 >= myObject.y-myObject.size/2&&
@@ -287,7 +287,11 @@ function addFloorObject() {
             }
     }).using());
 
-    floors.push(new Cube(vec3(0.2, 0.39, 6.7 + 0.3), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(0.2, 0.3, 6.7 + 0.3), 0.2, idConcat++, true, false).setOneColor(
+        vec4(0, 0, 1, 1)
+    ).using());
+
+    floors.push(new Cube(vec3(0.2, -0.2, 7 + 0.3), 0.2, idConcat++, true, false).setOneColor(
         vec4(0, 0, 1, 1)
     ).using());
     
