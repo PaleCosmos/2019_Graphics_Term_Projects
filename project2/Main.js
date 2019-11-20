@@ -10,7 +10,7 @@ var bow0;
 
 var isBowing = false;
 /////////////////////////////  DEBUG MODE
-var isDebug = false
+var isDebug = true
 var DebugSwitcher = 2
 /////////////////////////////
 
@@ -112,11 +112,7 @@ function doWork() {
         .add(new Cube(vec3(-3, 0, -41), 40, idConcat++, true, false).setOneColor(
             vec4(0, 1, 1, 1)
         ).using())
-        .add(
-            new Cube(vec3(0, 2 + 0.8, 7 + 0.3), 0.3, idConcat++, true, false).setOneColor(
-                vec4(0, 0, 1, 1)
-            ).using()
-        )
+
         ////////////
         .add(myObject)
         .rendering();
@@ -231,12 +227,70 @@ function addFloorObject() {
         vec4(0, 0, 1, 1)
     ).using());
 
-    floors.push(new Cube(vec3(-5, 2 + 0.3, 7 + 0.3), 0.3, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-1, 2 + 0.3, 7 + 0.3), 0.3, idConcat++, true, false).setOneColor(
         vec4(0, 0, 1, 1)
     ).using());
-    floors.push(new Cube(vec3(-5, 1.6, 7 + 0.3), 0.2, idConcat++, true, false).setOneColor(
+
+    floors.push( new Cube(vec3(0, 2 + 0.8, 7 + 0.3), 0.3, idConcat++, true, false).setOneColor(
+        vec4(0, 0, 1, 1)
+    ).using())
+
+
+    //moveObejct
+    let sspeed = 0.08;
+    floors.push(new Cube(vec3(-1, 1.6, 7 + 0.3), 0.2, idConcat++, true, false).setOneColor(
+        vec4(0, 0, 1, 1)
+    ).setCallbackAction((_, element)=>{
+        if((element.y+element.size/2 >= myObject.y-myObject.size/2&&
+            element.y-element.size/2 <= myObject.y+myObject.size/2)&&
+        (element.z+element.size/2 >= myObject.z-myObject.size/2&&
+            element.z-element.size/2 <= myObject.z+myObject.size/2)&&
+            (Math.abs(element.x - myObject.x))<0.01 +(myObject.size/2+element.size/2))
+            {
+                element.setOneColor(vec4(1,0,0,1))
+               
+            }else{
+                element.setOneColor(vec4(0,0,1,1))
+            }
+            if(element.x >= -1+1 || element.x<=-1-0.5)
+            {
+                sspeed *=-1;
+            }
+            element.move(sspeed,0,0)
+    }).using());
+
+
+    floors.push(new Cube(vec3(0, 1.3, 7 + 0.3), 0.2, idConcat++, true, false).setOneColor(
         vec4(0, 0, 1, 1)
     ).using());
+    floors.push(new Cube(vec3(0+0.2, 0.8, 7 + 0.3), 0.2, idConcat++, true, false).setOneColor(
+        vec4(0, 0, 1, 1)
+    ).using());
+
+    floors.push(new Cube(vec3(0.2, 0.39, 7.3 + 0.3), 0.2, idConcat++, true, false).setOneColor(
+        vec4(0, 0, 1, 1)
+    ).setCallbackAction((_, element)=>{
+        if((element.y+element.size/2 >= myObject.y-myObject.size/2&&
+            element.y-element.size/2 <= myObject.y+myObject.size/2)&&
+        (element.z+element.size/2 >= myObject.z-myObject.size/2&&
+            element.z-element.size/2 <= myObject.z+myObject.size/2)&&
+            (Math.abs(element.x - myObject.x))<0.01 +(myObject.size/2+element.size/2))
+            {
+                if(element.y >= 0.5+1 || element.y<=0.5-1)
+                {
+                    sspeed *=-1;
+                }
+                element.setOneColor(vec4(1,0,0,1))
+                element.move(0,sspeed,0)
+            }else{
+                element.setOneColor(vec4(0,0,1,1))
+            }
+    }).using());
+
+    floors.push(new Cube(vec3(0.2, 0.39, 6.7 + 0.3), 0.2, idConcat++, true, false).setOneColor(
+        vec4(0, 0, 1, 1)
+    ).using());
+    
 };
 
 function setListener() {
@@ -331,6 +385,10 @@ function setListener() {
         myObject.jump(myObject.x + jumpHeight);
     });
 
+    document.getElementById('reset').addEventListener('click', (e) => {
+        myObject.teleport(firstBirth[0], firstBirth[1], firstBirth[2])
+    });
+
 
     addKeyListener(document)
 };
@@ -339,6 +397,11 @@ function addKeyListener(doc) {
     doc.addEventListener('keyup', (e) => {
         console.log(e.keyCode)
         switch (e.keyCode) {
+            case 82: //r
+            document.getElementById('reset').style.backgroundColor = "white";
+
+            myObject.teleport(firstBirth[0], firstBirth[1], firstBirth[2])
+            break;
             case 87: // w
                 keyState.up = false;
                 document.getElementById('up').style.backgroundColor = "white";
@@ -401,6 +464,9 @@ function addKeyListener(doc) {
     doc.addEventListener('keydown', (e) => {
         console.log(e.keyCode)
         switch (e.keyCode) {
+            case 82: //r
+            document.getElementById('reset').style.backgroundColor = "#9999ff";
+            break;
             case 87: // w
                 document.getElementById('up').style.backgroundColor = "#9999ff";
                 keyState.up = true;
