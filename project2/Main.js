@@ -13,7 +13,7 @@ var bow0;
 
 var isBowing = false;
 /////////////////////////////  DEBUG MODE
-var isDebug = true
+var isDebug = false
 var DebugSwitcher = 0
 /////////////////////////////
 
@@ -95,9 +95,9 @@ function doWork() {
     GL.addFloor(floors)
         .addChecks(checks)
         .addMovingObject(movingObject)
-        .add(new Cube(vec3(-43, 0, -1), 40, idConcat++, true, false).setOneColor(
-            vec4(0, 0.5, 0, 1)
-        ).using()) // floor
+        // .add(new Cube(vec3(-43, 0, -1), 40, idConcat++, true, false).setOneColor(
+        //     vec4(0, 0.5, 0, 1)
+        // ).using()) // floor
 
         .add(new Cube(vec3(37, 0, -1), 40, idConcat++, true, false).setOneColor(
             vec4(0, 0, 1, 1)
@@ -155,7 +155,19 @@ function addFloorObject() {
 
     floors.push(new Cube(vec3(-2 + 0.3, 1.8, -1), 0.3, idConcat++, true, false).setOneColor(
         vec4(0.5, 0, 0.5, 1)
-    ).using());
+    ).setCallbackAction((_, element) => {
+        if ((element.y + element.size / 2 >= myObject.y - myObject.size / 2 &&
+            element.y - element.size / 2 <= myObject.y + myObject.size / 2) &&
+            (element.z + element.size / 2 >= myObject.z - myObject.size / 2 &&
+                element.z - element.size / 2 <= myObject.z + myObject.size / 2) &&
+            (Math.abs(element.x - myObject.x)) < 0.01 + (myObject.size / 2 + element.size / 2)) {
+            element.setOneColor(vec4(0, 0, 1, 1))
+            element.move(-0.1, 0, 0)
+        } else {
+            element.setOneColor(vec4(0.5, 0, 0.5, 1))
+        }
+
+    }).using());
 
     floors.push(new Cube(vec3(-2 + 0.45, 2.1, -1), 0.3, idConcat++, true, false).setOneColor(
         vec4(0.5, 0, 0.5, 1)
@@ -206,7 +218,7 @@ function addFloorObject() {
     movingObject.push(new Cube(vec3(-0.4, 5.3, 2.4), 0.2, idConcat++, false, false).setOneColor(
         vec4(1, 0, 0, 1)
     ).setCallbackAction((_, element) => {
-        if (element.y >= (5.3 + 2) || element.y <= (5.3- 2)) {
+        if (element.y >= (5.3 + 2) || element.y <= (5.3 - 2)) {
             superSpeed *= -1;
         }
         element.setOneColor(vec4(1, 0, 0, 1))
@@ -309,7 +321,7 @@ function addFloorObject() {
         vec4(0, 0, 1, 1)
     ).using());
 
-    floors.push(new Cube(vec3(0.2, -0.2, 7 + 0.3), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(0.7, -0.2, 7 + 0.3), 0.2, idConcat++, true, false).setOneColor(
         vec4(0, 0, 1, 1)
     ).using());
 
@@ -332,7 +344,7 @@ function addFloorObject() {
         }
     }).using());
 
-    floors.push(new Cube(vec3(0.2, -1.2, 7 + 0.3), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(0.7, -1.2, 7 + 0.3), 0.2, idConcat++, true, false).setOneColor(
         vec4(0, 0, 1, 1)
     ).using());
 

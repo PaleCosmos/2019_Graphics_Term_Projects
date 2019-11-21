@@ -364,7 +364,6 @@ class Player extends WebGLObject {
 
         let kas = PaleGL.information.eye
 
-
         let yi = y < 0 ? -1 : y == 0 ? 0 : 1
         let zi = z < 0 ? -1 : z == 0 ? 0 : 1
         let b = null
@@ -423,12 +422,6 @@ class Player extends WebGLObject {
                 kas[0],
                 kas[1] + y,
                 kas[2] + z)
-
-            // 0,y,z 벡터와
-            // 0, 
-
-
-            //    console.log(x,',',y,',',z)
         }
 
         this.x += x;
@@ -497,7 +490,6 @@ class Player extends WebGLObject {
                     (this.x - this.size / 2) < floor.x + floor.size / 2) {
                     // element.teleportX(floor.x + floor.size / 2 + element.size / 2)
                     cricri = true;
-
                 } else if ((this.y - this.size / 2) <= floor.y + floor.size / 2 &&
                     (this.y + this.size / 2) >= floor.y - floor.size / 2 &&
                     (this.z - this.size / 2) <= floor.z + floor.size / 2 &&
@@ -540,23 +532,15 @@ class Player extends WebGLObject {
         }
         if (cricri2) {
             this.canJump = true;
-            console.log('aaa')
         }
 
-        if (this.x <= -10) {
+        if (this.x <= -8) {
             let au = new Audio('./Audio/dies.wav');
             au.play()
             PaleGL.setEye();
             this.teleport(firstBirth[0], firstBirth[1], firstBirth[2])
         }
         if (!isJump) {
-            //best와 (0, y1, z1)의 사이각을 구한다.
-            // best -> z = (b[2]/b[1])*(y-b[1])-b[2]
-            // -> z = (z1/y1)*(y - y1) - z1
-
-            // tan0 = Math.abs((b[2]/b[1] - z1/y1)/(1+(b[2]/b[1])*(z1/y1)))
-            //let t = Math.abs((best[2]/best[1] - z/y)/(1+(best[2]/best[1])*(z/y)))
-
             let size1 = sizeOfVector(vec3(0, y, z));
             let size2 = sizeOfVector(b);
             let cos1 = y / size1
@@ -564,14 +548,13 @@ class Player extends WebGLObject {
             let cos2 = b[1] / size2
             let sin2 = b[2] / size2
 
-
             let realCos = cos1 * cos2 + sin1 * sin2;
             let realSin = sin1 * cos2 - cos1 * sin2;
 
             let speed = (realSin >= 0) ? (-0.1) : (0.1);
 
-            //if ((realSin >= 0.05 || realSin <= -0.05))
-            this.setRotationByX(speed)
+            if ((realSin >= 0.05 || realSin <= -0.05))
+                this.setRotationByX(speed)
 
             //}
         }
@@ -624,7 +607,7 @@ class Player extends WebGLObject {
     }
 
     jump(zS) {
-        if ((this.isJumping || !this.canJump)&&!isDebug) return;
+        if ((this.isJumping || !this.canJump) && !isDebug) return;
 
         new Audio('./Audio/Jump.wav').play()
 
