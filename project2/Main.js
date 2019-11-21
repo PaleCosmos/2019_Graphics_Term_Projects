@@ -41,8 +41,8 @@ const centerPick = vec3(-1, -0, -1);
 
 window.onload = () => {
     if (isDebug) {
-        if(DebugSwitcher!=0){
-            firstBirth = checkPoints[DebugSwitcher-1];
+        if (DebugSwitcher != 0) {
+            firstBirth = checkPoints[DebugSwitcher - 1];
         }
         bows = [
             new Audio('./Audio/bow1.mp3'),
@@ -94,7 +94,7 @@ function doWork() {
         .addChecks(checks)
         .addMovingObject(movingObject)
         .add(new Cube(vec3(-43, 0, -1), 40, idConcat++, true, false).setOneColor(
-            vec4(1, 0, 0, 1)
+            vec4(0, 0.5, 0, 1)
         ).using()) // floor
 
         .add(new Cube(vec3(37, 0, -1), 40, idConcat++, true, false).setOneColor(
@@ -118,9 +118,9 @@ function doWork() {
         .add(myObject)
         .rendering();
 
-        if(isDebug){
-            myObject.teleport(1, -0.2, 7 + 0.3);
-        }
+    if (isDebug) {
+        myObject.teleport(1, -0.2, 7 + 0.3);
+    }
 }
 
 const playerObjectCallbackAction = (_, element) => {
@@ -188,17 +188,31 @@ function addFloorObject() {
         vec4(0, 1, 0, 1)
     ).using());
 
-    floors.push(new Cube(vec3(-0.8, 4.9, 1.7), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-0.8, 4.6, 1.7), 0.2, idConcat++, true, false).setOneColor(
         vec4(0, 1, 0, 1)
     ).using());
 
-    floors.push(new Cube(vec3(-0.6, 5.3, 1.9), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-0.3, 5, 1.9), 0.2, idConcat++, true, false).setOneColor(
         vec4(0, 1, 0, 1)
     ).using());
 
     floors.push(new Cube(vec3(-0.6, 5.3, 2.4), 0.2, idConcat++, true, false).setOneColor(
         vec4(0, 1, 0, 1)
     ).using());
+
+    let superSpeed = 0.08;
+    movingObject.push(new Cube(vec3(-0.4, 5.3, 2.4), 0.2, idConcat++, false, false).setOneColor(
+        vec4(1, 0, 0, 1)
+    ).setCallbackAction((_, element) => {
+        if (element.y >= (5.3 + 2) || element.y <= (5.3- 2)) {
+            superSpeed *= -1;
+        }
+        element.setOneColor(vec4(1, 0, 0, 1))
+        element.move(0, superSpeed, 0)
+        if (distanceOf(vec3(element.x, element.y, element.z), vec3(myObject.x, myObject.y, myObject.z)) <= ((element.size / 2) + (myObject.size / 2)) + 0.001) {
+            myObject.move(0, superSpeed, 0, true)
+        }
+    }).using());
 
     floors.push(new Cube(vec3(-0.6, 5.3, 2.9), 0.2, idConcat++, true, false).setOneColor(
         vec4(0, 1, 0, 1)
@@ -236,7 +250,7 @@ function addFloorObject() {
         vec4(0, 0, 1, 1)
     ).using());
 
-    floors.push( new Cube(vec3(0, 2 + 0.8, 7 + 0.3), 0.3, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(0, 2 + 0.8, 7 + 0.3), 0.3, idConcat++, true, false).setOneColor(
         vec4(0, 0, 1, 1)
     ).using())
 
@@ -245,52 +259,48 @@ function addFloorObject() {
     let sspeed = 0.08;
     floors.push(new Cube(vec3(-1, 1.6, 6.5 + 0.3), 0.2, idConcat++, false, false).setOneColor(
         vec4(0, 0, 1, 1)
-    ).setCallbackAction((_, element)=>{
-        if((element.y+element.size/2 >= myObject.y-myObject.size/2&&
-            element.y-element.size/2 <= myObject.y+myObject.size/2)&&
-        (element.z+element.size/2 >= myObject.z-myObject.size/2&&
-            element.z-element.size/2 <= myObject.z+myObject.size/2)&&
-            (Math.abs(element.x - myObject.x))<0.01 +(myObject.size/2+element.size/2))
-            {
-                element.setOneColor(vec4(1,0,0,1))
-               
-            }else{
-                element.setOneColor(vec4(0,0,1,1))
-            }
-            if(element.x >= -1+1 || element.x<=-1-0.5)
-            {
-                sspeed *=-1;
-            }
-            element.move(sspeed,0,0)
+    ).setCallbackAction((_, element) => {
+        if ((element.y + element.size / 2 >= myObject.y - myObject.size / 2 &&
+            element.y - element.size / 2 <= myObject.y + myObject.size / 2) &&
+            (element.z + element.size / 2 >= myObject.z - myObject.size / 2 &&
+                element.z - element.size / 2 <= myObject.z + myObject.size / 2) &&
+            (Math.abs(element.x - myObject.x)) < 0.01 + (myObject.size / 2 + element.size / 2)) {
+            element.setOneColor(vec4(1, 0, 0, 1))
+
+        } else {
+            element.setOneColor(vec4(0, 0, 1, 1))
+        }
+        if (element.x >= -1 + 1 || element.x <= -1 - 0.5) {
+            sspeed *= -1;
+        }
+        element.move(sspeed, 0, 0)
     }).using());
 
 
     floors.push(new Cube(vec3(0, 1.3, 7 + 0.3), 0.2, idConcat++, true, false).setOneColor(
         vec4(0, 0, 1, 1)
     ).using());
-    floors.push(new Cube(vec3(0+0.2, 0.8, 7 + 0.3), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(0 + 0.2, 0.8, 7 + 0.3), 0.2, idConcat++, true, false).setOneColor(
         vec4(0, 0, 1, 1)
     ).using());
 
     let sspeed3 = 0.08;
-    floors.push(new Cube(vec3(0.2, 0.3, 7.3 + 0.3), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(0.2, 0.3, 7.3 + 0.3), 0.2, idConcat++, false, false).setOneColor(
         vec4(0, 0, 1, 1)
-    ).setCallbackAction((_, element)=>{
-        if((element.y+element.size/2 >= myObject.y-myObject.size/2&&
-            element.y-element.size/2 <= myObject.y+myObject.size/2)&&
-        (element.z+element.size/2 >= myObject.z-myObject.size/2&&
-            element.z-element.size/2 <= myObject.z+myObject.size/2)&&
-            (Math.abs(element.x - myObject.x))<0.01 +(myObject.size/2+element.size/2))
-            {
-                if(element.y >= 0.5+1 || element.y<=0.5-1)
-                {
-                    sspeed3 *=-1;
-                }
-                element.setOneColor(vec4(1,0,0,1))
-                element.move(0,sspeed3,0)
-            }else{
-                element.setOneColor(vec4(0,0,1,1))
+    ).setCallbackAction((_, element) => {
+        if ((element.y + element.size / 2 >= myObject.y - myObject.size / 2 &&
+            element.y - element.size / 2 <= myObject.y + myObject.size / 2) &&
+            (element.z + element.size / 2 >= myObject.z - myObject.size / 2 &&
+                element.z - element.size / 2 <= myObject.z + myObject.size / 2) &&
+            (Math.abs(element.x - myObject.x)) < 0.01 + (myObject.size / 2 + element.size / 2)) {
+            if (element.y >= 0.5 + 1 || element.y <= 0.5 - 1) {
+                sspeed3 *= -1;
             }
+            element.setOneColor(vec4(1, 0, 0, 1))
+            element.move(0, sspeed3, 0)
+        } else {
+            element.setOneColor(vec4(0, 0, 1, 1))
+        }
     }).using());
 
     floors.push(new Cube(vec3(0.2, 0.3, 6.7 + 0.3), 0.2, idConcat++, true, false).setOneColor(
@@ -306,37 +316,36 @@ function addFloorObject() {
     ).using());
 
     let speed2 = 0.08
- 
-    movingObject.push(new Cube(vec3(0.4, -0.8, 7 + 0.3), 0.2, idConcat++, true, false).setOneColor(
+
+    movingObject.push(new Cube(vec3(0.4, -0.8, 7 + 0.3), 0.2, idConcat++, false, false).setOneColor(
         vec4(1, 0, 0, 1)
-    ).setCallbackAction((_, element)=>{
-                if(element.z >= (7 + 0.3+2) || element.z<=(7 + 0.3-2))
-                {
-                    speed2 *=-1;
-                }
-                element.setOneColor(vec4(1,0,0,1))
-                element.move(0,0,speed2)
-                if(distanceOf(vec3(element.x,element.y,element.z), vec3(myObject.x,myObject.y,myObject.z)) <= ((element.size/2)+(myObject.size/2))+0.001){
-                    myObject.move(0,0,speed2 ,true)
-                }
+    ).setCallbackAction((_, element) => {
+        if (element.z >= (7 + 0.3 + 2) || element.z <= (7 + 0.3 - 2)) {
+            speed2 *= -1;
+        }
+        element.setOneColor(vec4(1, 0, 0, 1))
+        element.move(0, 0, speed2)
+        if (distanceOf(vec3(element.x, element.y, element.z), vec3(myObject.x, myObject.y, myObject.z)) <= ((element.size / 2) + (myObject.size / 2)) + 0.001) {
+            myObject.move(0, 0, speed2, true)
+        }
     }).using());
 
     floors.push(new Cube(vec3(0.2, -1.2, 7 + 0.3), 0.2, idConcat++, true, false).setOneColor(
         vec4(0, 0, 1, 1)
     ).using());
 
-        let speed4 = -0.007
+    let speed4 = -0.007
 
-    floors.push(new Cube(vec3(0.2, -1.4-0.01, 7 + 0.3), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(0.2, -1.4 - 0.01, 7 + 0.3), 0.2, idConcat++, true, false).setOneColor(
         vec4(0, 0, 1, 1)
-    ).setCallbackAction((_, element)=>{
-        if((element.y+element.size/2 >= myObject.y-myObject.size/2&&
-            element.y-element.size/2 <= myObject.y+myObject.size/2)&&
-        (element.z+element.size/2 >= myObject.z-myObject.size/2&&
+    ).setCallbackAction((_, element) => {
+        if ((element.y + element.size / 2 >= myObject.y - myObject.size / 2 &&
+            element.y - element.size / 2 <= myObject.y + myObject.size / 2) &&
+            (element.z + element.size / 2 >= myObject.z - myObject.size / 2 &&
                 element.z - element.size / 2 <= myObject.z + myObject.size / 2) &&
             (Math.abs(element.x - myObject.x)) < 0.01 + (myObject.size / 2 + element.size / 2)) {
-           
-                if ((element.y <= -1.4 - 0.01 && element.y >= -1.4 - 2)) {
+
+            if ((element.y <= -1.4 - 0.01 && element.y >= -1.4 - 2)) {
                 element.move(0, speed4, 0)
                 myObject.move(0, speed4, 0, true)
             } else if (((element.x >= 0.2 && element.x <= 1))) {
@@ -470,10 +479,10 @@ function addKeyListener(doc) {
         console.log(e.keyCode)
         switch (e.keyCode) {
             case 82: //r
-            document.getElementById('reset').style.backgroundColor = "white";
+                document.getElementById('reset').style.backgroundColor = "white";
 
-            myObject.teleport(firstBirth[0], firstBirth[1], firstBirth[2])
-            break;
+                myObject.teleport(firstBirth[0], firstBirth[1], firstBirth[2])
+                break;
             case 87: // w
                 keyState.up = false;
                 document.getElementById('up').style.backgroundColor = "white";
@@ -537,8 +546,8 @@ function addKeyListener(doc) {
         console.log(e.keyCode)
         switch (e.keyCode) {
             case 82: //r
-            document.getElementById('reset').style.backgroundColor = "#9999ff";
-            break;
+                document.getElementById('reset').style.backgroundColor = "#9999ff";
+                break;
             case 87: // w
                 document.getElementById('up').style.backgroundColor = "#9999ff";
                 keyState.up = true;

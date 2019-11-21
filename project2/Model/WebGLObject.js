@@ -18,7 +18,7 @@ class WebGLObject {
 
     resizing(size) { }
 
-    rotationAction(a,b){}
+    rotationAction(a, b) { }
 
     setCallbackAction(callback) {
         this.callbackAction = callback;

@@ -21,7 +21,7 @@ class Player extends WebGLObject {
 
     subAction(a, b) { }
 
-    rotationAction(a, b) {}
+    rotationAction(a, b) { }
 
     gravityAction(a, b) { }
 
@@ -382,7 +382,7 @@ class Player extends WebGLObject {
 
             let siz = Math.sqrt(Math.pow(mVector[1], 2) + Math.pow(mVector[2], 2))
 
-       
+
 
             if (siz == 0) return;
 
@@ -400,12 +400,12 @@ class Player extends WebGLObject {
             let kkvx = sizeOfVector(realVctor2);
 
             realVctor2 = vec3(
-                0,realVctor2[1]*(kkvk/kkvx),realVctor2[2]*(kkvk/kkvx)
+                0, realVctor2[1] * (kkvk / kkvx), realVctor2[2] * (kkvk / kkvx)
             )
 
             if (yi == 0 && zi != 0) {
                 x = 0
-                y = realVctor[1] * -(playerSpeed ) * zi
+                y = realVctor[1] * -(playerSpeed) * zi
                 z = realVctor[2] * -(playerSpeed) * zi
             } else if (yi != 0 && zi == 0) {
                 x = 0
@@ -413,9 +413,9 @@ class Player extends WebGLObject {
                 z = realVctor2[2] * -(playerSpeed) * yi
             } else if (yi != 0 && zi != 0) {
                 x = 0
-                y = realVctor[1] * -(playerSpeed ) * zi * r2 +
+                y = realVctor[1] * -(playerSpeed) * zi * r2 +
                     r2 * realVctor2[1] * -(playerSpeed) * yi;
-                z = realVctor[2] * -(playerSpeed ) * zi * r2 +
+                z = realVctor[2] * -(playerSpeed) * zi * r2 +
                     r2 * realVctor2[2] * -(playerSpeed) * yi;
             }
 
@@ -448,13 +448,13 @@ class Player extends WebGLObject {
         }
 
         let best = vec3(0, (zero[1] / 36) - (one[1] / 36), (zero[2] / 36) - (one[2] / 36)); //댕댕벡터
-        b= best;
+        b = best;
         let best0 = externing(best, vec3(1, 0, 0));
         let best2 = vec3(0, best0[1], best0[2])
         let bb = Math.sqrt(Math.pow(best[2], 2) + Math.pow(best[1], 2), 2)
         let bb2 = Math.sqrt(Math.pow(best2[2], 2) + Math.pow(best2[1], 2), 2)
 
-     
+
 
         this.mVertices.forEach((element, index, _) => {
             let volt = Math.floor((index - 36) / 36); //0, 1, 2, 3
@@ -497,7 +497,7 @@ class Player extends WebGLObject {
                     (this.x - this.size / 2) < floor.x + floor.size / 2) {
                     // element.teleportX(floor.x + floor.size / 2 + element.size / 2)
                     cricri = true;
-                  
+
                 } else if ((this.y - this.size / 2) <= floor.y + floor.size / 2 &&
                     (this.y + this.size / 2) >= floor.y - floor.size / 2 &&
                     (this.z - this.size / 2) <= floor.z + floor.size / 2 &&
@@ -545,31 +545,30 @@ class Player extends WebGLObject {
             PaleGL.setEye();
             this.teleport(firstBirth[0], firstBirth[1], firstBirth[2])
         }
-        if(!isJump)
-        {
+        if (!isJump) {
             //best와 (0, y1, z1)의 사이각을 구한다.
             // best -> z = (b[2]/b[1])*(y-b[1])-b[2]
             // -> z = (z1/y1)*(y - y1) - z1
 
             // tan0 = Math.abs((b[2]/b[1] - z1/y1)/(1+(b[2]/b[1])*(z1/y1)))
             //let t = Math.abs((best[2]/best[1] - z/y)/(1+(best[2]/best[1])*(z/y)))
-            
-            let size1= sizeOfVector(vec3(0, y, z));
-            let size2 =sizeOfVector(b);
-            let cos1 = y/size1
-            let sin1 = z/size1
-            let cos2 = b[1]/size2
-            let sin2 = b[2]/size2
-            
 
-            let realCos = cos1*cos2 + sin1*sin2;
-            let realSin = sin1*cos2 - cos1*sin2;
-            
-            let speed = (realSin>=0)?(-0.1):(0.1);
+            let size1 = sizeOfVector(vec3(0, y, z));
+            let size2 = sizeOfVector(b);
+            let cos1 = y / size1
+            let sin1 = z / size1
+            let cos2 = b[1] / size2
+            let sin2 = b[2] / size2
 
-                if((realSin>=0.05|| realSin<=-0.05))
-                    this.setRotationByX(speed)
-            
+
+            let realCos = cos1 * cos2 + sin1 * sin2;
+            let realSin = sin1 * cos2 - cos1 * sin2;
+
+            let speed = (realSin >= 0) ? (-0.1) : (0.1);
+
+            //if ((realSin >= 0.05 || realSin <= -0.05))
+            this.setRotationByX(speed)
+
             //}
         }
     }

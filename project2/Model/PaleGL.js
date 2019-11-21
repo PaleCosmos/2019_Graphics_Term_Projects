@@ -117,7 +117,7 @@ class PaleGL {
         return this;
     }
 
-    addMovingObject(mv){
+    addMovingObject(mv) {
         mv.forEach(element => {
             PaleGL.information.numVertices += element.count;
             PaleGL.objects.push(element)
@@ -126,7 +126,7 @@ class PaleGL {
         return this;
     }
 
-    addChecks(ch){
+    addChecks(ch) {
         ch.forEach(element => {
             PaleGL.information.numVertices += element.count;
             PaleGL.objects.push(element)
@@ -239,19 +239,18 @@ class PaleGL {
         let colors = [];
         let gl = PaleGL.information.gl;
         let num = 0;
-        let num2=0;
+        let num2 = 0;
 
         PaleGL.objects.forEach(element1 => {
             element1.gravityAction(null, element1)
-            
+
             element1.rotationAction(null, element1)
 
             if (!element1.trans) {
                 element1.mVertices.forEach((element, index, arr) => {
-                    if(element1.id == myObject.id && num<36)
-                    {
-                        num ++;
-                    }else{
+                    if (element1.id == myObject.id && num < 36) {
+                        num++;
+                    } else {
                         vertices.push(vec4(
                             element[0],
                             element[1] * (PaleGL.information.canvas.height / PaleGL.information.canvas.width),
@@ -259,14 +258,13 @@ class PaleGL {
                             element[3]
                         ))
                     }
- 
+
                 });
                 element1.mColors.forEach(element => {
-                    
-                    if(element1.id == myObject.id && num2<36)
-                    {
-                        num2 ++;
-                    }else{
+
+                    if (element1.id == myObject.id && num2 < 36) {
+                        num2++;
+                    } else {
                         colors.push(element)
                     }
                 });
@@ -334,8 +332,8 @@ class PaleGL {
         requestAnimationFrame(PaleGL.render);
     }
 
-    static setEye(){
+    static setEye() {
         PaleGL.information.eye = vec3(PaleGL.state.radius * Math.sin(PaleGL.state.phi), PaleGL.state.radius * Math.sin(PaleGL.state.theta),
-        PaleGL.state.radius * Math.cos(PaleGL.state.phi));
+            PaleGL.state.radius * Math.cos(PaleGL.state.phi));
     }
 }
