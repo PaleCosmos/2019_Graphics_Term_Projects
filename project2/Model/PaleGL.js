@@ -117,6 +117,15 @@ class PaleGL {
         return this;
     }
 
+    addMovingObject(mv){
+        mv.forEach(element => {
+            PaleGL.information.numVertices += element.count;
+            PaleGL.objects.push(element)
+        })
+
+        return this;
+    }
+
     addChecks(ch){
         ch.forEach(element => {
             PaleGL.information.numVertices += element.count;

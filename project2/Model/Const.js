@@ -44,7 +44,7 @@ var distanceOf = (a, b) => {
 }
 
 var checkPoints = [vec3(0.6, 5.3, -1),
-vec3(1.6, 5 + 0.3, 7 + 0.3)];
+vec3(1.6, 5 + 0.3, 7 + 0.3),vec3(1.6, -6, 7 + 0.3)];
 
 var vertices = [
     vec4(-0.5, -0.5, 0.5, 1.0),
