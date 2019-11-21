@@ -521,6 +521,10 @@ class Player extends WebGLObject {
         if (idx != -1) {
             let au = new Audio('./Audio/Coin.wav');
             au.play()
+            BGM.pause()
+            BGM = new Audio(checkPointsBGM[idx])
+            BGM.loop = true;
+            BGM.play();
             firstBirth = checkPoints[idx];
             checks[idx].teleport(-100, -100, -100);
         }
@@ -620,7 +624,7 @@ class Player extends WebGLObject {
     }
 
     jump(zS) {
-        if (this.isJumping || !this.canJump) return;
+        if ((this.isJumping || !this.canJump)&&!isDebug) return;
 
         new Audio('./Audio/Jump.wav').play()
 

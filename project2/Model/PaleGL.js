@@ -329,7 +329,10 @@ class PaleGL {
             gl.drawArrays(gl.LINES, mCount, vertices.length - mCount)
         }
 
-        requestAnimationFrame(PaleGL.render);
+        
+        setTimeout(()=>{
+            requestAnimationFrame(PaleGL.render);
+        },1000/fps)
     }
 
     static setEye() {

@@ -6,13 +6,15 @@ var floors = [];
 var movingObject = [];
 var checks = [];
 
+var fps = 80;
+
 var bows = [];
 var bow0;
 
 var isBowing = false;
 /////////////////////////////  DEBUG MODE
-var isDebug = false
-var DebugSwitcher = 2
+var isDebug = true
+var DebugSwitcher = 0
 /////////////////////////////
 
 var jumpHeight = 0.5;
@@ -118,9 +120,9 @@ function doWork() {
         .add(myObject)
         .rendering();
 
-    if (isDebug) {
-        myObject.teleport(1, -0.2, 7 + 0.3);
-    }
+    // if (isDebug) {박상현최고
+    //     myObject.teleport(1, -0.2, 7 + 0.3);
+    // }
 }
 
 const playerObjectCallbackAction = (_, element) => {
