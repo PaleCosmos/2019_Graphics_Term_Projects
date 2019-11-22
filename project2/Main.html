@@ -30,6 +30,13 @@
     .canvas2 {
         display: block;
     }
+    .debuging{
+        display: block;
+    }
+
+    .nodebuging{
+        display: none;
+    }
 </style>
 
 <button id="starting" class="button1">시작</button>
@@ -152,6 +159,7 @@ main()
 <!-- Objects -->
 <script type="text/javascript" src="Objects/Cube.js"></script>
 <script type="text/javascript" src="Objects/Player.js"></script>
+<script type="text/javascript" src="Objects/Tree.js"></script>
 
 <!-- Main -->
 <script type="text/javascript" src="Main.js"></script>
@@ -161,6 +169,10 @@ main()
     <canvas id="gl-canvas" class="canvas1" width="800" height="800">
         Oops ... your browser doesn't support the HTML5 canvas element
     </canvas>
+
+    <textarea id="textArea" style = "height:60px;" class="debuging">
+        0,0,0
+    </textarea>
 
 </body>
 
