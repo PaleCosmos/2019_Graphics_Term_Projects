@@ -37,6 +37,12 @@
     .nodebuging{
         display: none;
     }
+    .chatoff{
+        display: none;
+    }
+    .chaton{
+        display: block;
+    }
 </style>
 
 <button id="starting" class="button1">시작</button>
@@ -146,6 +152,9 @@ main()
 }
 </script>
 
+<!-- Socket.io  -->
+<script src="node_modules/socket.io-client/dist/socket.io.js"></script>
+
 <!-- WebGL Utils -->
 <script type="text/javascript" src="Common/webgl-utils.js"></script>
 <script type="text/javascript" src="Common/initShaders.js"></script>
@@ -173,6 +182,12 @@ main()
     <textarea id="textArea" style = "height:60px;" class="debuging">
         0,0,0
     </textarea>
+
+    <div id="chat" class="chaton">
+        <textarea readonly style="height: 200px; width:500px;" id="chat1"></textarea>
+        <input id="chat2" style="height: 20px; width:450px;">
+        <button id="chat3" style="height: 30px; width:50px; margin-top: 10px;">Enter</button>
+    </div>
 
 </body>
 

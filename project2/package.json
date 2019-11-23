@@ -1,0 +1,16 @@
+{
+  "name": "project2",
+  "version": "1.0.0",
+  "description": "<pre><a href=\"https://palecosmos.github.io/2019_Graphics_Term_Projects/project2/Main.html\">https://palecosmos.github.io/2019_Graphics_Term_Projects/project2/Main.html</a></pre> ![준비중](temp.gif)",
+  "main": "Main.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "express": "4.17.1",
+    "socket.io": "2.3.0"
+  }
+}

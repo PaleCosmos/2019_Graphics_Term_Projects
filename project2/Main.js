@@ -13,7 +13,7 @@ var bow0;
 
 var isBowing = false;
 /////////////////////////////  DEBUG MODE
-var isDebug = true
+var isDebug = false
 var DebugSwitcher = 0
 /////////////////////////////
 
@@ -36,6 +36,8 @@ var keyState = {
     viewUp: false,
     viewDown: false
 }
+
+var socket = null;
 
 var BGM = null;
 
@@ -65,6 +67,11 @@ window.onload = () => {
 
         doWork();
     } else {
+        socket = io.connect("http://localhost:3000")
+        console.log(socket);
+
+        document.getElementById('textArea').setAttribute('class', 'nodebuging')
+
         document.getElementById('starting').addEventListener('click', (e) => {
             bows = [
                 new Audio('./Audio/bow1.mp3'),
@@ -79,7 +86,7 @@ window.onload = () => {
             BGM.play();
             document.getElementById('starting').setAttribute('class', 'button2')
             document.getElementById('gl-canvas').setAttribute('class', 'canvas2')
-            document.getElementById('textArea').setAttribute('class', 'nodebuging')
+            document.getElementById('chat').setAttribute('class', 'chaton')
 
             doWork();
         });
