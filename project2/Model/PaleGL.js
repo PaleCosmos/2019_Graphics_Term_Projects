@@ -241,6 +241,27 @@ class PaleGL {
         let num = 0;
         let num2 = 0;
 
+        playersObject.forEach(ea=>{
+            let tempN = 0;
+            let tempN2 = 0;
+
+            ea.mVertices.forEach(aa=>{
+                if(tempN<36){
+                    tempN++;
+                }else{
+                    vertices.push(aa)
+                }
+                
+            })
+            ea.mColors.forEach(cc=>{
+                if(tempN2<36){
+                    tempN2++;
+                }else{
+                    colors.push(cc)
+                }
+            })
+        })
+
         PaleGL.objects.forEach(element1 => {
             element1.gravityAction(null, element1)
 
@@ -273,15 +294,6 @@ class PaleGL {
             element1.subAction(null, element1)
         });
 
-        playersObject.forEach(ea=>{
-            ea.mVertices.forEach(aa=>{
-                vertices.push(aa)
-            })
-            ea.mColors.forEach(cc=>{
-                colors.push(cc)
-            })
-        })
-        
         let mCount = vertices.length;
 
         PaleGL.objects.forEach(element1 => {
@@ -336,7 +348,7 @@ class PaleGL {
         gl.drawArrays(gl.TRIANGLES, 0, mCount);
 
         if (mCount != vertices.length) {
-            console.log(mCount)
+            //console.log(mCount)
             gl.drawArrays(gl.LINES, mCount, vertices.length - mCount)
         }
 

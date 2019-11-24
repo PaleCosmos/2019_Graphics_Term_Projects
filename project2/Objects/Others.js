@@ -112,26 +112,26 @@ class Others extends WebGLObject {
 
     setPlayer() {
         this.colorCube(vec3(0.16, 0.1, 0.1), vec3(0.06 - this.size / 2, -0.05, -0.1))
-        this.setOneColor(playerBodyColor) // 36 - 71
+        this.setOneColor(otherBodyColor) // 36 - 71
 
         this.colorCube(vec3(0.16, 0.1, 0.1), vec3(0.06 - this.size / 2, -0.05, 0.1))
-        this.setOneColor(playerBodyColor) // 72 -107
+        this.setOneColor(otherBodyColor) // 72 -107
 
         this.colorCube(vec3(0.16, 0.1, 0.1), vec3(0.06 - this.size / 2, 0.05, -0.1))
-        this.setOneColor(playerBodyColor) // 108 - 143
+        this.setOneColor(otherBodyColor) // 108 - 143
 
         this.colorCube(vec3(0.16, 0.1, 0.1), vec3(0.06 - this.size / 2, 0.05, 0.1))
-        this.setOneColor(playerBodyColor) // 144 - 179
+        this.setOneColor(otherBodyColor) // 144 - 179
 
 
         this.colorCube(vec3(0.4, 0.8, 1), vec3(0.15 - this.size / 2, 0, 0))
-        this.setOneColor(playerBodyColor) // 몸통 180 - 215
+        this.setOneColor(otherBodyColor) // 몸통 180 - 215
 
         this.colorCube(vec3(0.3, 0.6, 0.6), vec3(0.25 - this.size / 2, 0, -0.1))
-        this.setOneColor(playerBodyColor) // 대가뤼 216 - 251
+        this.setOneColor(otherBodyColor) // 대가뤼 216 - 251
 
         this.colorCube(vec3(0.4, 0.6, 0.3), vec3(0.28 - this.size / 2, 0, -0.07))
-        this.setOneColor(playerBodyColor) // 대가뤼 위에거
+        this.setOneColor(otherBodyColor) // 대가뤼 위에거
 
         this.colorCube(vec3(0.15, 0.15, 0.15), vec3(0.3 - this.size / 2, 0.03, -0.1))
         this.setOneColor(vec4(1, 1, 1, 1)) // 눈

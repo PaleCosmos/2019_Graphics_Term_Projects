@@ -7,6 +7,7 @@ var infMin = 0.0001
 var firstBirth = vec3(-1 + 0.1 + 3, 0 - 0.5, -1);
 
 var playerBodyColor = vec4(0.9, 0.8, 0, 1)
+var otherBodyColor = vec4(0.45, 0.4, 0, 1)
 
 var externing = (a, b) => {
     let vec = vec3(
