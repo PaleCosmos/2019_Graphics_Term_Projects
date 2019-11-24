@@ -6,7 +6,7 @@ var floors = [];
 var movingObject = [];
 var checks = [];
 var players = [];
-var playersObject=[];
+var playersObject = [];
 
 var entrance = true;
 
@@ -77,87 +77,101 @@ window.onload = () => {
 
         id('starting').addEventListener('click', (e) => {
             let names = id('name').value
-            if(names!="")
-         {
-             nick = names;
-            bows = [
-                new Audio('./Audio/bow1.mp3'),
-                new Audio('./Audio/bow3.wav'),
-                new Audio('./Audio/bow4.mp3'),
-                new Audio('./Audio/bow5.wav'),
-                new Audio('./Audio/bow6.wav')
-            ];
-            bow0 = bows[0];
-            BGM = new Audio('./Audio/henesis.mp3')
-            BGM.loop = true;
-            BGM.play();
-            id('starting').setAttribute('class', 'button2')
-            id('gl-canvas').setAttribute('class', 'canvas2')
-            id('chat').setAttribute('class', 'chaton')
-            id('nick').setAttribute('class', 'chatoff')
-            
-            socketFunction(names);
-            doWork();
-         }
+            if (names != "") {
+        
+                socketFunction(names);
+               
+            }
         });
     }
 }
 
-function socketFunction(names)
-{
-    socket = io.connect("http://localhost:3000")
-    socket.emit('joinRoom', {roomName:'myroom',
-     nickname:names, x:firstBirth[0], y:firstBirth[1], z:firstBirth[2]})
+function idnit(){
+    bows = [
+        new Audio('./Audio/bow1.mp3'),
+        new Audio('./Audio/bow3.wav'),
+        new Audio('./Audio/bow4.mp3'),
+        new Audio('./Audio/bow5.wav'),
+        new Audio('./Audio/bow6.wav')
+    ];
+    bow0 = bows[0];
+    BGM = new Audio('./Audio/henesis.mp3')
+    BGM.loop = true;
+    BGM.play();
+    id('starting').setAttribute('class', 'button2')
+    id('gl-canvas').setAttribute('class', 'canvas2')
+    id('chat').setAttribute('class', 'chaton')
+    id('nick').setAttribute('class', 'chatoff')
 
-    socket.on('pointInit', function(data){
-        if(data.new.nickname == nick){
-             players = data.initation;
-             players.forEach(e=>{
-                 playersObject.push(new Others(e.nickname,
-                     vec3(e.x, e.y, e.z),0.2, idConcat++, false, false
-                 ).setOneColor(
-                    vec4(1, 1, 1, 0)).using())
-             })
-        }else{
-            players.push(data.new)
-            playersObject.push(new Others(data.new.nickname,
-                vec3(data.new.x, data.new.y, data.new.z),0.2, idConcat++, false, false
-            ).setOneColor(
-               vec4(1, 1, 1, 0)).using())
-        }
+    doWork();
+}
+
+function socketFunction(names) {
+    socket = io.connect("http://localhost:3000")
+    socket.emit('joinRoom', {
+        roomName: 'myroom',
+        nickname: names, x: firstBirth[0], y: firstBirth[1], z: firstBirth[2]
     })
 
-    socket.on('point',function(data){
-        playersObject.forEach(e=>{
-            if(e.nickname == data.nickname){
-                e.teleport(data.x,data.y, data.z);
+    socket.on('no',function(data){
+        alert(data.comment);
+    })
+
+    socket.on('pointInit', function (data) {
+        if (data.new.nickname ==  names) {
+            nick = names;
+            idnit();
+            players = data.initation;
+            players.forEach(e => {
+                playersObject.push(new Others(e.nickname,
+                    vec3(e.x, e.y, e.z), 0.2, idConcat++, false, false
+                ).setOneColor(
+                    vec4(1, 1, 1, 0)).using())
+            })
+        } else {
+            players.push(data.new)
+            playersObject.push(new Others(data.new.nickname,
+                vec3(data.new.x, data.new.y, data.new.z), 0.2, idConcat++, false, false
+            ).setOneColor(
+                vec4(1, 1, 1, 0)).using())
+        }
+    })
+    socket.on('quit', function (data) {
+        let idx = playersObject.findIndex((a) => { return data.nickname == a.nickname })
+        id('chat1').append(data.nickname + "님이 퇴장하셨습니다.\n");
+        playersObject.splice(idx, 1);
+    })
+    socket.on('point', function (data) {
+        playersObject.forEach(e => {
+            if (e.nickname == data.nickname) {
+                e.move(data.x - e.x, data.y - e.y, data.z - e.z);
             }
         })
     })
 
-    socket.on('recMsg', function(data){
+    socket.on('recMsg', function (data) {
         console.log(data.comment)
         id('chat1').append(data.comment);
     });
-  
-    id('chat3').addEventListener('click', (e)=>{
+
+    id('chat3').addEventListener('click', (e) => {
         chat();
     });
-    id('chat2').addEventListener('keydown', (e)=>{
-        if(e.keyCode ==13){
+    id('chat2').addEventListener('keydown', (e) => {
+        if (e.keyCode == 13) {
             chat();
         }
     })
 }
 
-function chat(){
+function chat() {
     let msg = id('chat2').value;
-        id('chat2').value = "";
+    id('chat2').value = "";
 
-        socket.emit('reqMsg', {comment: msg});
+    socket.emit('reqMsg', { comment: msg });
 }
 
-function putData(dataname, data){
+function putData(dataname, data) {
     socket.emit(dataname, data);
 }
 

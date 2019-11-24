@@ -303,12 +303,8 @@ class PaleGL {
             });
         });
 
-
-
         let modelViewMatrixLoc = gl.getUniformLocation(PaleGL.program, "modelViewMatrix");
         let projectionMatrixLoc = gl.getUniformLocation(PaleGL.program, "projectionMatrix");
-
-
 
         let cBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
@@ -338,7 +334,6 @@ class PaleGL {
             PaleGL.isDraw = !PaleGL.isDraw
             PaleGL.setEye();
         }
-
 
         PaleGL.mvMatrix = lookAt(pi.eye, pi.at, pi.up);
         PaleGL.pmMatrix = perspective(s.fovy, s.aspect, s.near, s.far);

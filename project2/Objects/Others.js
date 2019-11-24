@@ -40,6 +40,87 @@ class Others extends WebGLObject {
         }
         return this;
     }
+    move(x1, y1, z1, isJump = false) {
+        this.legSpeed += 0.1;
+        let x = x1;
+        let y = y1;
+        let z = z1;
+
+        let mx = this.x;
+        let my = this.y;
+        let mz = this.z;
+
+        let b = null
+
+        this.x += x;
+        this.y += y;
+        this.z += z;
+
+        let zero = vec3(0, 0, 0)
+        let one = vec3(0, 0, 0)
+
+        for (let vva = 0; vva < 36; vva++) {
+            zero[0] += this.mVertices[vva + 180][0]
+            zero[1] += this.mVertices[vva + 180][1]
+            zero[2] += this.mVertices[vva + 180][2]
+            one[0] += this.mVertices[vva + 216][0]
+            one[1] += this.mVertices[vva + 216][1]
+            one[2] += this.mVertices[vva + 216][2]
+        }
+
+        let best = vec3(0, (zero[1] / 36) - (one[1] / 36), (zero[2] / 36) - (one[2] / 36)); //댕댕벡터
+        b = best;
+        let best0 = externing(best, vec3(1, 0, 0));
+        let best2 = vec3(0, best0[1], best0[2])
+        let bb = Math.sqrt(Math.pow(best[2], 2) + Math.pow(best[1], 2), 2)
+        let bb2 = Math.sqrt(Math.pow(best2[2], 2) + Math.pow(best2[1], 2), 2)
+
+
+
+        this.mVertices.forEach((element, index, _) => {
+            let volt = Math.floor((index - 36) / 36); //0, 1, 2, 3
+
+            let vv = (index >= 36 && index < 180);
+            let vv2 = (index >= 36 * 17 && index < 18 * 36);
+
+            let tt = 0.004 * Math.sin(this.legSpeed) * ((volt % 2 == 0) ? 1 : -1)
+            let tt2 = 0.004 * Math.cos(this.legSpeed)
+
+            this.mVertices[index] = vec4(
+                element[0] + x,
+                element[1] + y + ((best[2] == 0 && best[1] == 0) ? 0 : (best[1] / bb)) * (vv ? tt : 0) + (best2[1] / bb2) * (vv2 ? tt2 : 0),
+                element[2] + z + ((best[2] == 0 && best[1] == 0) ? 0 : (best[2] / bb)) * (vv ? tt : 0) + (best2[2] / bb2) * (vv2 ? tt2 : 0),
+                element[3])
+        });
+
+        if (this.hasLine) {
+            this.mLineVertices.forEach((element, index, _) => {
+                this.mLineVertices[index] = vec4(
+                    element[0] + x,
+                    element[1] + y,
+                    element[2] + z,
+                    element[3])
+            });
+        }
+        if (!isJump) {
+            let size1 = sizeOfVector(vec3(0, y, z));
+            let size2 = sizeOfVector(b);
+            let cos1 = y / size1
+            let sin1 = z / size1
+            let cos2 = b[1] / size2
+            let sin2 = b[2] / size2
+
+            let realCos = cos1 * cos2 + sin1 * sin2;
+            let realSin = sin1 * cos2 - cos1 * sin2;
+
+            let speed = (realSin >= 0) ? (-0.1) : (0.1);
+
+            if ((realSin >= 0.05 || realSin <= -0.05))
+                this.setRotationByX(speed)
+
+            //}
+        }
+    }
 
     setColor_GL(vec4List_List = 0) {
         this.mColors = [];
