@@ -107,7 +107,7 @@ function idnit(){
 }
 
 function socketFunction(names) {
-    socket = io.connect("http://localhost:3000")
+    socket = io.connect("http://34.85.51.251:3000")
     socket.emit('joinRoom', {
         roomName: 'myroom',
         nickname: names, x: firstBirth[0], y: firstBirth[1], z: firstBirth[2]
