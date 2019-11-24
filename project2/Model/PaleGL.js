@@ -273,6 +273,15 @@ class PaleGL {
             element1.subAction(null, element1)
         });
 
+        playersObject.forEach(ea=>{
+            ea.mVertices.forEach(aa=>{
+                vertices.push(aa)
+            })
+            ea.mColors.forEach(cc=>{
+                colors.push(cc)
+            })
+        })
+        
         let mCount = vertices.length;
 
         PaleGL.objects.forEach(element1 => {
@@ -281,6 +290,8 @@ class PaleGL {
                 colors.push(vec4(0, 0, 0, 1));
             });
         });
+
+
 
         let modelViewMatrixLoc = gl.getUniformLocation(PaleGL.program, "modelViewMatrix");
         let projectionMatrixLoc = gl.getUniformLocation(PaleGL.program, "projectionMatrix");

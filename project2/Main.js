@@ -5,6 +5,10 @@ var myObject;
 var floors = [];
 var movingObject = [];
 var checks = [];
+var players = [];
+var playersObject=[];
+
+var entrance = true;
 
 var fps = 80;
 
@@ -90,7 +94,8 @@ window.onload = () => {
             id('starting').setAttribute('class', 'button2')
             id('gl-canvas').setAttribute('class', 'canvas2')
             id('chat').setAttribute('class', 'chaton')
-
+            id('nick').setAttribute('class', 'chatoff')
+            
             socketFunction(names);
             doWork();
          }
@@ -101,7 +106,34 @@ window.onload = () => {
 function socketFunction(names)
 {
     socket = io.connect("http://localhost:3000")
-    socket.emit('joinRoom', {roomName:'myroom', nickname:names})
+    socket.emit('joinRoom', {roomName:'myroom',
+     nickname:names, x:firstBirth[0], y:firstBirth[1], z:firstBirth[2]})
+
+    socket.on('pointInit', function(data){
+        if(data.new.nickname == nick){
+             players = data.initation;
+             players.forEach(e=>{
+                 playersObject.push(new Others(e.nickname,
+                     vec3(e.x, e.y, e.z),0.2, idConcat++, false, false
+                 ).setOneColor(
+                    vec4(1, 1, 1, 0)).using())
+             })
+        }else{
+            players.push(data.new)
+            playersObject.push(new Others(data.new.nickname,
+                vec3(data.new.x, data.new.y, data.new.z),0.2, idConcat++, false, false
+            ).setOneColor(
+               vec4(1, 1, 1, 0)).using())
+        }
+    })
+
+    socket.on('point',function(data){
+        playersObject.forEach(e=>{
+            if(e.nickname == data.nickname){
+                e.teleport(data.x,data.y, data.z);
+            }
+        })
+    })
 
     socket.on('recMsg', function(data){
         console.log(data.comment)
