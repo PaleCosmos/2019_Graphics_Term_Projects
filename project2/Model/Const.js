@@ -26,6 +26,10 @@ var externing = (a, b) => {
     return vecA;
 }
 
+var id = (str)=>{
+    return document.getElementById(str)
+}
+
 var sizeOfVector = (a) => {
     return Math.sqrt(
         Math.pow(a[0], 2) +

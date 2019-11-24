@@ -11,6 +11,8 @@ var fps = 80;
 var bows = [];
 var bow0;
 
+var nick = "";
+
 var isBowing = false;
 /////////////////////////////  DEBUG MODE
 var isDebug = false
@@ -61,18 +63,19 @@ window.onload = () => {
         BGM = new Audio('./Audio/henesis.mp3')
         BGM.loop = true;
         BGM.play();
-        document.getElementById('starting').setAttribute('class', 'button2')
-        document.getElementById('gl-canvas').setAttribute('class', 'canvas2')
-        document.getElementById('textArea').setAttribute('class', 'debuging')
+        id('starting').setAttribute('class', 'button2')
+        id('gl-canvas').setAttribute('class', 'canvas2')
+        id('textArea').setAttribute('class', 'debuging')
 
         doWork();
     } else {
-        socket = io.connect("http://localhost:3000")
-        console.log(socket);
+        id('textArea').setAttribute('class', 'nodebuging')
 
-        document.getElementById('textArea').setAttribute('class', 'nodebuging')
-
-        document.getElementById('starting').addEventListener('click', (e) => {
+        id('starting').addEventListener('click', (e) => {
+            let names = id('name').value
+            if(names!="")
+         {
+             nick = names;
             bows = [
                 new Audio('./Audio/bow1.mp3'),
                 new Audio('./Audio/bow3.wav'),
@@ -84,17 +87,50 @@ window.onload = () => {
             BGM = new Audio('./Audio/henesis.mp3')
             BGM.loop = true;
             BGM.play();
-            document.getElementById('starting').setAttribute('class', 'button2')
-            document.getElementById('gl-canvas').setAttribute('class', 'canvas2')
-            document.getElementById('chat').setAttribute('class', 'chaton')
+            id('starting').setAttribute('class', 'button2')
+            id('gl-canvas').setAttribute('class', 'canvas2')
+            id('chat').setAttribute('class', 'chaton')
 
+            socketFunction(names);
             doWork();
+         }
         });
     }
 }
 
+function socketFunction(names)
+{
+    socket = io.connect("http://localhost:3000")
+    socket.emit('joinRoom', {roomName:'myroom', nickname:names})
+
+    socket.on('recMsg', function(data){
+        console.log(data.comment)
+        id('chat1').append(data.comment);
+    });
+  
+    id('chat3').addEventListener('click', (e)=>{
+        chat();
+    });
+    id('chat2').addEventListener('keydown', (e)=>{
+        if(e.keyCode ==13){
+            chat();
+        }
+    })
+}
+
+function chat(){
+    let msg = id('chat2').value;
+        id('chat2').value = "";
+
+        socket.emit('reqMsg', {comment: msg});
+}
+
+function putData(dataname, data){
+    socket.emit(dataname, data);
+}
+
 function doWork() {
-    GL = PaleGL.getInstance(document.getElementById("gl-canvas"))
+    GL = PaleGL.getInstance(id("gl-canvas"))
     addFloorObject();
 
     myObject = new Player(firstBirth, 0.2, idConcat++, false, false).setOneColor(
@@ -412,98 +448,98 @@ function addFloorObject() {
 };
 
 function setListener() {
-    document.getElementById('up').addEventListener('mousedown', (e) => {
+    id('up').addEventListener('mousedown', (e) => {
         keyState.up = true;
     });
-    document.getElementById('up').addEventListener('mouseup', (e) => {
+    id('up').addEventListener('mouseup', (e) => {
         keyState.up = false;
     });
 
-    document.getElementById('down').addEventListener('mousedown', (e) => {
+    id('down').addEventListener('mousedown', (e) => {
         keyState.down = true;
     });
-    document.getElementById('down').addEventListener('mouseup', (e) => {
+    id('down').addEventListener('mouseup', (e) => {
         keyState.down = false;
     });
 
-    document.getElementById('left').addEventListener('mousedown', (e) => {
+    id('left').addEventListener('mousedown', (e) => {
         keyState.left = true;
     });
-    document.getElementById('left').addEventListener('mouseup', (e) => {
+    id('left').addEventListener('mouseup', (e) => {
         keyState.left = false;
     });
-    document.getElementById('viewUp').addEventListener('mousedown', (e) => {
+    id('viewUp').addEventListener('mousedown', (e) => {
         keyState.viewUp = true;
     });
-    document.getElementById('viewUp').addEventListener('mouseup', (e) => {
+    id('viewUp').addEventListener('mouseup', (e) => {
         keyState.viewUp = false;
     });
 
-    document.getElementById('viewDown').addEventListener('mousedown', (e) => {
+    id('viewDown').addEventListener('mousedown', (e) => {
         keyState.viewDown = true;
     });
-    document.getElementById('viewDown').addEventListener('mouseup', (e) => {
+    id('viewDown').addEventListener('mouseup', (e) => {
         keyState.viewDown = false;
     });
 
-    document.getElementById('leftView').addEventListener('mousedown', (e) => {
+    id('leftView').addEventListener('mousedown', (e) => {
         keyState.viewLeft = true;
     });
-    document.getElementById('leftView').addEventListener('mouseup', (e) => {
+    id('leftView').addEventListener('mouseup', (e) => {
         keyState.viewLeft = false;
     });
 
-    document.getElementById('leftView2').addEventListener('mousedown', (e) => {
+    id('leftView2').addEventListener('mousedown', (e) => {
         keyState.viewLeft2 = true;
     });
-    document.getElementById('leftView2').addEventListener('mouseup', (e) => {
+    id('leftView2').addEventListener('mouseup', (e) => {
         keyState.viewLeft2 = false;
     });
 
-    document.getElementById('rightView').addEventListener('mousedown', (e) => {
+    id('rightView').addEventListener('mousedown', (e) => {
         keyState.viewRight = true;
     });
-    document.getElementById('rightView').addEventListener('mouseup', (e) => {
+    id('rightView').addEventListener('mouseup', (e) => {
         keyState.viewRight = false;
     });
 
-    document.getElementById('rightView2').addEventListener('mousedown', (e) => {
+    id('rightView2').addEventListener('mousedown', (e) => {
         keyState.viewRight2 = true;
     });
-    document.getElementById('rightView2').addEventListener('mouseup', (e) => {
+    id('rightView2').addEventListener('mouseup', (e) => {
         keyState.viewRight2 = false;
     });
 
-    document.getElementById('right').addEventListener('mousedown', (e) => {
+    id('right').addEventListener('mousedown', (e) => {
         keyState.right = true;
     });
-    document.getElementById('right').addEventListener('mouseup', (e) => {
+    id('right').addEventListener('mouseup', (e) => {
         keyState.right = false;
     });
 
-    document.getElementById('viewClose').addEventListener('mousedown', (e) => {
+    id('viewClose').addEventListener('mousedown', (e) => {
         keyState.near = true;
     });
-    document.getElementById('viewClose').addEventListener('mouseup', (e) => {
+    id('viewClose').addEventListener('mouseup', (e) => {
         keyState.near = false;
     });
-    document.getElementById('viewFar').addEventListener('mousedown', (e) => {
+    id('viewFar').addEventListener('mousedown', (e) => {
         keyState.far = true;
     });
-    document.getElementById('viewFar').addEventListener('mouseup', (e) => {
+    id('viewFar').addEventListener('mouseup', (e) => {
         keyState.far = false;
     });
-    document.getElementById('shift').addEventListener('mousedown', (e) => {
+    id('shift').addEventListener('mousedown', (e) => {
         keyState.shift = true;
     });
-    document.getElementById('shift').addEventListener('mouseup', (e) => {
+    id('shift').addEventListener('mouseup', (e) => {
         keyState.shift = false;
     });
-    document.getElementById('space').addEventListener('mouseup', (e) => {
+    id('space').addEventListener('mouseup', (e) => {
         myObject.jump(myObject.x + jumpHeight);
     });
 
-    document.getElementById('reset').addEventListener('click', (e) => {
+    id('reset').addEventListener('click', (e) => {
         myObject.teleport(firstBirth[0], firstBirth[1], firstBirth[2])
     });
 
@@ -516,63 +552,63 @@ function addKeyListener(doc) {
         console.log(e.keyCode)
         switch (e.keyCode) {
             case 82: //r
-                document.getElementById('reset').style.backgroundColor = "white";
+                id('reset').style.backgroundColor = "white";
 
                 myObject.teleport(firstBirth[0], firstBirth[1], firstBirth[2])
                 break;
             case 87: // w
                 keyState.up = false;
-                document.getElementById('up').style.backgroundColor = "white";
+                id('up').style.backgroundColor = "white";
                 break;
             case 65: // a
                 keyState.left = false;
-                document.getElementById('left').style.backgroundColor = "white";
+                id('left').style.backgroundColor = "white";
                 break;
             case 83: // s
                 keyState.down = false;
-                document.getElementById('down').style.backgroundColor = "white";
+                id('down').style.backgroundColor = "white";
                 break;
             case 68: // d
                 keyState.right = false;
-                document.getElementById('right').style.backgroundColor = "white";
+                id('right').style.backgroundColor = "white";
                 break;
             case 79://o
                 keyState.viewUp = false;
-                document.getElementById('viewUp').style.backgroundColor = "white";
+                id('viewUp').style.backgroundColor = "white";
                 break;
             case 75://o
                 keyState.viewDown = false;
-                document.getElementById('viewDown').style.backgroundColor = "white";
+                id('viewDown').style.backgroundColor = "white";
                 break;
             case 32:
-                document.getElementById('space').style.backgroundColor = "white";
+                id('space').style.backgroundColor = "white";
                 break;
             case 16:
                 keyState.shift = false;
-                document.getElementById('shift').style.backgroundColor = "white";
+                id('shift').style.backgroundColor = "white";
                 break;
             case 38: // up
-                document.getElementById('viewClose').style.backgroundColor = "white";
+                id('viewClose').style.backgroundColor = "white";
                 keyState.near = false;
                 break;
             case 37: // left
-                document.getElementById('leftView').style.backgroundColor = "white";
+                id('leftView').style.backgroundColor = "white";
                 keyState.viewLeft = false;
                 break;
             case 40: //down
-                document.getElementById('viewFar').style.backgroundColor = "white";
+                id('viewFar').style.backgroundColor = "white";
                 keyState.far = false;
                 break;
             case 39: //right
-                document.getElementById('rightView').style.backgroundColor = "white";
+                id('rightView').style.backgroundColor = "white";
                 keyState.viewRight = false;
                 break;
             case 219: // [
-                document.getElementById('leftView2').style.backgroundColor = "white";
+                id('leftView2').style.backgroundColor = "white";
                 keyState.viewLeft2 = false;
                 break;
             case 221: // ]
-                document.getElementById('rightView2').style.backgroundColor = "white";
+                id('rightView2').style.backgroundColor = "white";
                 keyState.viewRight2 = false;
                 break;
         }
@@ -583,62 +619,62 @@ function addKeyListener(doc) {
         console.log(e.keyCode)
         switch (e.keyCode) {
             case 82: //r
-                document.getElementById('reset').style.backgroundColor = "#9999ff";
+                id('reset').style.backgroundColor = "#9999ff";
                 break;
             case 87: // w
-                document.getElementById('up').style.backgroundColor = "#9999ff";
+                id('up').style.backgroundColor = "#9999ff";
                 keyState.up = true;
                 break;
             case 65: // a
                 keyState.left = true;
-                document.getElementById('left').style.backgroundColor = "#9999ff";
+                id('left').style.backgroundColor = "#9999ff";
                 break;
             case 79://o
                 keyState.viewUp = true;
-                document.getElementById('viewUp').style.backgroundColor = "#9999ff";
+                id('viewUp').style.backgroundColor = "#9999ff";
                 break;
             case 75://o
                 keyState.viewDown = true;
-                document.getElementById('viewDown').style.backgroundColor = "#9999ff";
+                id('viewDown').style.backgroundColor = "#9999ff";
                 break;
             case 83: // s
                 keyState.down = true;
-                document.getElementById('down').style.backgroundColor = "#9999ff";
+                id('down').style.backgroundColor = "#9999ff";
                 break;
             case 68: // d
                 keyState.right = true;
-                document.getElementById('right').style.backgroundColor = "#9999ff";
+                id('right').style.backgroundColor = "#9999ff";
                 break;
             case 32:
-                document.getElementById('space').style.backgroundColor = "#9999ff";
+                id('space').style.backgroundColor = "#9999ff";
                 myObject.jump(myObject.x + 0.5);
                 break;
             case 16:
                 keyState.shift = true;
-                document.getElementById('shift').style.backgroundColor = "#9999ff";
+                id('shift').style.backgroundColor = "#9999ff";
                 break;
             case 38: // up
-                document.getElementById('viewClose').style.backgroundColor = "#9999ff";
+                id('viewClose').style.backgroundColor = "#9999ff";
                 keyState.near = true;
                 break;
             case 37: // left
-                document.getElementById('leftView').style.backgroundColor = "#9999ff";
+                id('leftView').style.backgroundColor = "#9999ff";
                 keyState.viewLeft = true;
                 break;
             case 40: //down
-                document.getElementById('viewFar').style.backgroundColor = "#9999ff";
+                id('viewFar').style.backgroundColor = "#9999ff";
                 keyState.far = true;
                 break;
             case 39: //right
-                document.getElementById('rightView').style.backgroundColor = "#9999ff";
+                id('rightView').style.backgroundColor = "#9999ff";
                 keyState.viewRight = true;
                 break;
             case 219: // [
-                document.getElementById('leftView2').style.backgroundColor = "#9999ff";
+                id('leftView2').style.backgroundColor = "#9999ff";
                 keyState.viewLeft2 = true;
                 break;
             case 221: // ]
-                document.getElementById('rightView2').style.backgroundColor = "#9999ff";
+                id('rightView2').style.backgroundColor = "#9999ff";
                 keyState.viewRight2 = true;
                 break;
         }

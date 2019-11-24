@@ -558,6 +558,12 @@ class Player extends WebGLObject {
 
             //}
         }
+        putData('move', {
+            nickname:nick,
+            x:this.x,
+            y:this.y,
+            z:this.z
+        })
     }
 
     teleport(x, y, z) {
