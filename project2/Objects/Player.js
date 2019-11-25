@@ -630,7 +630,7 @@ class Player extends WebGLObject {
     }
 
     jump(zS) {
-        if ((this.isJumping || !this.canJump) && !isDebug) return;
+        if ((this.isJumping || !this.canJump) && !isDebug && !isBug) return;
 
         new Audio('./Audio/Jump.wav').play()
 

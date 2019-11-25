@@ -48,82 +48,6 @@
     }
 </style>
 
-<button id="starting" class="button1">시작</button>
-<table style="float: left; display: flexbox;">
-    <tr>
-        <td>
-        </td>
-        <td id="up">
-            🆆
-        </td>
-        <td id="reset">
-            🆁
-        </td>
-    </tr>
-    <tr>
-        <td id="left">
-            🅰
-        </td>
-        <td id="space">
-             space 
-        </td>
-        <td id="right">
-            🅳
-        </td>
-    </tr>
-    <tr>
-        <td>
-        </td>
-        <td id="down">
-            🆂
-        </td>
-        <td>
-        </td>
-    </tr>
-</table>
-
-<table style="float: right; display: flexbox;">
-    <tr>
-        <td id="viewUp">
-            🅾
-        </td>
-        <td id="leftView2">
-            [
-        </td>
-        <td id="viewClose">
-            ⬆️
-        </td>
-        <td id="rightView2">
-            ]
-        </td>
-    </tr>
-
-    <tr>
-        <td>
-        </td>
-        <td id="leftView">
-            ⬅️
-        </td>
-        <td id="shift">
-            shift
-        </td>
-        <td id="rightView">
-            ➡️
-        </td>
-    </tr>
-    <tr>
-        <td id="viewDown">
-            🅺
-        </td>
-        <td>
-        </td>
-        <td id="viewFar">
-            ⬇️
-        </td>
-        <td>
-        </td>
-    </tr>
-</table>
 
 <script id="vertex-shader" type="x-shader/x-vertex">
 
@@ -178,25 +102,138 @@ main()
 <script type="text/javascript" src="Main.js"></script>
 
 <body>
+    <table width="824px">
+        <tr>
+            <td>
+                <table style="float: left; display: flexbox;">
+                    <tr>
+                        <td>
+                        </td>
+                        <td id="up">
+                            🆆
+                        </td>
+                        <td id="reset">
+                            🆁
+                        </td>
+                    </tr>
+                    <tr width="150px">
+                        <td id="left">
+                            🅰
+                        </td>
+                        <td id="space">
+                             space 
+                        </td>
+                        <td id="right">
+                            🅳
+                        </td>
+                    </tr>
+                    <tr width="150px">
+                        <td>
+                        </td>
+                        <td id="down">
+                            🆂
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+            <td>
+                <button id="starting" class="button1">시작</button>
 
-    <canvas id="gl-canvas" class="canvas1" width="800" height="800">
-        Oops ... your browser doesn't support the HTML5 canvas element
-    </canvas>
+            </td>
+            <td>
+                <table style="float: right; display: flexbox;">
+                    <tr>
+                        <td id="viewUp">
+                            🅾
+                        </td>
+                        <td id="leftView2">
+                            [
+                        </td>
+                        <td id="viewClose">
+                            ⬆️
+                        </td>
+                        <td id="rightView2">
+                            ]
+                        </td>
+                    </tr>
+
+                    <tr>
+                        <td>
+                        </td>
+                        <td id="leftView">
+                            ⬅️
+                        </td>
+                        <td id="shift">
+                            shift
+                        </td>
+                        <td id="rightView">
+                            ➡️
+                        </td>
+                    </tr>
+                    <tr>
+                        <td id="viewDown">
+                            🅺
+                        </td>
+                        <td>
+                        </td>
+                        <td id="viewFar">
+                            ⬇️
+                        </td>
+                        <td>
+                        </td>
+                    </tr>
+                </table>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td width="512">
+                <div>
+
+                    <canvas id="gl-canvas" class="canvas1" width="512" height="512">
+                        Oops ... your browser doesn't support the HTML5 canvas element
+                    </canvas>
+                    <div id="nick" class="chaton">
+                        <input id="name" placeholder="name" style="height: 20px; width:100px;">
+                        <br>
+                        <input id="red" placeholder="red" style="height: 20px; width:100px;">
+                        <br> <input id="green" placeholder="green" style="height: 20px; width:100px;">
+                        <br> <input id="blue" placeholder="blue" style="height: 20px; width:100px;"> </div>
+
+
+                </div>
+            </td>
+            <td>
+                <div>
+                    <textarea readonly class="chatoff" style="height: 512px; width:150; text-align: start;"
+                        id="peoples"></textarea>
+                </div>
+            </td>
+        </tr>
+        <tr>
+            <td></td>
+            <td>
+                <div id="chat" class="chatoff">
+                    <div>
+                        <textarea readonly style="height: 200px; width:500px; text-align: start;" id="chat1"></textarea>
+                        <input id="chat2" style="height: 20px; width:450px; text-align: start;">
+                        <button id="chat3" style="height: 30px; width:50px; margin-top: 10px;">Enter</button>
+                    </div>
+                </div>
+            </td>
+            <td>
+
+            </td>
+        </tr>
+    </table>
+
+
 
     <textarea id="textArea" style="height:60px;" class="debuging">
         0,0,0
     </textarea>
-    <div id="nick" class="chaton">
-        <input id="name" placeholder="name" style="height: 20px; width:100px;">
-        <br>
-        <input id="red" placeholder="red" style="height: 20px; width:100px;">
-        <br> <input id="green" placeholder="green" style="height: 20px; width:100px;">
-        <br> <input id="blue" placeholder="blue" style="height: 20px; width:100px;">    </div>
-    <div id="chat" class="chatoff">
-        <textarea readonly style="height: 200px; width:500px;" id="chat1"></textarea>
-        <input id="chat2" style="height: 20px; width:450px;">
-        <button id="chat3" style="height: 30px; width:50px; margin-top: 10px;">Enter</button>
-    </div>
 
 </body>
 

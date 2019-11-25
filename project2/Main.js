@@ -13,6 +13,7 @@ var mainColor = null;
 var entrance = true;
 
 var fps = 80;
+var isBug = true;
 
 var bows = [];
 var bow0;
@@ -109,6 +110,7 @@ function idnit(){
     BGM.loop = true;
     BGM.play();
    
+    id('peoples').setAttribute('class', 'chaton')
     id('starting').setAttribute('class', 'button2')
     id('gl-canvas').setAttribute('class', 'canvas2')
     id('chat').setAttribute('class', 'chaton')
@@ -130,12 +132,14 @@ function socketFunction(names, rgb) {
     })
 
     socket.on('pointInit', function (data) {
+        
         if (data.new.nickname ==  names) {
             nick = names;
             mainColor = vec4(data.new.red, data.new.green, data.new.blue,1)
             console.log(mainColor)
             idnit();
             players = data.initation;
+            let char = "";
             players.forEach(e => {
                 playersObject.push(new Others(e.nickname,
                     vec3(e.x, e.y, e.z), 0.2, idConcat++, false, false
@@ -149,6 +153,14 @@ function socketFunction(names, rgb) {
             ).setOneColor(
                 vec4(1, 1, 1, 0)).setBodyColor(vec4(data.new.red,data.new.green,data.new.blue,1)).using())
         }
+        
+        setInterval(()=>{
+            let str = "";
+            players.forEach(e=>{
+                str += e.nickname +"\n\n";
+            })
+            id('peoples').value = str;
+        }, 3000)
     })
     socket.on('quit', function (data) {
         let idx = playersObject.findIndex((a) => { return data.nickname == a.nickname })
