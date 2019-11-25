@@ -30,17 +30,20 @@
     .canvas2 {
         display: block;
     }
-    .debuging{
+
+    .debuging {
         display: block;
     }
 
-    .nodebuging{
+    .nodebuging {
         display: none;
     }
-    .chatoff{
+
+    .chatoff {
         display: none;
     }
-    .chaton{
+
+    .chaton {
         display: block;
     }
 </style>
@@ -180,12 +183,15 @@ main()
         Oops ... your browser doesn't support the HTML5 canvas element
     </canvas>
 
-    <textarea id="textArea" style = "height:60px;" class="debuging">
+    <textarea id="textArea" style="height:60px;" class="debuging">
         0,0,0
     </textarea>
-    <div id="nick" class = "chaton">
-        <input id="name" style="height: 20px; width:100px;">
-    </div>
+    <div id="nick" class="chaton">
+        <input id="name" placeholder="name" style="height: 20px; width:100px;">
+        <br>
+        <input id="red" placeholder="red" style="height: 20px; width:100px;">
+        <br> <input id="green" placeholder="green" style="height: 20px; width:100px;">
+        <br> <input id="blue" placeholder="blue" style="height: 20px; width:100px;">    </div>
     <div id="chat" class="chatoff">
         <textarea readonly style="height: 200px; width:500px;" id="chat1"></textarea>
         <input id="chat2" style="height: 20px; width:450px;">

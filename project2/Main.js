@@ -8,6 +8,8 @@ var checks = [];
 var players = [];
 var playersObject = [];
 
+var mainColor = null;
+
 var entrance = true;
 
 var fps = 80;
@@ -77,10 +79,18 @@ window.onload = () => {
 
         id('starting').addEventListener('click', (e) => {
             let names = id('name').value
+            let red = id('red').value
+            let green = id('green').value
+            let blue= id('blue').value
+           
             if (names != "") {
-        
-                socketFunction(names);
-               
+                if(red>=0&&red<=255&&
+                    green>=0&&green<=255&&
+                    blue>=0&&blue<=255&&red!=""&&green!=""&&blue!=""){
+                        socketFunction(names, vec4(red/255,green/255,blue/255,1));
+                    }else{
+                        alert('색상이 잘못되었습니다.')
+                    }
             }
         });
     }
@@ -98,6 +108,7 @@ function idnit(){
     BGM = new Audio('./Audio/henesis.mp3')
     BGM.loop = true;
     BGM.play();
+   
     id('starting').setAttribute('class', 'button2')
     id('gl-canvas').setAttribute('class', 'canvas2')
     id('chat').setAttribute('class', 'chaton')
@@ -106,11 +117,12 @@ function idnit(){
     doWork();
 }
 
-function socketFunction(names) {
+function socketFunction(names, rgb) {
     socket = io.connect("http://34.85.51.251:3000")
     socket.emit('joinRoom', {
         roomName: 'myroom',
-        nickname: names, x: firstBirth[0], y: firstBirth[1], z: firstBirth[2]
+        nickname: names, x: firstBirth[0], y: firstBirth[1], z: firstBirth[2],
+        red:rgb[0],green:rgb[1],blue:rgb[2]
     })
 
     socket.on('no',function(data){
@@ -120,12 +132,14 @@ function socketFunction(names) {
     socket.on('pointInit', function (data) {
         if (data.new.nickname ==  names) {
             nick = names;
+            mainColor = vec4(data.new.red, data.new.green, data.new.blue,1)
+            console.log(mainColor)
             idnit();
             players = data.initation;
             players.forEach(e => {
                 playersObject.push(new Others(e.nickname,
                     vec3(e.x, e.y, e.z), 0.2, idConcat++, false, false
-                ).setOneColor(
+                ).setBodyColor(vec4(e.red,e.green,e.blue,1)).setOneColor(
                     vec4(1, 1, 1, 0)).using())
             })
         } else {
@@ -133,7 +147,7 @@ function socketFunction(names) {
             playersObject.push(new Others(data.new.nickname,
                 vec3(data.new.x, data.new.y, data.new.z), 0.2, idConcat++, false, false
             ).setOneColor(
-                vec4(1, 1, 1, 0)).using())
+                vec4(1, 1, 1, 0)).setBodyColor(vec4(e.red,e.green,e.blue,1)).using())
         }
     })
     socket.on('quit', function (data) {
@@ -180,7 +194,7 @@ function doWork() {
     addFloorObject();
 
     myObject = new Player(firstBirth, 0.2, idConcat++, false, false).setOneColor(
-        vec4(1, 1, 1, 0)).setCallbackAction(playerObjectCallbackAction).setGravityAction(floors).using()
+        vec4(1, 1, 1, 0)).setBodyColor(mainColor).setCallbackAction(playerObjectCallbackAction).setGravityAction(floors).using()
 
     setListener();
 
