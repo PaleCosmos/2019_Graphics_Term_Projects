@@ -139,7 +139,7 @@ function socketFunction(names, rgb) {
             console.log(mainColor)
             idnit();
             players = data.initation;
-            let char = "";
+         
             players.forEach(e => {
                 playersObject.push(new Others(e.nickname,
                     vec3(e.x, e.y, e.z), 0.2, idConcat++, false, false
@@ -155,8 +155,8 @@ function socketFunction(names, rgb) {
         }
         
         setInterval(()=>{
-            let str = ncik;
-            players.forEach(e=>{
+            let str = "";
+            playersObject.forEach(e=>{
                 str += e.nickname +"\n\n";
             })
             id('peoples').value = str;
@@ -179,7 +179,9 @@ function socketFunction(names, rgb) {
 
     socket.on('recMsg', function (data) {
         console.log(data.comment)
-        id('chat1').append(data.comment);
+        let ch = id('chat1')
+        ch.append(data.comment);
+        ch.scrollTop = ch.scrollHeight;
     });
 
     id('chat3').addEventListener('click', (e) => {
