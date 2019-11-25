@@ -155,7 +155,7 @@ function socketFunction(names, rgb) {
         }
         
         setInterval(()=>{
-            let str = "";
+            let str = ncik;
             players.forEach(e=>{
                 str += e.nickname +"\n\n";
             })
@@ -163,9 +163,11 @@ function socketFunction(names, rgb) {
         }, 3000)
     })
     socket.on('quit', function (data) {
-        let idx = playersObject.findIndex((a) => { return data.nickname == a.nickname })
+        let idx1 = playersObject.findIndex((a) => { return data.nickname == a.nickname })
+        let idx2= players.findIndex((a) => { return data.nickname == a.nickname })
         id('chat1').append(data.nickname + "님이 퇴장하셨습니다.\n");
-        playersObject.splice(idx, 1);
+        playersObject.splice(idx1, 1);
+        players.splice(idx2,1);
     })
     socket.on('point', function (data) {
         playersObject.forEach(e => {
