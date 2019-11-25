@@ -147,7 +147,7 @@ function socketFunction(names, rgb) {
             playersObject.push(new Others(data.new.nickname,
                 vec3(data.new.x, data.new.y, data.new.z), 0.2, idConcat++, false, false
             ).setOneColor(
-                vec4(1, 1, 1, 0)).setBodyColor(vec4(e.red,e.green,e.blue,1)).using())
+                vec4(1, 1, 1, 0)).setBodyColor(vec4(data.new.red,data.new.green,data.new.blue,1)).using())
         }
     })
     socket.on('quit', function (data) {
