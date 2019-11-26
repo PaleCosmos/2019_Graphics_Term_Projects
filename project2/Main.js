@@ -13,7 +13,7 @@ var mainColor = null;
 var entrance = true;
 
 var fps = 80;
-var isBug = true;
+var isBug = false;
 
 var bows = [];
 var bow0;
@@ -82,22 +82,22 @@ window.onload = () => {
             let names = id('name').value
             let red = id('red').value
             let green = id('green').value
-            let blue= id('blue').value
-           
+            let blue = id('blue').value
+
             if (names != "") {
-                if(red>=0&&red<=255&&
-                    green>=0&&green<=255&&
-                    blue>=0&&blue<=255&&red!=""&&green!=""&&blue!=""){
-                        socketFunction(names, vec4(red/255,green/255,blue/255,1));
-                    }else{
-                        alert('색상이 잘못되었습니다.')
-                    }
+                if (red >= 0 && red <= 255 &&
+                    green >= 0 && green <= 255 &&
+                    blue >= 0 && blue <= 255 && red != "" && green != "" && blue != "") {
+                    socketFunction(names, vec4(red / 255, green / 255, blue / 255, 1));
+                } else {
+                    alert('색상이 잘못되었습니다.')
+                }
             }
         });
     }
 }
 
-function idnit(){
+function idnit() {
     bows = [
         new Audio('./Audio/bow1.mp3'),
         new Audio('./Audio/bow3.wav'),
@@ -109,7 +109,7 @@ function idnit(){
     BGM = new Audio('./Audio/henesis.mp3')
     BGM.loop = true;
     BGM.play();
-   
+
     id('peoples').setAttribute('class', 'chaton')
     id('starting').setAttribute('class', 'button2')
     id('gl-canvas').setAttribute('class', 'canvas2')
@@ -124,26 +124,26 @@ function socketFunction(names, rgb) {
     socket.emit('joinRoom', {
         roomName: 'myroom',
         nickname: names, x: firstBirth[0], y: firstBirth[1], z: firstBirth[2],
-        red:rgb[0],green:rgb[1],blue:rgb[2]
+        red: rgb[0], green: rgb[1], blue: rgb[2]
     })
 
-    socket.on('no',function(data){
+    socket.on('no', function (data) {
         alert(data.comment);
     })
 
     socket.on('pointInit', function (data) {
-        
-        if (data.new.nickname ==  names) {
+
+        if (data.new.nickname == names) {
             nick = names;
-            mainColor = vec4(data.new.red, data.new.green, data.new.blue,1)
+            mainColor = vec4(data.new.red, data.new.green, data.new.blue, 1)
             console.log(mainColor)
             idnit();
             players = data.initation;
-         
+
             players.forEach(e => {
                 playersObject.push(new Others(e.nickname,
                     vec3(e.x, e.y, e.z), 0.2, idConcat++, false, false
-                ).setBodyColor(vec4(e.red,e.green,e.blue,1)).setOneColor(
+                ).setBodyColor(vec4(e.red, e.green, e.blue, 1)).setOneColor(
                     vec4(1, 1, 1, 0)).using())
             })
         } else {
@@ -151,23 +151,21 @@ function socketFunction(names, rgb) {
             playersObject.push(new Others(data.new.nickname,
                 vec3(data.new.x, data.new.y, data.new.z), 0.2, idConcat++, false, false
             ).setOneColor(
-                vec4(1, 1, 1, 0)).setBodyColor(vec4(data.new.red,data.new.green,data.new.blue,1)).using())
+                vec4(1, 1, 1, 0)).setBodyColor(vec4(data.new.red, data.new.green, data.new.blue, 1)).using())
         }
-        
-        setInterval(()=>{
-            let str = "";
-            playersObject.forEach(e=>{
-                str += e.nickname +"\n\n";
-            })
-            id('peoples').value = str;
-        }, 3000)
+
+        let str = nick+"\n\n";
+        playersObject.forEach(e => {
+            str += e.nickname + "\n\n";
+        })
+        id('peoples').value = str;
     })
     socket.on('quit', function (data) {
         let idx1 = playersObject.findIndex((a) => { return data.nickname == a.nickname })
-        let idx2= players.findIndex((a) => { return data.nickname == a.nickname })
+        let idx2 = players.findIndex((a) => { return data.nickname == a.nickname })
         id('chat1').append(data.nickname + "님이 퇴장하셨습니다.\n");
         playersObject.splice(idx1, 1);
-        players.splice(idx2,1);
+        players.splice(idx2, 1);
     })
     socket.on('point', function (data) {
         playersObject.forEach(e => {
