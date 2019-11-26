@@ -180,17 +180,11 @@ function socketFunction(names, rgb) {
     id('chat3').addEventListener('click', (e) => {
         chat();
     });
-    id('chat2').addEventListener('keypress', (e) => {
-        if (e.keyCode == 13 && id('chat2') == document.activeElement) {
-                if(id('chat2').value !=""){
-                    chat();
-                }
-        }
-    })
+
 }
 
 function chat() {
-    let msg = id('chat2').value;
+    let msg = id('chat2').value + " ";
     id('chat2').value = "";
 
     socket.emit('reqMsg', { comment: msg });
@@ -690,24 +684,25 @@ function setListener() {
 
     addKeyListener(document)
 };
-/// FOCUS 집어넣기
-var enter = true;
+/// 
 function addKeyListener(doc) {
-
+    doc.addEventListener('keypress',(e)=>{
+        if(e.keyCode==13){
+            if (id('chat2') != document.activeElement) {
+                id('chat2').focus();
+            }else if (id('chat2') == document.activeElement) {
+                if (id('chat2').value != "") {
+                    chat();
+                } else {
+                    id('chat2').blur();
+                }
+            }
+        }
+    })
     doc.addEventListener('keyup', (e) => {
         console.log(e.keyCode)
-        
         switch (e.keyCode) {
-            case 13:
-                    if (enter) {
-                        id('chat2').focus();
-                        enter = false
-                    } else {
- //엔터고치기
- id('chat2').blur();
- enter=true
-                    }
-                break;
+
             case 87: // w
                 keyState.up = false;
                 id('up').style.backgroundColor = "white";
