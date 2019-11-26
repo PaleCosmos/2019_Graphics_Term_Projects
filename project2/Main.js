@@ -56,7 +56,6 @@ const centerPick = vec3(-1, -0, -1);
 
 window.onload = () => {
     if (isDebug) {
-
         if (DebugSwitcher != 0) {
             firstBirth = checkPoints[DebugSwitcher - 1];
         }
@@ -257,6 +256,8 @@ function doWork() {
 
 const playerObjectCallbackAction = (_, element) => {
     GL.setAt(vec3(element.x, element.y, element.z))
+if(id('chat2') !== document.activeElement)
+{
     if (keyState.up && keyState.left) element.move(0, playerSpeed * r2, -playerSpeed * r2, false, floors)
     else if (keyState.up && keyState.right) element.move(0, -playerSpeed * r2, -playerSpeed * r2, false, floors)
     else if (keyState.down && keyState.left) element.move(0, playerSpeed * r2, playerSpeed * r2, false, floors)
@@ -274,6 +275,7 @@ const playerObjectCallbackAction = (_, element) => {
     if (keyState.viewRight) element.viewRight(false)
     if (keyState.viewUp) element.viewUp()
     if (keyState.viewDown) element.viewDown()
+}
 }
 
 function fallingCallback(_, element) {
@@ -667,6 +669,7 @@ function setListener() {
 
     addKeyListener(document)
 };
+/// FOCUS 집어넣기
 
 function addKeyListener(doc) {
     doc.addEventListener('keyup', (e) => {

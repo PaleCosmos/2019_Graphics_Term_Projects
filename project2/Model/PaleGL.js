@@ -349,7 +349,7 @@ class PaleGL {
 
         document.getElementById('textArea').value = myObject.x.toFixed(3)+'\n'+myObject.y.toFixed(3)+'\n'+myObject.z.toFixed(3);
         setTimeout(()=>{
-            requestAnimationFrame(PaleGL.render())
+            PaleGL.render()
         },1000/fps)
     }
 
