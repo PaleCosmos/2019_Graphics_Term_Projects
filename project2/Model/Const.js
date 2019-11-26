@@ -46,12 +46,14 @@ var distanceOf = (a, b) => {
 }
 
 var checkPoints = [vec3(0.6, 5.3, -1),
-vec3(1.6, 5 + 0.3, 7 + 0.3), vec3(1.6, -6, 7 + 0.3)];
+vec3(1.6, 5 + 0.3, 7 + 0.3), vec3(1.6, -6, 7 + 0.3),
+vec3(3.6, -3.3, 4.3 -6.8)];
 
 var checkPointsBGM = [
     "./Audio/market.mp3",
     "./Audio/field.mp3",
-    "./Audio/ele.mp3"
+    "./Audio/ele.mp3",
+    "./Audio/rudi.mp3"
 ];
 
 var vertices = [

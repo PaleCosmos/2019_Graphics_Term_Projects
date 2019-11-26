@@ -25,7 +25,7 @@ var nick = "";
 var isBowing = false;
 /////////////////////////////  DEBUG MODE
 var isDebug = false
-var DebugSwitcher = 3
+var DebugSwitcher = 4
 /////////////////////////////
 
 var jumpHeight = 0.5;
@@ -180,9 +180,11 @@ function socketFunction(names, rgb) {
     id('chat3').addEventListener('click', (e) => {
         chat();
     });
-    id('chat2').addEventListener('keydown', (e) => {
-        if (e.keyCode == 13) {
-            chat();
+    id('chat2').addEventListener('keypress', (e) => {
+        if (e.keyCode == 13 && id('chat2') == document.activeElement) {
+                if(id('chat2').value !=""){
+                    chat();
+                }
         }
     })
 }
@@ -233,17 +235,15 @@ function doWork() {
         .add(new Cube(vec3(-3, 0, -81), 80, idConcat++, true, false).setOneColor(
             BACKGROUND
         ).using())
-        .add(new Cube(vec3(-3, 10, -10), 2, idConcat++, true, false).setOneColor(
-            vec4(1, 0.5, 0.5, 1)
-        ).using())
+       
 
-        .add(new Tree(vec3(-15, -9, -9.3), 0.85, idConcat++, true, false)
+        .add(new Tree(vec3(-15, -15, -15.3), 0.85, idConcat++, true, false)
             .using().setRotationByX(Math.PI / 4))
-        .add(new Tree(vec3(-15, 9, -9), 0.7, idConcat++, true, false)
+        .add(new Tree(vec3(-15, 15, -15), 0.7, idConcat++, true, false)
             .using().setRotationByX(Math.PI / 5))
-        .add(new Tree(vec3(-12, -14, 16), 1, idConcat++, true, false)
+        .add(new Tree(vec3(-12, -22, 28), 1, idConcat++, true, false)
             .using().setRotationByX(Math.PI / 6))
-        .add(new Tree(vec3(-13, 19.3, 2), 0.75, idConcat++, true, false)
+        .add(new Tree(vec3(-13, 25, 10), 0.75, idConcat++, true, false)
             .setLeafColor(vec4(1, 0.8, 1, 1)).setBallColor(vec4(1, 0.4, 1, 1)).using().setRotationByX(Math.PI / 2))
         ////////////
         .add(myObject)
@@ -431,7 +431,7 @@ function addFloorObject() {
     ).using());
 
     let sspeed3 = 0.08;
-    floors.push(new Cube(vec3(0.2, 0.3, 7.3 + 0.3), 0.2, idConcat++, false, false).setOneColor(
+    floors.push(new Cube(vec3(0.2, 0.3, 7.3 + 0.3), 0.2, idConcat++, true, false).setOneColor(
         vec4(0, 0, 1, 1)
     ).setCallbackAction((_, element) => {
         if ((element.y + element.size / 2 >= myObject.y - myObject.size / 2 &&
@@ -518,31 +518,40 @@ function addFloorObject() {
         vec4(1, 0, 1, 1)
     ).using());
 
-    floors.push(new Cube(vec3(0, -6, 7.3 -3), 0.7, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(0, -6, 7.3 -2.5), 0.7, idConcat++, true, false).setOneColor(
         vec4(1, 0, 1, 1)
     ).using());
 
-    floors.push(new Cube(vec3(0.65, -6, 4.3 -1.4), 0.4, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(0.65, -6, 4.3 -0.8), 0.4, idConcat++, true, false).setOneColor(
         vec4(1, 0, 1, 1)
     ).using());
 
-    floors.push(new Cube(vec3(1.2, -6, 4.3 -2.4), 0.3, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(1.2, -6, 2.5), 0.3, idConcat++, true, false).setOneColor(
         vec4(1, 0, 1, 1)
     ).using());
 
-    floors.push(new Cube(vec3(1.8, -6, 4.3 -3.4), 0.1, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(1.8, -6, 2), 0.1, idConcat++, true, false).setOneColor(
         vec4(1, 0, 1, 1)
     ).using());
 
-    floors.push(new Cube(vec3(1.8, -5, 4.3 -3.4), 0.1, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(1.8, -5.5, 1.75), 0.1, idConcat++, true, false).setOneColor(
         vec4(1, 0, 1, 1)
     ).using());
 
-    floors.push(new Cube(vec3(1.8, -4, 4.3 -3.4), 0.1, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(1.8, -5.25, 1.5), 0.1, idConcat++, true, false).setOneColor(
         vec4(1, 0, 1, 1)
     ).using());
 
-    floors.push(new Cube(vec3(1.8, -4, 4.3 -4.4), 0.1, idConcat++, true, false).setOneColor(
+
+    floors.push(new Cube(vec3(1.8, -5, 1.3), 0.1, idConcat++, true, false).setOneColor(
+        vec4(1, 0, 1, 1)
+    ).using());
+
+    floors.push(new Cube(vec3(1.8, -4, 1.3), 0.1, idConcat++, true, false).setOneColor(
+        vec4(1, 0, 1, 1)
+    ).using());
+
+    floors.push(new Cube(vec3(1.8, -4, 4.3 -4.7), 0.1, idConcat++, true, false).setOneColor(
         vec4(1, 0, 1, 1)
     ).using());
 
@@ -566,6 +575,18 @@ function addFloorObject() {
 
     floors.push(new Cube(vec3(2.2, -3.3, 4.3 -5.2), 0.1, idConcat++, true, false).setOneColor(
         vec4(1, 0, 1, 1)
+    ).using());
+
+    floors.push(new Cube(vec3(1.2, -3.3, 4.3 -6.8), 2, idConcat++, true, false).setOneColor(
+        vec4(1, 1, 0, 1)
+    ).using());
+
+    floors.push(new Cube(vec3(2, -3.3, 4.3 -6.8), 1, idConcat++, true, false).setOneColor(
+        vec4(1, 1, 0, 1)
+    ).using());
+
+    checks.push(new Cube(vec3(2.6, -3.3, 4.3 -6.8), 0.1, idConcat++, true, false).setOneColor(
+        vec4(1, 1, 0, 1)
     ).using());
 };
 
@@ -670,15 +691,22 @@ function setListener() {
     addKeyListener(document)
 };
 /// FOCUS 집어넣기
-
+var enter = true;
 function addKeyListener(doc) {
+
     doc.addEventListener('keyup', (e) => {
         console.log(e.keyCode)
+        
         switch (e.keyCode) {
-            case 82: //r
-                id('reset').style.backgroundColor = "white";
-                PaleGL.information.eye = tempEye;
-                myObject.teleport(firstBirth[0], firstBirth[1], firstBirth[2])
+            case 13:
+                    if (enter) {
+                        id('chat2').focus();
+                        enter = false
+                    } else {
+ //엔터고치기
+ id('chat2').blur();
+ enter=true
+                    }
                 break;
             case 87: // w
                 keyState.up = false;
@@ -770,8 +798,11 @@ function addKeyListener(doc) {
                 id('right').style.backgroundColor = "#9999ff";
                 break;
             case 32:
-                id('space').style.backgroundColor = "#9999ff";
-                myObject.jump(myObject.x + 0.5);
+                if(id('chat2') != document.activeElement)
+                {
+                    id('space').style.backgroundColor = "#9999ff";
+                    myObject.jump(myObject.x + jumpHeight);
+                }
                 break;
             case 16:
                 keyState.shift = true;
