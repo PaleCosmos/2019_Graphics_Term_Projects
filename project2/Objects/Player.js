@@ -452,7 +452,6 @@ class Player extends WebGLObject {
         let bb2 = Math.sqrt(Math.pow(best2[2], 2) + Math.pow(best2[1], 2), 2)
 
 
-
         this.mVertices.forEach((element, index, _) => {
             let volt = Math.floor((index - 36) / 36); //0, 1, 2, 3
 
@@ -522,6 +521,7 @@ class Player extends WebGLObject {
             BGM.loop = true;
             BGM.play();
             firstBirth = checkPoints[idx];
+            tempEye = PaleGL.information.eye;
             checks[idx].teleport(-100, -100, -100);
         }
 
@@ -541,7 +541,8 @@ class Player extends WebGLObject {
         if (this.x <= -8) {
             let au = new Audio('./Audio/dies.wav');
             au.play()
-            PaleGL.setEye();
+            //PaleGL.setEye();
+            PaleGL.information.eye = tempEye;
             this.teleport(firstBirth[0], firstBirth[1], firstBirth[2])
         }
         if (!isJump) {

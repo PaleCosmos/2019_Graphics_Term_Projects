@@ -349,12 +349,14 @@ class PaleGL {
 
         document.getElementById('textArea').value = myObject.x.toFixed(3)+'\n'+myObject.y.toFixed(3)+'\n'+myObject.z.toFixed(3);
         setTimeout(()=>{
-            requestAnimationFrame(PaleGL.render);
+            requestAnimationFrame(PaleGL.render())
         },1000/fps)
     }
 
     static setEye() {
         PaleGL.information.eye = vec3(PaleGL.state.radius * Math.sin(PaleGL.state.phi), PaleGL.state.radius * Math.sin(PaleGL.state.theta),
             PaleGL.state.radius * Math.cos(PaleGL.state.phi));
+
+            tempEye = PaleGL.information.eye;
     }
 }

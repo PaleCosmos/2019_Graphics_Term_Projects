@@ -8,7 +8,9 @@ var checks = [];
 var players = [];
 var playersObject = [];
 
-var mainColor = null;
+var tempEye = null;
+
+var mainColor = vec4(0.9, 0.8, 0, 1);
 
 var entrance = true;
 
@@ -23,12 +25,12 @@ var nick = "";
 var isBowing = false;
 /////////////////////////////  DEBUG MODE
 var isDebug = false
-var DebugSwitcher = 0
+var DebugSwitcher = 3
 /////////////////////////////
 
 var jumpHeight = 0.5;
 
-var playerSpeed = 0.003;
+const playerSpeed = 0.004;
 
 var keyState = {
     up: false,
@@ -58,21 +60,15 @@ window.onload = () => {
         if (DebugSwitcher != 0) {
             firstBirth = checkPoints[DebugSwitcher - 1];
         }
-        bows = [
-            new Audio('./Audio/bow1.mp3'),
-            new Audio('./Audio/bow2.wav'),
-            new Audio('./Audio/bow3.wav'),
-            new Audio('./Audio/bow4.mp3'),
-            new Audio('./Audio/bow5.wav'),
-            new Audio('./Audio/bow6.wav')
-        ];
+
         bow0 = bows[0];
         BGM = new Audio('./Audio/henesis.mp3')
         BGM.loop = true;
-        BGM.play();
+        //BGM.play();
         id('starting').setAttribute('class', 'button2')
         id('gl-canvas').setAttribute('class', 'canvas2')
         id('textArea').setAttribute('class', 'debuging')
+        id('nick').setAttribute('class', 'chatoff')
 
         doWork();
     } else {
@@ -200,7 +196,8 @@ function chat() {
 }
 
 function putData(dataname, data) {
-    socket.emit(dataname, data);
+    if(socket!=null)
+        socket.emit(dataname, data);
 }
 
 function doWork() {
@@ -253,7 +250,7 @@ function doWork() {
         .add(myObject)
         .rendering();
 
-    // if (isDebug) {박상현최고
+    // if (isDebug) {
     //     myObject.teleport(1, -0.2, 7 + 0.3);
     // }
 }
@@ -414,7 +411,6 @@ function addFloorObject() {
                 element.z - element.size / 2 <= myObject.z + myObject.size / 2) &&
             (Math.abs(element.x - myObject.x)) < 0.01 + (myObject.size / 2 + element.size / 2)) {
             element.setOneColor(vec4(1, 0, 0, 1))
-
         } else {
             element.setOneColor(vec4(0, 0, 1, 1))
         }
@@ -519,6 +515,56 @@ function addFloorObject() {
     floors.push(new Cube(vec3(-2, -6, 7 + 0.3), 4, idConcat++, true, false).setOneColor(
         vec4(1, 0, 1, 1)
     ).using());
+
+    floors.push(new Cube(vec3(0, -6, 7.3 -3), 0.7, idConcat++, true, false).setOneColor(
+        vec4(1, 0, 1, 1)
+    ).using());
+
+    floors.push(new Cube(vec3(0.65, -6, 4.3 -1.4), 0.4, idConcat++, true, false).setOneColor(
+        vec4(1, 0, 1, 1)
+    ).using());
+
+    floors.push(new Cube(vec3(1.2, -6, 4.3 -2.4), 0.3, idConcat++, true, false).setOneColor(
+        vec4(1, 0, 1, 1)
+    ).using());
+
+    floors.push(new Cube(vec3(1.8, -6, 4.3 -3.4), 0.1, idConcat++, true, false).setOneColor(
+        vec4(1, 0, 1, 1)
+    ).using());
+
+    floors.push(new Cube(vec3(1.8, -5, 4.3 -3.4), 0.1, idConcat++, true, false).setOneColor(
+        vec4(1, 0, 1, 1)
+    ).using());
+
+    floors.push(new Cube(vec3(1.8, -4, 4.3 -3.4), 0.1, idConcat++, true, false).setOneColor(
+        vec4(1, 0, 1, 1)
+    ).using());
+
+    floors.push(new Cube(vec3(1.8, -4, 4.3 -4.4), 0.1, idConcat++, true, false).setOneColor(
+        vec4(1, 0, 1, 1)
+    ).using());
+
+    let speed5 = -0.07
+    movingObject.push(new Cube(vec3(1.9, -4, 4.3 -4.4), 0.1, idConcat++, false, false).setOneColor(
+        vec4(1, 0, 0, 1)
+    ).setCallbackAction((_, element) => {
+        if (element.z >= (4.3 -4.4+ 2) || element.z <= (4.3 -4.4- 2)) {
+            speed5 *= -1;
+        }
+        element.setOneColor(vec4(1, 0, 0, 1))
+        element.move(0, 0, speed5)
+        if (distanceOf(vec3(element.x, element.y, element.z), vec3(myObject.x, myObject.y, myObject.z)) <= ((element.size / 2) + (myObject.size / 2)) + 0.001) {
+            myObject.move(0, 0, speed5, true)
+        }
+    }).using());
+
+    floors.push(new Cube(vec3(2.2, -3.3, 4.3 -4.7), 0.1, idConcat++, true, false).setOneColor(
+        vec4(1, 0, 1, 1)
+    ).using());
+
+    floors.push(new Cube(vec3(2.2, -3.3, 4.3 -5.2), 0.1, idConcat++, true, false).setOneColor(
+        vec4(1, 0, 1, 1)
+    ).using());
 };
 
 function setListener() {
@@ -614,6 +660,7 @@ function setListener() {
     });
 
     id('reset').addEventListener('click', (e) => {
+        PaleGL.information.eye = tempEye;
         myObject.teleport(firstBirth[0], firstBirth[1], firstBirth[2])
     });
 
@@ -627,7 +674,7 @@ function addKeyListener(doc) {
         switch (e.keyCode) {
             case 82: //r
                 id('reset').style.backgroundColor = "white";
-
+                PaleGL.information.eye = tempEye;
                 myObject.teleport(firstBirth[0], firstBirth[1], firstBirth[2])
                 break;
             case 87: // w
