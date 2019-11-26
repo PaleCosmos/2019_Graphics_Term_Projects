@@ -48,6 +48,8 @@ var keyState = {
     viewDown: false
 }
 
+//지형위치변경요망
+
 var socket = null;
 
 var BGM = null;
@@ -161,6 +163,12 @@ function socketFunction(names, rgb) {
         id('chat1').append(data.nickname + "님이 퇴장하셨습니다.\n");
         playersObject.splice(idx1, 1);
         players.splice(idx2, 1);
+
+        let str = nick+"\n\n";
+        playersObject.forEach(e => {
+            str += e.nickname + "\n\n";
+        })
+        id('peoples').value = str;
     })
     socket.on('point', function (data) {
         playersObject.forEach(e => {
@@ -684,8 +692,9 @@ function setListener() {
 
     addKeyListener(document)
 };
-/// 
+/// 한글이 문제였네 이런
 function addKeyListener(doc) {
+
     doc.addEventListener('keypress',(e)=>{
         if(e.keyCode==13){
             if (id('chat2') != document.activeElement) {
@@ -699,6 +708,7 @@ function addKeyListener(doc) {
             }
         }
     })
+
     doc.addEventListener('keyup', (e) => {
         console.log(e.keyCode)
         switch (e.keyCode) {
@@ -766,7 +776,11 @@ function addKeyListener(doc) {
         console.log(e.keyCode)
         switch (e.keyCode) {
             case 82: //r
-                id('reset').style.backgroundColor = "#9999ff";
+                if(id('chat2')!=document.activeElement){
+                    id('reset').style.backgroundColor = "#9999ff";
+                    PaleGL.information.eye = tempEye;
+                    myObject.teleport(firstBirth[0], firstBirth[1], firstBirth[2])
+                }
                 break;
             case 87: // w
                 id('up').style.backgroundColor = "#9999ff";
