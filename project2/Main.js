@@ -48,8 +48,6 @@ var keyState = {
     viewDown: false
 }
 
-//지형위치변경요망
-
 var socket = null;
 
 var BGM = null;
@@ -549,11 +547,11 @@ function addFloorObject() {
         vec4(1, 0, 1, 1)
     ).using());
 
-    floors.push(new Cube(vec3(1.8, -4, 1.3), 0.1, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(1.8, -4.5, 1.3), 0.1, idConcat++, true, false).setOneColor(
         vec4(1, 0, 1, 1)
     ).using());
 
-    floors.push(new Cube(vec3(1.8, -4, 4.3 -4.7), 0.1, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(1.8, -4, 1), 0.1, idConcat++, true, false).setOneColor(
         vec4(1, 0, 1, 1)
     ).using());
 
@@ -571,23 +569,23 @@ function addFloorObject() {
         }
     }).using());
 
-    floors.push(new Cube(vec3(2.2, -3.3, 4.3 -4.7), 0.1, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(2.2, -3.3, 4.3 -4.7+1.2), 0.1, idConcat++, true, false).setOneColor(
         vec4(1, 0, 1, 1)
     ).using());
 
-    floors.push(new Cube(vec3(2.2, -3.3, 4.3 -5.2), 0.1, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(2.2, -3.3, 4.3 -5.2+1), 0.1, idConcat++, true, false).setOneColor(
         vec4(1, 0, 1, 1)
     ).using());
 
-    floors.push(new Cube(vec3(1.2, -3.3, 4.3 -6.8), 2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(1.2, -3.3, 4.3 -6.8+1), 2, idConcat++, true, false).setOneColor(
         vec4(1, 1, 0, 1)
     ).using());
 
-    floors.push(new Cube(vec3(2, -3.3, 4.3 -6.8), 1, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(2, -3.3, 4.3 -6.8+1), 1, idConcat++, true, false).setOneColor(
         vec4(1, 1, 0, 1)
     ).using());
 
-    checks.push(new Cube(vec3(2.6, -3.3, 4.3 -6.8), 0.1, idConcat++, true, false).setOneColor(
+    checks.push(new Cube(vec3(2.6, -3.3, 4.3 -6.8+1), 0.1, idConcat++, true, false).setOneColor(
         vec4(1, 1, 0, 1)
     ).using());
 };
