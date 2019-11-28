@@ -67,6 +67,7 @@ const centerPick = vec3(-1, -0, -1);
 //     start()
 // }
 window.onload =function (){
+
     mImage = new Image();
 
     mImage.onload = ()=>{
@@ -128,7 +129,7 @@ function idnit() {
         new Audio('./Audio/bow6.wav')
     ];
     bow0 = bows[0];
-    BGM = new Audio('./Audio/henesis.mp3')
+    BGM = new Audio('./Audio/lisport-dot.mp3')
     BGM.loop = true;
     BGM.play();
 
