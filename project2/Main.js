@@ -24,7 +24,7 @@ var nick = "";
 
 var isBowing = false;
 /////////////////////////////  DEBUG MODE
-var isDebug = true
+var isDebug = false
 var DebugSwitcher = 0
 /////////////////////////////
 
