@@ -12,6 +12,7 @@ class WebGLObject {
         this.mLineColor = [];
         this.trans = trans;
     }
+    textures = null;
     callbackAction(a, b) { }
 
     move(x, y, z) { }

@@ -6,6 +6,9 @@ class Player extends WebGLObject {
         this.isJumping = false;
         this.mColors = [];
         this.colorState = 0;
+
+                ///
+                this.textures = []
     }
 
     playerBodyColor = vec4(0.9, 0.8, 0, 1)
@@ -17,6 +20,7 @@ class Player extends WebGLObject {
     movingContent = [0, 0, 0, 0];
     tempMoving = vec3(0, 0, 0);
     legSpeed = 0
+    //textures = null;
 
     callbackAction(a, b) { }
 
@@ -71,6 +75,13 @@ class Player extends WebGLObject {
     tempVertices = [];
     tempLines = [];
 
+    asTexture = false;
+    setTexture(){
+        this.asTexture = true;
+        return this;
+    }
+
+
     quad(a, b, c, d) {
 
 
@@ -80,6 +91,22 @@ class Player extends WebGLObject {
         this.tempVertices.push(vertices[a]);
         this.tempVertices.push(vertices[c]);
         this.tempVertices.push(vertices[d]);
+
+        
+        if(this.asTexture)
+        {
+            this.textures.push(texCoord[0]);
+            this.textures.push(texCoord[1]);
+            this.textures.push(texCoord[2]);
+            this.textures.push(texCoord[0]);
+            this.textures.push(texCoord[2]);
+            this.textures.push(texCoord[3]);
+        }else{
+            for(let kk=0;kk<6;kk++)
+            {
+                this.textures.push(texCoord[0])
+            }
+        }
 
         this.count += 6;
     }
@@ -103,6 +130,8 @@ class Player extends WebGLObject {
         this.tempVertices.forEach(element => {
             this.mVertices.push(element)
         })
+
+        
 
         this.tempVertices = [];
 

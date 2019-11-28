@@ -24,8 +24,8 @@ var nick = "";
 
 var isBowing = false;
 /////////////////////////////  DEBUG MODE
-var isDebug = false
-var DebugSwitcher = 4
+var isDebug = true
+var DebugSwitcher = 0
 /////////////////////////////
 
 var jumpHeight = 0.5;
@@ -47,6 +47,7 @@ var keyState = {
     viewUp: false,
     viewDown: false
 }
+var image0;
 
 var socket = null;
 
@@ -54,7 +55,17 @@ var BGM = null;
 
 const centerPick = vec3(-1, -0, -1);
 
-window.onload = () => {
+window.onload = ()=>{
+   image0 = new Image();
+   image0.crossOrigin = "Anonymous";
+    image0.src = "./mage.png";
+    image0.onload = function() {
+        start()
+    }
+}
+
+function start(){
+
     if (isDebug) {
         if (DebugSwitcher != 0) {
             firstBirth = checkPoints[DebugSwitcher - 1];
@@ -131,7 +142,7 @@ function socketFunction(names, rgb) {
         if (data.new.nickname == names) {
             nick = names;
             mainColor = vec4(data.new.red, data.new.green, data.new.blue, 1)
-            console.log(mainColor)
+           // console.log(mainColor)
             idnit();
             players = data.initation;
 
@@ -149,7 +160,7 @@ function socketFunction(names, rgb) {
                 vec4(1, 1, 1, 0)).setBodyColor(vec4(data.new.red, data.new.green, data.new.blue, 1)).using())
         }
 
-        let str = nick+"\n\n";
+        let str = nick + "\n\n";
         playersObject.forEach(e => {
             str += e.nickname + "\n\n";
         })
@@ -162,7 +173,7 @@ function socketFunction(names, rgb) {
         playersObject.splice(idx1, 1);
         players.splice(idx2, 1);
 
-        let str = nick+"\n\n";
+        let str = nick + "\n\n";
         playersObject.forEach(e => {
             str += e.nickname + "\n\n";
         })
@@ -177,7 +188,7 @@ function socketFunction(names, rgb) {
     })
 
     socket.on('recMsg', function (data) {
-        console.log(data.comment)
+        //console.log(data.comment)
         let ch = id('chat1')
         ch.append(data.comment);
         ch.scrollTop = ch.scrollHeight;
@@ -197,7 +208,7 @@ function chat() {
 }
 
 function putData(dataname, data) {
-    if(socket!=null)
+    if (socket != null)
         socket.emit(dataname, data);
 }
 
@@ -235,7 +246,7 @@ function doWork() {
         .add(new Cube(vec3(-3, 0, -81), 80, idConcat++, true, false).setOneColor(
             BACKGROUND
         ).using())
-       
+
 
         .add(new Tree(vec3(-15, -15, -15.3), 0.85, idConcat++, true, false)
             .using().setRotationByX(Math.PI / 4))
@@ -256,26 +267,25 @@ function doWork() {
 
 const playerObjectCallbackAction = (_, element) => {
     GL.setAt(vec3(element.x, element.y, element.z))
-if(id('chat2') !== document.activeElement)
-{
-    if (keyState.up && keyState.left) element.move(0, playerSpeed * r2, -playerSpeed * r2, false, floors)
-    else if (keyState.up && keyState.right) element.move(0, -playerSpeed * r2, -playerSpeed * r2, false, floors)
-    else if (keyState.down && keyState.left) element.move(0, playerSpeed * r2, playerSpeed * r2, false, floors)
-    else if (keyState.down && keyState.right) element.move(0, -playerSpeed * r2, playerSpeed * r2, false, floors)
-    else if (keyState.up) element.move(0, 0, -playerSpeed, false, floors)
-    else if (keyState.down) element.move(0, 0, playerSpeed, false, floors)
-    else if (keyState.left) element.move(0, playerSpeed, 0, false, floors)
-    else if (keyState.right) element.move(0, -playerSpeed, 0, false, floors)
-    if (keyState.shift) bow0.play();
-    if (keyState.far) GL.far()
-    if (keyState.near) GL.near()
-    if (keyState.viewLeft2) element.viewLeft()
-    if (keyState.viewRight2) element.viewRight()
-    if (keyState.viewLeft) element.viewLeft(false)
-    if (keyState.viewRight) element.viewRight(false)
-    if (keyState.viewUp) element.viewUp()
-    if (keyState.viewDown) element.viewDown()
-}
+    if (id('chat2') !== document.activeElement) {
+        if (keyState.up && keyState.left) element.move(0, playerSpeed * r2, -playerSpeed * r2, false, floors)
+        else if (keyState.up && keyState.right) element.move(0, -playerSpeed * r2, -playerSpeed * r2, false, floors)
+        else if (keyState.down && keyState.left) element.move(0, playerSpeed * r2, playerSpeed * r2, false, floors)
+        else if (keyState.down && keyState.right) element.move(0, -playerSpeed * r2, playerSpeed * r2, false, floors)
+        else if (keyState.up) element.move(0, 0, -playerSpeed, false, floors)
+        else if (keyState.down) element.move(0, 0, playerSpeed, false, floors)
+        else if (keyState.left) element.move(0, playerSpeed, 0, false, floors)
+        else if (keyState.right) element.move(0, -playerSpeed, 0, false, floors)
+        if (keyState.shift) bow0.play();
+        if (keyState.far) GL.far()
+        if (keyState.near) GL.near()
+        if (keyState.viewLeft2) element.viewLeft()
+        if (keyState.viewRight2) element.viewRight()
+        if (keyState.viewLeft) element.viewLeft(false)
+        if (keyState.viewRight) element.viewRight(false)
+        if (keyState.viewUp) element.viewUp()
+        if (keyState.viewDown) element.viewDown()
+    }
 }
 
 function fallingCallback(_, element) {
@@ -291,9 +301,7 @@ function fallingCallback(_, element) {
     }
 }
 
-function addFloorObject() {
-
-    //purple square
+function purpleObject() {
     floors.push(new Cube(vec3(-2 + 0.15, 1.5, -1), 0.3, idConcat++, true, false).setOneColor(
         vec4(0.5, 0, 0.5, 1)
     ).using());
@@ -316,10 +324,10 @@ function addFloorObject() {
 
     floors.push(new Cube(vec3(-3.5, 0, -1), 3, idConcat++, true, false).setOneColor(
         vec4(0.5, 0, 0.5, 1)
-    ).using());
+    ).setTexture().using());
+}
 
-    //green square
-
+function greenObject() {
     floors.push(new Cube(vec3(-3, 5 + 0.3, -1), 4, idConcat++, true, false).setOneColor(
         vec4(0, 1, 0, 1)
     ).using());
@@ -380,8 +388,9 @@ function addFloorObject() {
     floors.push(new Cube(vec3(-0.1, 4.9, 4.9), 0.2, idConcat++, true, false).setOneColor(
         vec4(0, 1, 0, 1)
     ).using());
+}
 
-    // blue squares
+function blueObject() {
     floors.push(new Cube(vec3(0, 5 + 0.3, 7 + 0.3), 1, idConcat++, true, false).setOneColor(
         vec4(0, 0, 1, 1)
     ).using());
@@ -505,8 +514,9 @@ function addFloorObject() {
         }
     }).using());
 
+}
 
-    // pink
+function pinkObject() {
     floors.push(new Cube(vec3(0, -6, 7 + 0.3), 1, idConcat++, true, false).setOneColor(
         vec4(1, 0, 1, 1)
     ).using());
@@ -518,11 +528,11 @@ function addFloorObject() {
         vec4(1, 0, 1, 1)
     ).using());
 
-    floors.push(new Cube(vec3(0, -6, 7.3 -2.5), 0.7, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(0, -6, 7.3 - 2.5), 0.7, idConcat++, true, false).setOneColor(
         vec4(1, 0, 1, 1)
     ).using());
 
-    floors.push(new Cube(vec3(0.65, -6, 4.3 -0.8), 0.4, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(0.65, -6, 4.3 - 0.8), 0.4, idConcat++, true, false).setOneColor(
         vec4(1, 0, 1, 1)
     ).using());
 
@@ -556,10 +566,10 @@ function addFloorObject() {
     ).using());
 
     let speed5 = -0.07
-    movingObject.push(new Cube(vec3(1.9, -4, 4.3 -4.4), 0.1, idConcat++, false, false).setOneColor(
+    movingObject.push(new Cube(vec3(1.9, -4, 4.3 - 4.4), 0.1, idConcat++, false, false).setOneColor(
         vec4(1, 0, 0, 1)
     ).setCallbackAction((_, element) => {
-        if (element.z >= (4.3 -4.4+ 2) || element.z <= (4.3 -4.4- 2)) {
+        if (element.z >= (4.3 - 4.4 + 2) || element.z <= (4.3 - 4.4 - 2)) {
             speed5 *= -1;
         }
         element.setOneColor(vec4(1, 0, 0, 1))
@@ -569,25 +579,45 @@ function addFloorObject() {
         }
     }).using());
 
-    floors.push(new Cube(vec3(2.2, -3.3, 4.3 -4.7+1.2), 0.1, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(2.2, -3.3, 4.3 - 4.7 + 1.2), 0.1, idConcat++, true, false).setOneColor(
         vec4(1, 0, 1, 1)
     ).using());
 
-    floors.push(new Cube(vec3(2.2, -3.3, 4.3 -5.2+1), 0.1, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(2.2, -3.3, 4.3 - 5.2 + 1), 0.1, idConcat++, true, false).setOneColor(
         vec4(1, 0, 1, 1)
     ).using());
 
-    floors.push(new Cube(vec3(1.2, -3.3, 4.3 -6.8+1), 2, idConcat++, true, false).setOneColor(
+}
+
+function yellowObject() {
+    floors.push(new Cube(vec3(1.2, -3.3, 4.3 - 6.8 + 1), 2, idConcat++, true, false).setOneColor(
         vec4(1, 1, 0, 1)
     ).using());
 
-    floors.push(new Cube(vec3(2, -3.3, 4.3 -6.8+1), 1, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(2, -3.3, 4.3 - 6.8 + 1), 1, idConcat++, true, false).setOneColor(
         vec4(1, 1, 0, 1)
     ).using());
 
-    checks.push(new Cube(vec3(2.6, -3.3, 4.3 -6.8+1), 0.1, idConcat++, true, false).setOneColor(
+    checks.push(new Cube(vec3(2.6, -3.3, 4.3 - 6.8 + 1), 0.1, idConcat++, true, false).setOneColor(
         vec4(1, 1, 0, 1)
     ).using());
+}
+
+function addFloorObject() {
+    //purple square
+    purpleObject();
+
+    //green square
+    greenObject();
+
+    // blue squares
+    blueObject();
+
+    // pink
+    pinkObject();
+
+    // yellow
+    yellowObject();
 };
 
 function setListener() {
@@ -693,11 +723,11 @@ function setListener() {
 /// 한글이 문제였네 이런
 function addKeyListener(doc) {
 
-    doc.addEventListener('keypress',(e)=>{
-        if(e.keyCode==13){
+    doc.addEventListener('keypress', (e) => {
+        if (e.keyCode == 13) {
             if (id('chat2') != document.activeElement) {
                 id('chat2').focus();
-            }else if (id('chat2') == document.activeElement) {
+            } else if (id('chat2') == document.activeElement) {
                 if (id('chat2').value != "") {
                     chat();
                 } else {
@@ -708,7 +738,7 @@ function addKeyListener(doc) {
     })
 
     doc.addEventListener('keyup', (e) => {
-        console.log(e.keyCode)
+       // console.log(e.keyCode)
         switch (e.keyCode) {
 
             case 87: // w
@@ -771,10 +801,10 @@ function addKeyListener(doc) {
     });
 
     doc.addEventListener('keydown', (e) => {
-        console.log(e.keyCode)
+        //console.log(e.keyCode)
         switch (e.keyCode) {
             case 82: //r
-                if(id('chat2')!=document.activeElement){
+                if (id('chat2') != document.activeElement) {
                     id('reset').style.backgroundColor = "#9999ff";
                     PaleGL.information.eye = tempEye;
                     myObject.teleport(firstBirth[0], firstBirth[1], firstBirth[2])
@@ -805,8 +835,7 @@ function addKeyListener(doc) {
                 id('right').style.backgroundColor = "#9999ff";
                 break;
             case 32:
-                if(id('chat2') != document.activeElement)
-                {
+                if (id('chat2') != document.activeElement) {
                     id('space').style.backgroundColor = "#9999ff";
                     myObject.jump(myObject.x + jumpHeight);
                 }

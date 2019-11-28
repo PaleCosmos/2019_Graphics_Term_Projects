@@ -233,30 +233,43 @@ class PaleGL {
         PaleGL.render();
     }
 
+    static configurTexture(image, gl) {
+        let texture = gl.createTexture();
+        gl.bindTexture( gl.TEXTURE_2D, texture );
+        gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
+        gl.texImage2D( gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image );
+        gl.generateMipmap( gl.TEXTURE_2D );
+        gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.NEAREST_MIPMAP_LINEAR );
+        gl.texParameteri( gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.NEAREST );
+    
+        gl.uniform1i(gl.getUniformLocation(PaleGL.program, "texture"), 0);
+      }
+
     static render() {
 
         let vertices = [];
+        let textures = [];
         let colors = [];
         let gl = PaleGL.information.gl;
         let num = 0;
         let num2 = 0;
 
-        playersObject.forEach(ea=>{
+        playersObject.forEach(ea => {
             let tempN = 0;
             let tempN2 = 0;
 
-            ea.mVertices.forEach(aa=>{
-                if(tempN<36){
+            ea.mVertices.forEach(aa => {
+                if (tempN < 36) {
                     tempN++;
-                }else{
+                } else {
                     vertices.push(aa)
                 }
-                
+
             })
-            ea.mColors.forEach(cc=>{
-                if(tempN2<36){
+            ea.mColors.forEach(cc => {
+                if (tempN2 < 36) {
                     tempN2++;
-                }else{
+                } else {
                     colors.push(cc)
                 }
             })
@@ -289,6 +302,12 @@ class PaleGL {
                         colors.push(element)
                     }
                 });
+
+   
+                element1.textures.forEach(element => {
+                    textures.push(element)
+                })
+      
             }
             element1.callbackAction(null, element1)
             element1.subAction(null, element1)
@@ -322,6 +341,17 @@ class PaleGL {
         gl.vertexAttribPointer(vPosition, 4, gl.FLOAT, false, 0, 0);
         gl.enableVertexAttribArray(vPosition);
 
+        let tBuffer = gl.createBuffer();
+        gl.bindBuffer(gl.ARRAY_BUFFER, tBuffer);
+        gl.bufferData(gl.ARRAY_BUFFER, flatten(textures), gl.STATIC_DRAW)
+
+        let vTexCoord = gl.getAttribLocation(PaleGL.program, "vTexCoord");
+        gl.vertexAttribPointer(vTexCoord, 2, gl.FLOAT, false, 0, 0);
+        gl.enableVertexAttribArray(vTexCoord);
+
+
+        PaleGL.configurTexture(image0, gl)
+        //PaleGL.configurTexture(image2, gl)
         //PaleGL.modelView = gl.getUniformLocation(PaleGL.program, "modelView");
 
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -343,20 +373,20 @@ class PaleGL {
         gl.drawArrays(gl.TRIANGLES, 0, mCount);
 
         if (mCount != vertices.length) {
-            //console.log(mCount)
-            gl.drawArrays(gl.LINES, mCount, vertices.length - mCount)
+            console.log(mCount + ":" + vertices.length)
+            gl.drawArrays(gl.LINES, mCount, (vertices.length - mCount)/2)
         }
 
-        document.getElementById('textArea').value = myObject.x.toFixed(3)+'\n'+myObject.y.toFixed(3)+'\n'+myObject.z.toFixed(3);
-        setTimeout(()=>{
+        document.getElementById('textArea').value = myObject.x.toFixed(3) + '\n' + myObject.y.toFixed(3) + '\n' + myObject.z.toFixed(3);
+        setTimeout(() => {
             PaleGL.render()
-        },1000/fps)
+        }, 1000 / fps)
     }
 
     static setEye() {
         PaleGL.information.eye = vec3(PaleGL.state.radius * Math.sin(PaleGL.state.phi), PaleGL.state.radius * Math.sin(PaleGL.state.theta),
             PaleGL.state.radius * Math.cos(PaleGL.state.phi));
 
-            tempEye = PaleGL.information.eye;
+        tempEye = PaleGL.information.eye;
     }
 }

@@ -76,3 +76,38 @@ var vertexColors = [
     vec4(1.0, 0.0, 1.0, 1.0),  // magenta
     vec4(0.0, 1.0, 1.0, 1.0),  // cyan
 ];
+
+var texCoord = [
+    vec2(0, 0),
+    vec2(0, 1),
+    vec2(1, 1),
+    vec2(1, 0)
+];
+
+var texSize = 64;
+
+var image1 = new Array()
+for (let i = 0; i < texSize; i++)  image1[i] = new Array();
+for (let i = 0; i < texSize; i++)
+    for (let j = 0; j < texSize; j++)
+        image1[i][j] = new Float32Array(4);
+for (let i = 0; i < texSize; i++) for (let j = 0; j < texSize; j++) {
+    let c = (((i & 0x8) == 0) ^ ((j & 0x8) == 0));
+    image1[i][j] = [c, c, c, 1];
+}
+
+// Convert floats to ubytes for texture
+var image2 = new Uint8Array(4 * texSize * texSize);
+
+for (let i = 0; i < texSize; i++)
+    for (let j = 0; j < texSize; j++)
+        for (let k = 0; k < 4; k++)
+            image2[4 * texSize * i + 4 * j + k] = 255 * image1[i][j][k];
+
+//image0.crossOrigin = "Anonymous";
+
+// var image = new Image();
+// image.onload = function () {
+//     configureTexture(image);
+// }
+// image.src = "SA2011_black.gif"

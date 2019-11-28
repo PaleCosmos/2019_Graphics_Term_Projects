@@ -6,11 +6,19 @@ class Tree extends WebGLObject {
         this.isJumping = false;
         this.mColors = [];
         this.colorState = 0;
+                ///
+                this.textures = []
     }
 
     leafC = vec4(0,0.7,0,1)
     bodyC = vec4(0.3,.015,0,1)
     ballC = vec4(0.7,0,0,1)
+
+    asTexture = false;
+    setTexture(){
+        this.asTexture = true;
+        return this;
+    }
 
     count = 0;
     isDie = false;
@@ -20,6 +28,8 @@ class Tree extends WebGLObject {
     movingContent = [0, 0, 0, 0];
     tempMoving = vec3(0, 0, 0);
     legSpeed = 0
+
+    //textures = null;
 
     callbackAction(a, b) { }
 
@@ -94,6 +104,20 @@ class Tree extends WebGLObject {
         this.tempVertices.push(vertices[c]);
         this.tempVertices.push(vertices[d]);
 
+        if(this.asTexture)
+        {
+            this.textures.push(texCoord[0]);
+            this.textures.push(texCoord[1]);
+            this.textures.push(texCoord[2]);
+            this.textures.push(texCoord[0]);
+            this.textures.push(texCoord[2]);
+            this.textures.push(texCoord[3]);
+        }else{
+            for(let kk=0;kk<6;kk++)
+            {
+                this.textures.push(texCoord[0])
+            }
+        }
         this.count += 6;
     }
 
