@@ -115,7 +115,7 @@ class Tree extends WebGLObject {
         }else{
             for(let kk=0;kk<6;kk++)
             {
-                this.textures.push(texCoord[0])
+                this.textures.push(vec2(2,2))
             }
         }
         this.count += 6;
