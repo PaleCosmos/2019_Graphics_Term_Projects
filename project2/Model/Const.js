@@ -2,9 +2,27 @@ const PI = Math.PI
 function rt(i) { Math.sqrt(i) };
 const r2 = Math.sqrt(2) / 2;
 
+const starNumber = 150;
+
+var SCREEN_HEIGHT = 512;
+var SCREEN_WIDTH = 512;
+var CANVAS_HEIGHT = 512;
+var CANVAS_WIDTH = 512;
+
 var infMin = 0.0001
 
+var jumpHeight = 0.5;
+
+const playerSpeed = 0.004;
+
+var fps = 80;
+
 var firstBirth = vec3(-1 + 0.1 + 3, 0 - 0.5, -1);
+
+var starring =[];
+var starPosition = [];
+
+const BACKGROUND = vec4(0, 0, 0, 1)
 
 var externing = (a, b) => {
     let vec = vec3(
@@ -86,28 +104,52 @@ var texCoord = [
 
 var texSize = 64;
 
-var image1 = new Array()
-for (let i = 0; i < texSize; i++)  image1[i] = new Array();
-for (let i = 0; i < texSize; i++)
-    for (let j = 0; j < texSize; j++)
-        image1[i][j] = new Float32Array(4);
-for (let i = 0; i < texSize; i++) for (let j = 0; j < texSize; j++) {
-    let c = (((i & 0x8) == 0) ^ ((j & 0x8) == 0));
-    image1[i][j] = [c, c, c, 1];
+var idConcat = 0;
+var GL;
+var myObject;
+var floors = [];
+var movingObject = [];
+var checks = [];
+var players = [];
+var playersObject = [];
+
+var tempEye = null;
+
+var mainColor = vec4(0.9, 0.8, 0, 1);
+
+var entrance = true;
+
+var isBug = false;
+
+var bows = [];
+var bow0;
+
+var nick = "";
+
+var isBowing = false;
+
+var keyState = {
+    up: false,
+    down: false,
+    left: false,
+    right: false,
+    shift: false,
+    near: false,
+    far: false,
+    viewRight: false,
+    viewLeft: false,
+    viewRight2: false,
+    viewLeft2: false,
+    viewUp: false,
+    viewDown: false
 }
+var image0;
 
-// Convert floats to ubytes for texture
-var image2 = new Uint8Array(4 * texSize * texSize);
+var socket = null;
 
-for (let i = 0; i < texSize; i++)
-    for (let j = 0; j < texSize; j++)
-        for (let k = 0; k < 4; k++)
-            image2[4 * texSize * i + 4 * j + k] = 255 * image1[i][j][k];
+var BGM = null;
 
-//image0.crossOrigin = "Anonymous";
+var mImage = null;
 
-// var image = new Image();
-// image.onload = function () {
-//     configureTexture(image);
-// }
-// image.src = "SA2011_black.gif"
+const centerPick = vec3(-1, -0, -1);
+

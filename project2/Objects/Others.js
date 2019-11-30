@@ -6,12 +6,12 @@ class Others extends WebGLObject {
         this.isJumping = false;
         this.mColors = [];
         this.colorState = 0;
-        this.nickname=nick;
+        this.nickname = nick;
 
-                ///
-                this.textures = []
+        ///
+        this.textures = []
     }
-    nickname="";
+    nickname = "";
     otherBodyColor = vec4(0.45, 0.4, 0, 1)
     count = 0;
     isDie = false;
@@ -24,7 +24,7 @@ class Others extends WebGLObject {
     //textures = null;
 
     asTexture = false;
-    setTexture(){
+    setTexture() {
         this.asTexture = true;
         return this;
     }
@@ -37,7 +37,7 @@ class Others extends WebGLObject {
 
     gravityAction(a, b) { }
 
-    setBodyColor(ve){
+    setBodyColor(ve) {
         this.otherBodyColor = ve;
         return this;
     }
@@ -173,18 +173,16 @@ class Others extends WebGLObject {
         this.tempVertices.push(vertices[c]);
         this.tempVertices.push(vertices[d]);
 
-        if(this.asTexture)
-        {
+        if (this.asTexture) {
             this.textures.push(texCoord[0]);
             this.textures.push(texCoord[1]);
             this.textures.push(texCoord[2]);
             this.textures.push(texCoord[0]);
             this.textures.push(texCoord[2]);
             this.textures.push(texCoord[3]);
-        }else{
-            for(let kk=0;kk<6;kk++)
-            {
-                this.textures.push(vec2(2,2))
+        } else {
+            for (let kk = 0; kk < 6; kk++) {
+                this.textures.push(vec2(2, 2))
             }
         }
 

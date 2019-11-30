@@ -6,7 +6,7 @@ class Cube extends WebGLObject {
         this.isJumping = false
         this.colorState = 0;
         this.textures = []
-        this.mLineVertices=[]
+        this.mLineVertices = []
     }
 
     count = 0;
@@ -23,7 +23,7 @@ class Cube extends WebGLObject {
     gravityAction(a, b) { }
 
     asTexture = false;
-    setTexture(){
+    setTexture() {
         this.asTexture = true;
         return this;
     }
@@ -72,18 +72,16 @@ class Cube extends WebGLObject {
         this.mVertices.push(vertices[c]);
         this.mVertices.push(vertices[d]);
 
-        if(this.asTexture)
-        {
+        if (this.asTexture) {
             this.textures.push(texCoord[0]);
             this.textures.push(texCoord[1]);
             this.textures.push(texCoord[2]);
             this.textures.push(texCoord[0]);
             this.textures.push(texCoord[2]);
             this.textures.push(texCoord[3]);
-        }else{
-            for(let kk=0;kk<6;kk++)
-            {
-                this.textures.push(vec2(2,2))
+        } else {
+            for (let kk = 0; kk < 6; kk++) {
+                this.textures.push(vec2(2, 2))
             }
         }
 

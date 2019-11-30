@@ -7,8 +7,8 @@ class Player extends WebGLObject {
         this.mColors = [];
         this.colorState = 0;
 
-                ///
-                this.textures = []
+        ///
+        this.textures = []
     }
 
     playerBodyColor = vec4(0.9, 0.8, 0, 1)
@@ -30,7 +30,7 @@ class Player extends WebGLObject {
 
     gravityAction(a, b) { }
 
-    setBodyColor(ve){
+    setBodyColor(ve) {
         this.playerBodyColor = ve;
         return this;
     }
@@ -76,7 +76,7 @@ class Player extends WebGLObject {
     tempLines = [];
 
     asTexture = false;
-    setTexture(){
+    setTexture() {
         this.asTexture = true;
         return this;
     }
@@ -92,19 +92,17 @@ class Player extends WebGLObject {
         this.tempVertices.push(vertices[c]);
         this.tempVertices.push(vertices[d]);
 
-        
-        if(this.asTexture)
-        {
+
+        if (this.asTexture) {
             this.textures.push(texCoord[0]);
             this.textures.push(texCoord[1]);
             this.textures.push(texCoord[2]);
             this.textures.push(texCoord[0]);
             this.textures.push(texCoord[2]);
             this.textures.push(texCoord[3]);
-        }else{
-            for(let kk=0;kk<6;kk++)
-            {
-                this.textures.push(vec2(2,2))
+        } else {
+            for (let kk = 0; kk < 6; kk++) {
+                this.textures.push(vec2(2, 2))
             }
         }
 
@@ -131,7 +129,7 @@ class Player extends WebGLObject {
             this.mVertices.push(element)
         })
 
-        
+
 
         this.tempVertices = [];
 
@@ -593,10 +591,10 @@ class Player extends WebGLObject {
             //}
         }
         putData('move', {
-            nickname:nick,
-            x:this.x,
-            y:this.y,
-            z:this.z
+            nickname: nick,
+            x: this.x,
+            y: this.y,
+            z: this.z
         })
     }
 
@@ -624,10 +622,10 @@ class Player extends WebGLObject {
         this.z = z;
 
         putData('move', {
-            nickname:nick,
-            x:this.x,
-            y:this.y,
-            z:this.z
+            nickname: nick,
+            x: this.x,
+            y: this.y,
+            z: this.z
         })
     }
 
@@ -652,10 +650,10 @@ class Player extends WebGLObject {
 
         this.x = x;
         putData('move', {
-            nickname:nick,
-            x:this.x,
-            y:this.y,
-            z:this.z
+            nickname: nick,
+            x: this.x,
+            y: this.y,
+            z: this.z
         })
     }
 

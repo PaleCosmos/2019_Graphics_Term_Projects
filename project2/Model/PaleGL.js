@@ -205,13 +205,15 @@ class PaleGL {
         var gl = WebGLUtils.setupWebGL(canvas);
         if (!gl) { alert("WebGL isn't available"); }
 
-        gl.viewport(0, 0, canvas.width, canvas.height);
+      
         gl.clearColor(1.0, 1.0, 1.0, 1.0);
 
         gl.enable(gl.DEPTH_TEST);
         gl.enable(gl.CULL_FACE);
         gl.enable(gl.BLEND);
         gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
+        
+        gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
 
         gl.lineWidth(5);
 
@@ -236,16 +238,13 @@ class PaleGL {
     static configurTexture(image, gl) {
         let texture = gl.createTexture();
         gl.bindTexture(gl.TEXTURE_2D, texture);
-        //gl.pixelStorei(gl.UNPACK_FLIP_Y_WEBGL, true);
         gl.texImage2D(gl.TEXTURE_2D, 0, gl.RGB, gl.RGB, gl.UNSIGNED_BYTE, image);
-      //  if (isPowerOf2(image.width) && isPowerOf2(image.height)) {
-           //  gl.generateMipmap(gl.TEXTURE_2D);
-        //  } else {
-            gl.texParameteri( gl.TEXTURE_2D,  gl.TEXTURE_MAG_FILTER,  gl.LINEAR);
-            gl.texParameteri( gl.TEXTURE_2D,  gl.TEXTURE_MIN_FILTER,  gl.LINEAR);
-            gl.texParameteri( gl.TEXTURE_2D,  gl.TEXTURE_WRAP_S,  gl.CLAMP_TO_EDGE);
-           gl.texParameteri( gl.TEXTURE_2D,  gl.TEXTURE_WRAP_T,  gl.CLAMP_TO_EDGE);        //  }
-        
+
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MAG_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_MIN_FILTER, gl.LINEAR);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_S, gl.CLAMP_TO_EDGE);
+        gl.texParameteri(gl.TEXTURE_2D, gl.TEXTURE_WRAP_T, gl.CLAMP_TO_EDGE);        //  }
+
         gl.uniform1i(gl.getUniformLocation(PaleGL.program, "texture"), 0);
     }
 
@@ -257,10 +256,12 @@ class PaleGL {
         let gl = PaleGL.information.gl;
         let num = 0;
         let num2 = 0;
+        let num3 = 0;
 
         playersObject.forEach(ea => {
             let tempN = 0;
             let tempN2 = 0;
+            let tempN3 = 0;
 
             ea.mVertices.forEach(aa => {
                 if (tempN < 36) {
@@ -279,7 +280,12 @@ class PaleGL {
             })
 
             ea.textures.forEach(element => {
-                textures.push(element)
+                if (tempN3 < 36) {
+                    tempN3++;
+                }
+                else {
+                    textures.push(element)
+                }
             })
         })
 
@@ -311,11 +317,16 @@ class PaleGL {
                     }
                 });
 
-   
+
                 element1.textures.forEach(element => {
-                    textures.push(element)
+                    if (element1.id == myObject.id && num3 < 36) {
+                        num3++;
+                    } else {
+                        textures.push(element)
+                    }
+
                 })
-      
+
             }
             element1.callbackAction(null, element1)
             element1.subAction(null, element1)
@@ -332,6 +343,8 @@ class PaleGL {
 
         let modelViewMatrixLoc = gl.getUniformLocation(PaleGL.program, "modelViewMatrix");
         let projectionMatrixLoc = gl.getUniformLocation(PaleGL.program, "projectionMatrix");
+
+ 
 
         let cBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
@@ -357,11 +370,11 @@ class PaleGL {
         gl.vertexAttribPointer(vTexCoord, 2, gl.FLOAT, false, 0, 0);
         gl.enableVertexAttribArray(vTexCoord);
 
+        // let coordinatesVar = gl.getAttribLocation(PaleGL.program, "coordinates"); 
+        // gl.vertexAttribPointer(coordinatesVar, 3, gl.FLOAT, false, 0, 0);  
+        // gl.enableVertexAttribArray(coordinatesVar);
 
-        //PaleGL.configurTexture(image2, gl)
-        PaleGL.configurTexture(mImage,gl)
-        //PaleGL.configurTexture(image2, gl)
-        //PaleGL.modelView = gl.getUniformLocation(PaleGL.program, "modelView");
+        PaleGL.configurTexture(mImage, gl)
 
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
 
@@ -376,15 +389,21 @@ class PaleGL {
 
         PaleGL.mvMatrix = lookAt(pi.eye, pi.at, pi.up);
         PaleGL.pmMatrix = perspective(s.fovy, s.aspect, s.near, s.far);
-
+       
         gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(PaleGL.mvMatrix))
         gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(PaleGL.pmMatrix))
+
+        // let width = id('gl-canvas').clientHeight;
+        // let height = Math.max(1, id('gl-canvas').clientHeight);  // prevent divide by 0
+
+        //mat4.perspective(45 , width / height, 0.1, 100.0, PaleGL.pmMatrix);
+
         gl.drawArrays(gl.TRIANGLES, 0, mCount);
 
-        // if (mCount != vertices.length) {
-        //     console.log(mCount + ":" + vertices.length)
-        //     gl.drawArrays(gl.LINES, mCount, (vertices.length - mCount)/2)
-        // }
+        if (mCount != vertices.length) {
+            console.log(mCount + ":" + vertices.length)
+            gl.drawArrays(gl.LINES, mCount, (vertices.length - mCount)/2)
+        }
 
         document.getElementById('textArea').value = myObject.x.toFixed(3) + '\n' + myObject.y.toFixed(3) + '\n' + myObject.z.toFixed(3);
         setTimeout(() => {

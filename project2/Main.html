@@ -55,6 +55,7 @@ attribute  vec4 vPosition;
 attribute  vec4 vColor;
 varying vec4 fColor;
 varying vec2 fTexCoord;
+attribute vec4 coordinates;
 
 attribute  vec2 vTexCoord;
 
@@ -111,15 +112,16 @@ main()
 <script type="text/javascript" src="Objects/Player.js"></script>
 <script type="text/javascript" src="Objects/Tree.js"></script>
 <script type="text/javascript" src="Objects/Others.js"></script>
+<script type="text/javascript" src="Objects/Star2D.js"></script>
 
 <!-- Main -->
 <script type="text/javascript" src="Main.js"></script>
 
 <body>
-    <table width="824px">
-        <tr>
+    <table id="mTable">
+        <tr style ="display: none;">
             <td>
-                <table style="float: left; display: flexbox;">
+                <table id="topTable" style="float: left; display: flexbox; display: none;">
                     <tr>
                         <td>
                         </td>
@@ -130,7 +132,7 @@ main()
                             🆁
                         </td>
                     </tr>
-                    <tr width="150px">
+                    <tr >
                         <td id="left">
                             🅰
                         </td>
@@ -141,7 +143,7 @@ main()
                             🅳
                         </td>
                     </tr>
-                    <tr width="150px">
+                    <tr >
                         <td>
                         </td>
                         <td id="down">
@@ -153,11 +155,10 @@ main()
                 </table>
             </td>
             <td>
-                <button id="starting" class="button1">시작</button>
-
+                
             </td>
             <td>
-                <table style="float: right; display: flexbox;">
+                <table style="float: right; display: flexbox;  display: none;">
                     <tr>
                         <td id="viewUp">
                             🅾
@@ -202,9 +203,15 @@ main()
             </td>
         </tr>
         <tr>
-            <td></td>
-            <td width="512">
+            <td>
+                    <div>
+                            <textarea readonly class="chatoff" style="height: 512px; width:150; text-align: start;"
+                                id="peoples"></textarea>
+                        </div>
+            </td>
+            <td >
                 <div>
+                        <button id="starting" class="button1">시작</button>
 
                     <canvas id="gl-canvas" class="canvas1" width="512" height="512">
                         Oops ... your browser doesn't support the HTML5 canvas element
@@ -220,22 +227,19 @@ main()
                 </div>
             </td>
             <td>
-                <div>
-                    <textarea readonly class="chatoff" style="height: 512px; width:150; text-align: start;"
-                        id="peoples"></textarea>
-                </div>
+                    <div id="chat" class="chatoff">
+                            <div>
+                                <textarea readonly id="chat1"></textarea>
+                                <input id="chat2" placeholder="욕하지마세용">
+                                <button id="chat3">Enter</button>
+                            </div>
+                        </div>
             </td>
         </tr>
         <tr>
             <td></td>
             <td>
-                <div id="chat" class="chatoff">
-                    <div>
-                        <textarea readonly style="height: 200px; width:500px; text-align: start;" id="chat1"></textarea>
-                        <input id="chat2" style="height: 20px; width:450px; text-align: start;">
-                        <button id="chat3" style="height: 30px; width:50px; margin-top: 10px;">Enter</button>
-                    </div>
-                </div>
+         
             </td>
             <td>
 

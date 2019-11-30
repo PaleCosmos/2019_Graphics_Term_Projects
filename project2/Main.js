@@ -1,86 +1,74 @@
-var idConcat = 0;
-var GL;
-var myObject;
-var floors = [];
-var movingObject = [];
-var checks = [];
-var players = [];
-var playersObject = [];
-
-var tempEye = null;
-
-var mainColor = vec4(0.9, 0.8, 0, 1);
-
-var entrance = true;
-
-var fps = 80;
-var isBug = false;
-
-var bows = [];
-var bow0;
-
-var nick = "";
-
-var isBowing = false;
 /////////////////////////////  DEBUG MODE
 var isDebug = false
 var DebugSwitcher = 0
 /////////////////////////////
 
-var jumpHeight = 0.5;
-
-const playerSpeed = 0.004;
-
-var keyState = {
-    up: false,
-    down: false,
-    left: false,
-    right: false,
-    shift: false,
-    near: false,
-    far: false,
-    viewRight: false,
-    viewLeft: false,
-    viewRight2: false,
-    viewLeft2: false,
-    viewUp: false,
-    viewDown: false
-}
-var image0;
-
-var socket = null;
-
-var BGM = null;
-
-var mImage = null;
-
-const centerPick = vec3(-1, -0, -1);
-
-// window.onload = ()=>{
-// //    image0 = new Image();
-// //    image0.crossOrigin = "Anonymous";
-// //     image0.src = "./mage.png";
-// //     image0.onload = function() {
-// //         start()
-// //     }
-
-//     start()
-// }
-window.onload =function (){
+window.onload = function () {
 
     mImage = new Image();
+    ready();
 
-    mImage.onload = ()=>{
+
+    mImage.onload = () => {
         start();
     }
-    
+
     mImage.crossOrigin = "";
     mImage.src = "./Image/snow.png"
 }
 
+function ready() {
+
+  SCREEN_HEIGHT = screen.height;
+  SCREEN_WIDTH = screen.width;
+  CANVAS_HEIGHT = SCREEN_HEIGHT*4/5;
+  CANVAS_WIDTH = SCREEN_HEIGHT*4/5;
+
+    id('mTable').setAttribute('width', SCREEN_WIDTH);
+
+    id('peoples').setAttribute('height', `${SCREEN_HEIGHT*4/5}px`);
+    
+    id('chat1').setAttribute('style', `height:${SCREEN_HEIGHT*4/5}px; width:${SCREEN_WIDTH*9/25}px; text-align:start;`)
+    id('chat2').setAttribute('style', `height:${20}px; width:${SCREEN_WIDTH*9/25 -30}px; text-align:start;`)
+    id('chat3').setAttribute('style', `height:${20}px; width:${30}px; text-align:start;`)
 
 
-function start(){
+    id('gl-canvas').setAttribute('width', CANVAS_WIDTH);
+    id('gl-canvas').setAttribute('height', CANVAS_HEIGHT);
+
+
+    for (let vv = 0; vv < starNumber; vv++) {
+        starring.push(Math.floor(Math.random() * 50) / 1000)
+    }
+
+    for (let a1 = 0; a1 < starNumber / 5; a1++) {
+        let random1 = Math.random() * 70 - 35;
+        let random2 = Math.random() * 70 - 35;
+        starPosition.push(vec3(random1, random2, 35));
+    }
+    for (let a1 = 0; a1 < starNumber / 5; a1++) {
+        let random1 = Math.random() * 70 - 35;
+        let random2 = Math.random() * 70 - 35;
+        starPosition.push(vec3(random1, random2, -35));
+    }
+    for (let a1 = 0; a1 < starNumber / 5; a1++) {
+        let random1 = Math.random() * 70 - 35;
+        let random2 = Math.random() * 70 - 35;
+        starPosition.push(vec3(random1, 35, random2));
+    }
+    for (let a1 = 0; a1 < starNumber / 5; a1++) {
+        let random1 = Math.random() * 70 - 35;
+        let random2 = Math.random() * 70 - 35;
+        starPosition.push(vec3(random1, -35, random2));
+    }
+    for (let a1 = 0; a1 < starNumber / 5; a1++) {
+        let random1 = Math.random() * 70 - 35;
+        let random2 = Math.random() * 70 - 35;
+        starPosition.push(vec3(35, random2, random1));
+    }
+}
+
+function start() {
 
     if (isDebug) {
         if (DebugSwitcher != 0) {
@@ -90,7 +78,7 @@ function start(){
         bow0 = bows[0];
         BGM = new Audio('./Audio/henesis.mp3')
         BGM.loop = true;
-     //   BGM.play();
+        //   BGM.play();
         id('starting').setAttribute('class', 'button2')
         id('gl-canvas').setAttribute('class', 'canvas2')
         id('textArea').setAttribute('class', 'debuging')
@@ -98,7 +86,7 @@ function start(){
 
         doWork();
     } else {
-   
+
         id('textArea').setAttribute('class', 'nodebuging')
 
         id('starting').addEventListener('click', (e) => {
@@ -159,7 +147,7 @@ function socketFunction(names, rgb) {
         if (data.new.nickname == names) {
             nick = names;
             mainColor = vec4(data.new.red, data.new.green, data.new.blue, 1)
-           // console.log(mainColor)
+
             idnit();
             players = data.initation;
 
@@ -205,7 +193,6 @@ function socketFunction(names, rgb) {
     })
 
     socket.on('recMsg', function (data) {
-        //console.log(data.comment)
         let ch = id('chat1')
         ch.append(data.comment);
         ch.scrollTop = ch.scrollHeight;
@@ -238,15 +225,12 @@ function doWork() {
 
     setListener();
 
-    let BACKGROUND = vec4(0.3, 1, 1, 1)
-
     GL.addFloor(floors)
         .addChecks(checks)
         .addMovingObject(movingObject)
         .add(new Cube(vec3(-83, 0, -1), 80, idConcat++, false, false).setOneColor(
             vec4(0.5, 0.25, 0, 1)
         ).setTexture().using()) // floor
-
         .add(new Cube(vec3(77, 0, -1), 80, idConcat++, false, false).setOneColor(
             BACKGROUND
         ).using()) // top
@@ -263,23 +247,16 @@ function doWork() {
         .add(new Cube(vec3(-3, 0, -81), 80, idConcat++, false, false).setOneColor(
             BACKGROUND
         ).using())
-
-
         .add(new Tree(vec3(-15, -15, -15.3), 0.85, idConcat++, false, false)
-        .setTexture().using().setRotationByX(Math.PI / 4))
+            .setTexture().using().setRotationByX(Math.PI / 4))
         .add(new Tree(vec3(-15, 15, -15), 0.7, idConcat++, false, false)
-        .setTexture() .using().setRotationByX(Math.PI / 5))
+            .setTexture().using().setRotationByX(Math.PI / 5))
         .add(new Tree(vec3(-12, -22, 28), 1, idConcat++, false, false)
-        .setTexture() .using().setRotationByX(Math.PI / 6))
+            .setTexture().using().setRotationByX(Math.PI / 6))
         .add(new Tree(vec3(-13, 25, 10), 0.75, idConcat++, false, false)
             .setLeafColor(vec4(1, 0.8, 1, 1)).setBallColor(vec4(1, 0.4, 1, 1)).setTexture().using().setRotationByX(Math.PI / 2))
-        ////////////
         .add(myObject)
         .rendering();
-
-    // if (isDebug) {
-    //     myObject.teleport(1, -0.2, 7 + 0.3);
-    // }
 }
 
 const playerObjectCallbackAction = (_, element) => {
@@ -318,8 +295,19 @@ function fallingCallback(_, element) {
     }
 }
 
+function stars() {
+    for (let kg = 0; kg < starNumber; kg++) {
+        GL.add(
+            new Star(starPosition[kg], 0.2, idConcat++, false, false).setOneColor(vec4(1, 1, 0.5, 1))
+                .setCallbackAction((_, element) => {
+                    element.setRotationByX(starring[kg]);
+                }).using()
+        )
+    }
+}
+
 function purpleObject() {
-    floors.push(new Cube(vec3(-2 + 0.15, 1.5, -1), 0.3, idConcat++, false, false).setOneColor(
+    floors.push(new Cube(vec3(-2 + 0.15, 1.5, -1), 0.3, idConcat++, true, false).setOneColor(
         vec4(0.5, 0, 0.5, 1)
     ).setTexture().using());
 
@@ -635,6 +623,9 @@ function addFloorObject() {
 
     // yellow
     yellowObject();
+
+    // star
+    stars();
 };
 
 function setListener() {
@@ -755,9 +746,11 @@ function addKeyListener(doc) {
     })
 
     doc.addEventListener('keyup', (e) => {
-       // console.log(e.keyCode)
+        // console.log(e.keyCode)
         switch (e.keyCode) {
-
+            case 82:
+                id('reset').style.backgroundColor = "white";
+                break;
             case 87: // w
                 keyState.up = false;
                 id('up').style.backgroundColor = "white";

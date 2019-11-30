@@ -1,21 +1,21 @@
 class Tree extends WebGLObject {
 
-    constructor(vec3_, size = 1, id = 0,hasLine = false, trans = false) {
+    constructor(vec3_, size = 1, id = 0, hasLine = false, trans = false) {
         super(vec3_[0], vec3_[1], vec3_[2], size, id, hasLine, trans);
         this.mVertices = [];
         this.isJumping = false;
         this.mColors = [];
         this.colorState = 0;
-                ///
-                this.textures = []
+        ///
+        this.textures = []
     }
 
-    leafC = vec4(0,0.7,0,1)
-    bodyC = vec4(0.3,.015,0,1)
-    ballC = vec4(0.7,0,0,1)
+    leafC = vec4(0, 0.7, 0, 1)
+    bodyC = vec4(0.3, .015, 0, 1)
+    ballC = vec4(0.7, 0, 0, 1)
 
     asTexture = false;
-    setTexture(){
+    setTexture() {
         this.asTexture = true;
         return this;
     }
@@ -39,17 +39,17 @@ class Tree extends WebGLObject {
 
     gravityAction(a, b) { }
 
-    setLeafColor(a){
+    setLeafColor(a) {
         this.leafC = a;
         return this;
     }
 
-    setBodyColor(a){
+    setBodyColor(a) {
         this.bodyC = a;
         return this;
     }
 
-    setBallColor(a){
+    setBallColor(a) {
         this.ballC = a;
         return this;
     }
@@ -104,18 +104,16 @@ class Tree extends WebGLObject {
         this.tempVertices.push(vertices[c]);
         this.tempVertices.push(vertices[d]);
 
-        if(this.asTexture)
-        {
+        if (this.asTexture) {
             this.textures.push(texCoord[0]);
             this.textures.push(texCoord[1]);
             this.textures.push(texCoord[2]);
             this.textures.push(texCoord[0]);
             this.textures.push(texCoord[2]);
             this.textures.push(texCoord[3]);
-        }else{
-            for(let kk=0;kk<6;kk++)
-            {
-                this.textures.push(vec2(2,2))
+        } else {
+            for (let kk = 0; kk < 6; kk++) {
+                this.textures.push(vec2(2, 2))
             }
         }
         this.count += 6;
@@ -156,34 +154,34 @@ class Tree extends WebGLObject {
 
         //기둥
         this.colorCube(vec3(35, 3, 3), vec3(0, 0, 0))
-        this.setOneColor(this.bodyC) 
+        this.setOneColor(this.bodyC)
 
         // 나뭇잎들
-        this.colorCube(vec3(10, 10, 10), vec3(20*this.size, 0, 0))
-        this.setOneColor(this.leafC) 
-        this.colorCube(vec3(7, 7, 7), vec3(20*this.size, 2*this.size, 0))
-        this.setOneColor(this.leafC) 
-        this.colorCube(vec3(7, 7, 7), vec3(20*this.size , -2*this.size, 0))
-        this.setOneColor(this.leafC) 
-        this.colorCube(vec3(7, 7, 7), vec3(20*this.size , 0, 2*this.size))
-        this.setOneColor(this.leafC) 
-        this.colorCube(vec3(7, 7, 7), vec3(20*this.size, 0, -2*this.size))
-        this.setOneColor(this.leafC) 
-        this.colorCube(vec3(8, 8, 8), vec3(22*this.size , 0, 0))
-        this.setOneColor(this.leafC) 
+        this.colorCube(vec3(10, 10, 10), vec3(20 * this.size, 0, 0))
+        this.setOneColor(this.leafC)
+        this.colorCube(vec3(7, 7, 7), vec3(20 * this.size, 2 * this.size, 0))
+        this.setOneColor(this.leafC)
+        this.colorCube(vec3(7, 7, 7), vec3(20 * this.size, -2 * this.size, 0))
+        this.setOneColor(this.leafC)
+        this.colorCube(vec3(7, 7, 7), vec3(20 * this.size, 0, 2 * this.size))
+        this.setOneColor(this.leafC)
+        this.colorCube(vec3(7, 7, 7), vec3(20 * this.size, 0, -2 * this.size))
+        this.setOneColor(this.leafC)
+        this.colorCube(vec3(8, 8, 8), vec3(22 * this.size, 0, 0))
+        this.setOneColor(this.leafC)
 
         // 열매
-        this.colorCube(vec3(0.8, 0.8, 0.8), vec3(20.4*this.size, 5.6*this.size, -1.6*this.size))
-        this.setOneColor(this.ballC) 
-        this.colorCube(vec3(0.8, 0.8, 0.8), vec3(22.4*this.size, 5.6*this.size, 3*this.size))
-        this.setOneColor(this.ballC) 
+        this.colorCube(vec3(0.8, 0.8, 0.8), vec3(20.4 * this.size, 5.6 * this.size, -1.6 * this.size))
+        this.setOneColor(this.ballC)
+        this.colorCube(vec3(0.8, 0.8, 0.8), vec3(22.4 * this.size, 5.6 * this.size, 3 * this.size))
+        this.setOneColor(this.ballC)
 
-        this.colorCube(vec3(0.8, 0.8, 0.8), vec3(20.4*this.size, -1.6*this.size, 5.6*this.size))
-        this.setOneColor(this.ballC) 
-        this.colorCube(vec3(0.8, 0.8, 0.8), vec3(22.4*this.size, 3*this.size, 5.6*this.size))
-        this.setOneColor(this.ballC) 
-        this.colorCube(vec3(0.8, 0.8, 0.8), vec3(20.1*this.size, 1.6*this.size, -5.6*this.size))
-        this.setOneColor(this.ballC) 
+        this.colorCube(vec3(0.8, 0.8, 0.8), vec3(20.4 * this.size, -1.6 * this.size, 5.6 * this.size))
+        this.setOneColor(this.ballC)
+        this.colorCube(vec3(0.8, 0.8, 0.8), vec3(22.4 * this.size, 3 * this.size, 5.6 * this.size))
+        this.setOneColor(this.ballC)
+        this.colorCube(vec3(0.8, 0.8, 0.8), vec3(20.1 * this.size, 1.6 * this.size, -5.6 * this.size))
+        this.setOneColor(this.ballC)
         // this.colorCube(vec3(1, 1, 1), vec3(10, 3, 0))
         // this.setOneColor(vec4(1,0,0,1)) 
     }
@@ -423,7 +421,7 @@ class Tree extends WebGLObject {
         this.x = x;
     }
 
-   
+
     // finally, You should call this method.
 
     using() {
