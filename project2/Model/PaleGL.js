@@ -277,6 +277,10 @@ class PaleGL {
                     colors.push(cc)
                 }
             })
+
+            ea.textures.forEach(element => {
+                textures.push(element)
+            })
         })
 
         PaleGL.objects.forEach(element1 => {
@@ -319,12 +323,12 @@ class PaleGL {
 
         let mCount = vertices.length;
 
-        PaleGL.objects.forEach(element1 => {
-            element1.mLineVertices.forEach((element, index, arr) => {
-                vertices.push(element);
-                colors.push(vec4(0, 0, 0, 1));
-            });
-        });
+        // PaleGL.objects.forEach(element1 => {
+        //     element1.mLineVertices.forEach((element, index, arr) => {
+        //         vertices.push(element);
+        //         colors.push(vec4(0, 0, 0, 1));
+        //     });
+        // });
 
         let modelViewMatrixLoc = gl.getUniformLocation(PaleGL.program, "modelViewMatrix");
         let projectionMatrixLoc = gl.getUniformLocation(PaleGL.program, "projectionMatrix");
@@ -377,10 +381,10 @@ class PaleGL {
         gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(PaleGL.pmMatrix))
         gl.drawArrays(gl.TRIANGLES, 0, mCount);
 
-        if (mCount != vertices.length) {
-            console.log(mCount + ":" + vertices.length)
-            gl.drawArrays(gl.LINES, mCount, (vertices.length - mCount)/2)
-        }
+        // if (mCount != vertices.length) {
+        //     console.log(mCount + ":" + vertices.length)
+        //     gl.drawArrays(gl.LINES, mCount, (vertices.length - mCount)/2)
+        // }
 
         document.getElementById('textArea').value = myObject.x.toFixed(3) + '\n' + myObject.y.toFixed(3) + '\n' + myObject.z.toFixed(3);
         setTimeout(() => {

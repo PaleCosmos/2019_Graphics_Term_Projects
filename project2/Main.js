@@ -243,35 +243,35 @@ function doWork() {
     GL.addFloor(floors)
         .addChecks(checks)
         .addMovingObject(movingObject)
-        .add(new Cube(vec3(-83, 0, -1), 80, idConcat++, true, false).setOneColor(
+        .add(new Cube(vec3(-83, 0, -1), 80, idConcat++, false, false).setOneColor(
             vec4(0.5, 0.25, 0, 1)
         ).setTexture().using()) // floor
 
-        .add(new Cube(vec3(77, 0, -1), 80, idConcat++, true, false).setOneColor(
+        .add(new Cube(vec3(77, 0, -1), 80, idConcat++, false, false).setOneColor(
             BACKGROUND
         ).using()) // top
         //////////
-        .add(new Cube(vec3(-3, 80, -1), 80, idConcat++, true, false).setOneColor(
+        .add(new Cube(vec3(-3, 80, -1), 80, idConcat++, false, false).setOneColor(
             BACKGROUND
         ).using())
-        .add(new Cube(vec3(-3, -80, -1), 80, idConcat++, true, false).setOneColor(
+        .add(new Cube(vec3(-3, -80, -1), 80, idConcat++, false, false).setOneColor(
             BACKGROUND
         ).using())
-        .add(new Cube(vec3(-3, 0, 79), 80, idConcat++, true, false).setOneColor(
+        .add(new Cube(vec3(-3, 0, 79), 80, idConcat++, false, false).setOneColor(
             BACKGROUND
         ).using())
-        .add(new Cube(vec3(-3, 0, -81), 80, idConcat++, true, false).setOneColor(
+        .add(new Cube(vec3(-3, 0, -81), 80, idConcat++, false, false).setOneColor(
             BACKGROUND
         ).using())
 
 
-        .add(new Tree(vec3(-15, -15, -15.3), 0.85, idConcat++, true, false)
+        .add(new Tree(vec3(-15, -15, -15.3), 0.85, idConcat++, false, false)
         .setTexture().using().setRotationByX(Math.PI / 4))
-        .add(new Tree(vec3(-15, 15, -15), 0.7, idConcat++, true, false)
+        .add(new Tree(vec3(-15, 15, -15), 0.7, idConcat++, false, false)
         .setTexture() .using().setRotationByX(Math.PI / 5))
-        .add(new Tree(vec3(-12, -22, 28), 1, idConcat++, true, false)
+        .add(new Tree(vec3(-12, -22, 28), 1, idConcat++, false, false)
         .setTexture() .using().setRotationByX(Math.PI / 6))
-        .add(new Tree(vec3(-13, 25, 10), 0.75, idConcat++, true, false)
+        .add(new Tree(vec3(-13, 25, 10), 0.75, idConcat++, false, false)
             .setLeafColor(vec4(1, 0.8, 1, 1)).setBallColor(vec4(1, 0.4, 1, 1)).setTexture().using().setRotationByX(Math.PI / 2))
         ////////////
         .add(myObject)
@@ -319,56 +319,56 @@ function fallingCallback(_, element) {
 }
 
 function purpleObject() {
-    floors.push(new Cube(vec3(-2 + 0.15, 1.5, -1), 0.3, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-2 + 0.15, 1.5, -1), 0.3, idConcat++, false, false).setOneColor(
         vec4(0.5, 0, 0.5, 1)
     ).setTexture().using());
 
-    floors.push(new Cube(vec3(-2 + 0.3, 1.8, -1), 0.3, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-2 + 0.3, 1.8, -1), 0.3, idConcat++, false, false).setOneColor(
         vec4(0.5, 0, 0.5, 1)
     ).setTexture().setCallbackAction(fallingCallback).using());
 
-    floors.push(new Cube(vec3(-2 + 0.45, 2.1, -1), 0.3, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-2 + 0.45, 2.1, -1), 0.3, idConcat++, false, false).setOneColor(
         vec4(0.5, 0, 0.5, 1)
     ).setTexture().setCallbackAction(fallingCallback).using());
 
-    floors.push(new Cube(vec3(-2 + 0.6, 2.4, -1), 0.3, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-2 + 0.6, 2.4, -1), 0.3, idConcat++, false, false).setOneColor(
         vec4(0.5, 0, 0.5, 1)
     ).setTexture().using());
 
-    floors.push(new Cube(vec3(-2 + 0.75, 2.7, -1), 0.3, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-2 + 0.75, 2.7, -1), 0.3, idConcat++, false, false).setOneColor(
         vec4(0.5, 0, 0.5, 1)
     ).setTexture().using());
 
-    floors.push(new Cube(vec3(-3.5, 0, -1), 3, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-3.5, 0, -1), 3, idConcat++, false, false).setOneColor(
         vec4(0.5, 0, 0.5, 1)
     ).setTexture().using());
 }
 
 function greenObject() {
-    floors.push(new Cube(vec3(-3, 5 + 0.3, -1), 4, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-3, 5 + 0.3, -1), 4, idConcat++, false, false).setOneColor(
         vec4(0, 1, 0, 1)
     ).setTexture().using());
-    floors.push(new Cube(vec3(-1, 5 + 0.3, -1), 1, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-1, 5 + 0.3, -1), 1, idConcat++, false, false).setOneColor(
         vec4(0, 1, 0, 1)
     ).setTexture().using());
 
-    checks.push(new Cube(vec3(-0.4, 5 + 0.3, -1), 0.1, idConcat++, true, false).setOneColor(
+    checks.push(new Cube(vec3(-0.4, 5 + 0.3, -1), 0.1, idConcat++, false, false).setOneColor(
         vec4(1, 1, 0, 1)
     ).setTexture().using());
 
-    floors.push(new Cube(vec3(-1, 5 + 0.3, 1.5), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-1, 5 + 0.3, 1.5), 0.2, idConcat++, false, false).setOneColor(
         vec4(0, 1, 0, 1)
     ).setTexture().using());
 
-    floors.push(new Cube(vec3(-0.8, 4.6, 1.7), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-0.8, 4.6, 1.7), 0.2, idConcat++, false, false).setOneColor(
         vec4(0, 1, 0, 1)
     ).setTexture().using());
 
-    floors.push(new Cube(vec3(-0.3, 5, 1.9), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-0.3, 5, 1.9), 0.2, idConcat++, false, false).setOneColor(
         vec4(0, 1, 0, 1)
     ).setTexture().using());
 
-    floors.push(new Cube(vec3(-0.6, 5.3, 2.4), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-0.6, 5.3, 2.4), 0.2, idConcat++, false, false).setOneColor(
         vec4(0, 1, 0, 1)
     ).setTexture().using());
 
@@ -386,44 +386,44 @@ function greenObject() {
         }
     }).using());
 
-    floors.push(new Cube(vec3(-0.6, 5.3, 2.9), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-0.6, 5.3, 2.9), 0.2, idConcat++, false, false).setOneColor(
         vec4(0, 1, 0, 1)
     ).setTexture().using());
 
-    floors.push(new Cube(vec3(-0.6, 4.7, 3.4), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-0.6, 4.7, 3.4), 0.2, idConcat++, false, false).setOneColor(
         vec4(0, 1, 0, 1)
     ).setTexture().using());
 
-    floors.push(new Cube(vec3(-0.3, 4.9, 3.9), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-0.3, 4.9, 3.9), 0.2, idConcat++, false, false).setOneColor(
         vec4(0, 1, 0, 1)
     ).setTexture().using());
 
-    floors.push(new Cube(vec3(-0.3, 4.9, 4.5), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-0.3, 4.9, 4.5), 0.2, idConcat++, false, false).setOneColor(
         vec4(0, 1, 0, 1)
     ).setTexture().using());
 
-    floors.push(new Cube(vec3(-0.1, 4.9, 4.9), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-0.1, 4.9, 4.9), 0.2, idConcat++, false, false).setOneColor(
         vec4(0, 1, 0, 1)
     ).setTexture().using());
 }
 
 function blueObject() {
-    floors.push(new Cube(vec3(0, 5 + 0.3, 7 + 0.3), 1, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(0, 5 + 0.3, 7 + 0.3), 1, idConcat++, false, false).setOneColor(
         vec4(0, 0, 1, 1)
     ).setTexture().using());
-    checks.push(new Cube(vec3(0.6, 5 + 0.3, 7 + 0.3), 0.1, idConcat++, true, false).setOneColor(
+    checks.push(new Cube(vec3(0.6, 5 + 0.3, 7 + 0.3), 0.1, idConcat++, false, false).setOneColor(
         vec4(1, 1, 0, 1)
     ).setTexture().using());
 
-    floors.push(new Cube(vec3(-2, 5 + 0.3, 7 + 0.3), 4, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-2, 5 + 0.3, 7 + 0.3), 4, idConcat++, false, false).setOneColor(
         vec4(0, 0, 1, 1)
     ).setTexture().using());
 
-    floors.push(new Cube(vec3(-1, 2 + 0.3, 7 + 0.3), 0.3, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-1, 2 + 0.3, 7 + 0.3), 0.3, idConcat++, false, false).setOneColor(
         vec4(0, 0, 1, 1)
     ).setTexture().using());
 
-    floors.push(new Cube(vec3(0, 2 + 0.8, 7 + 0.3), 0.3, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(0, 2 + 0.8, 7 + 0.3), 0.3, idConcat++, false, false).setOneColor(
         vec4(0, 0, 1, 1)
     ).setTexture().using())
 
@@ -449,15 +449,15 @@ function blueObject() {
     }).using());
 
 
-    floors.push(new Cube(vec3(0, 1.3, 7 + 0.3), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(0, 1.3, 7 + 0.3), 0.2, idConcat++, false, false).setOneColor(
         vec4(0, 0, 1, 1)
     ).setTexture().using());
-    floors.push(new Cube(vec3(0 + 0.2, 0.8, 7 + 0.3), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(0 + 0.2, 0.8, 7 + 0.3), 0.2, idConcat++, false, false).setOneColor(
         vec4(0, 0, 1, 1)
     ).setTexture().using());
 
     let sspeed3 = 0.08;
-    floors.push(new Cube(vec3(0.2, 0.3, 7.3 + 0.3), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(0.2, 0.3, 7.3 + 0.3), 0.2, idConcat++, false, false).setOneColor(
         vec4(0, 0, 1, 1)
     ).setTexture().setCallbackAction((_, element) => {
         if ((element.y + element.size / 2 >= myObject.y - myObject.size / 2 &&
@@ -475,15 +475,15 @@ function blueObject() {
         }
     }).using());
 
-    floors.push(new Cube(vec3(0.2, 0.3, 6.7 + 0.3), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(0.2, 0.3, 6.7 + 0.3), 0.2, idConcat++, false, false).setOneColor(
         vec4(0, 0, 1, 1)
     ).setTexture().using());
 
-    floors.push(new Cube(vec3(0.7, -0.2, 7 + 0.3), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(0.7, -0.2, 7 + 0.3), 0.2, idConcat++, false, false).setOneColor(
         vec4(0, 0, 1, 1)
     ).setTexture().using());
 
-    floors.push(new Cube(vec3(0.2, -0.8, 7 + 0.3), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(0.2, -0.8, 7 + 0.3), 0.2, idConcat++, false, false).setOneColor(
         vec4(0, 0, 1, 1)
     ).setTexture().using());
 
@@ -502,13 +502,13 @@ function blueObject() {
         }
     }).using());
 
-    floors.push(new Cube(vec3(0.7, -1.2, 7 + 0.3), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(0.7, -1.2, 7 + 0.3), 0.2, idConcat++, false, false).setOneColor(
         vec4(0, 0, 1, 1)
     ).setTexture().using());
 
     let speed4 = -0.007
 
-    floors.push(new Cube(vec3(0.2, -1.4 - 0.01, 7 + 0.3), 0.2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(0.2, -1.4 - 0.01, 7 + 0.3), 0.2, idConcat++, false, false).setOneColor(
         vec4(0, 0, 1, 1)
     ).setTexture().setCallbackAction((_, element) => {
         if ((element.y + element.size / 2 >= myObject.y - myObject.size / 2 &&
@@ -534,51 +534,51 @@ function blueObject() {
 }
 
 function pinkObject() {
-    floors.push(new Cube(vec3(0, -6, 7 + 0.3), 1, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(0, -6, 7 + 0.3), 1, idConcat++, false, false).setOneColor(
         vec4(1, 0, 1, 1)
     ).setTexture().using());
-    checks.push(new Cube(vec3(0.6, -6, 7 + 0.3), 0.1, idConcat++, true, false).setOneColor(
+    checks.push(new Cube(vec3(0.6, -6, 7 + 0.3), 0.1, idConcat++, false, false).setOneColor(
         vec4(1, 1, 0, 1)
     ).setTexture().using());
 
-    floors.push(new Cube(vec3(-2, -6, 7 + 0.3), 4, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(-2, -6, 7 + 0.3), 4, idConcat++, false, false).setOneColor(
         vec4(1, 0, 1, 1)
     ).setTexture().using());
 
-    floors.push(new Cube(vec3(0, -6, 7.3 - 2.5), 0.7, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(0, -6, 7.3 - 2.5), 0.7, idConcat++, false, false).setOneColor(
         vec4(1, 0, 1, 1)
     ).setTexture().using());
 
-    floors.push(new Cube(vec3(0.65, -6, 4.3 - 0.8), 0.4, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(0.65, -6, 4.3 - 0.8), 0.4, idConcat++, false, false).setOneColor(
         vec4(1, 0, 1, 1)
     ).setTexture().using());
 
-    floors.push(new Cube(vec3(1.2, -6, 2.5), 0.3, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(1.2, -6, 2.5), 0.3, idConcat++, false, false).setOneColor(
         vec4(1, 0, 1, 1)
     ).setTexture().using());
 
-    floors.push(new Cube(vec3(1.8, -6, 2), 0.1, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(1.8, -6, 2), 0.1, idConcat++, false, false).setOneColor(
         vec4(1, 0, 1, 1)
     ).setTexture().using());
 
-    floors.push(new Cube(vec3(1.8, -5.5, 1.75), 0.1, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(1.8, -5.5, 1.75), 0.1, idConcat++, false, false).setOneColor(
         vec4(1, 0, 1, 1)
     ).setTexture().using());
 
-    floors.push(new Cube(vec3(1.8, -5.25, 1.5), 0.1, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(1.8, -5.25, 1.5), 0.1, idConcat++, false, false).setOneColor(
         vec4(1, 0, 1, 1)
     ).setTexture().using());
 
 
-    floors.push(new Cube(vec3(1.8, -5, 1.3), 0.1, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(1.8, -5, 1.3), 0.1, idConcat++, false, false).setOneColor(
         vec4(1, 0, 1, 1)
     ).setTexture().using());
 
-    floors.push(new Cube(vec3(1.8, -4.5, 1.3), 0.1, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(1.8, -4.5, 1.3), 0.1, idConcat++, false, false).setOneColor(
         vec4(1, 0, 1, 1)
     ).setTexture().using());
 
-    floors.push(new Cube(vec3(1.8, -4, 1), 0.1, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(1.8, -4, 1), 0.1, idConcat++, false, false).setOneColor(
         vec4(1, 0, 1, 1)
     ).setTexture().using());
 
@@ -596,26 +596,26 @@ function pinkObject() {
         }
     }).using());
 
-    floors.push(new Cube(vec3(2.2, -3.3, 4.3 - 4.7 + 1.2), 0.1, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(2.2, -3.3, 4.3 - 4.7 + 1.2), 0.1, idConcat++, false, false).setOneColor(
         vec4(1, 0, 1, 1)
     ).setTexture().using());
 
-    floors.push(new Cube(vec3(2.2, -3.3, 4.3 - 5.2 + 1), 0.1, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(2.2, -3.3, 4.3 - 5.2 + 1), 0.1, idConcat++, false, false).setOneColor(
         vec4(1, 0, 1, 1)
     ).setTexture().using());
 
 }
 
 function yellowObject() {
-    floors.push(new Cube(vec3(1.2, -3.3, 4.3 - 6.8 + 1), 2, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(1.2, -3.3, 4.3 - 6.8 + 1), 2, idConcat++, false, false).setOneColor(
         vec4(1, 1, 0, 1)
     ).setTexture().using());
 
-    floors.push(new Cube(vec3(2, -3.3, 4.3 - 6.8 + 1), 1, idConcat++, true, false).setOneColor(
+    floors.push(new Cube(vec3(2, -3.3, 4.3 - 6.8 + 1), 1, idConcat++, false, false).setOneColor(
         vec4(1, 1, 0, 1)
     ).setTexture().using());
 
-    checks.push(new Cube(vec3(2.6, -3.3, 4.3 - 6.8 + 1), 0.1, idConcat++, true, false).setOneColor(
+    checks.push(new Cube(vec3(2.6, -3.3, 4.3 - 6.8 + 1), 0.1, idConcat++, false, false).setOneColor(
         vec4(1, 1, 0, 1)
     ).setTexture().using());
 }
