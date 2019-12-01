@@ -9,11 +9,10 @@ var SCREEN_WIDTH = 512;
 var CANVAS_HEIGHT = 512;
 var CANVAS_WIDTH = 512;
 
-var moon = vec3(0,0,40);
 
 var infMin = 0.0001
 
-const sphereNumber = 5000;
+const sphereNumber = 3000;
 var sphereVertices = [];
 
 var spheres=[]

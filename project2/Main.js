@@ -1,5 +1,5 @@
 /////////////////////////////  DEBUG MODE
-var isDebug = true
+var isDebug = false
 var DebugSwitcher = 0
 /////////////////////////////
 
@@ -92,11 +92,8 @@ function ready() {
         )
     }
     let moonSpeed = 0.01
-    spheres.push(new Sphere(moon,1,idConcat++,false,false).setCallbackAction((_,e)=>{
-        let my = e.y*Math.cos(moonSpeed) - e.z*Math.sin(moonSpeed)
-        let mz = e.y*Math.sin(moonSpeed) + e.z*Math.cos(moonSpeed)
-        e.teleport(e.x,my,mz)
-    }).using())
+    spheres.push(new Sphere(vec3(6,0,-40),0.8,idConcat++,false,false)
+    .setOneColor(vec4(1,1,0,1)).using())
 }
 
 function start() {

@@ -13,6 +13,7 @@ class Sphere extends WebGLObject {
 
     mVertices=[];
     mColors=[];
+    mColor = vec4(1,1,1,1)
 
 
     callbackAction(a, b) { }
@@ -21,13 +22,8 @@ class Sphere extends WebGLObject {
 
     gravityAction(a, b) { }
 
-    setOneColor(cr = 0) {
-        this.mColors = [];
-        if (cr != 0) {
-            for (var k = 0; k < 6; k++) {
-                this.mColors.push(cr)
-            }
-        }
+    setOneColor(cr) {
+       this.mColor = cr;
 
         return this;
     }
@@ -35,7 +31,7 @@ class Sphere extends WebGLObject {
     colorCube() {
         sphereVertices.forEach(e=>{
             this.mVertices.push(e);
-            this.mColors.push(vec4(1,1,0,1));
+            this.mColors.push(this.mColor);
         })
 
         this.count += sphereVertices.length;
