@@ -9,7 +9,14 @@ var SCREEN_WIDTH = 512;
 var CANVAS_HEIGHT = 512;
 var CANVAS_WIDTH = 512;
 
+var moon = vec3(0,0,40);
+
 var infMin = 0.0001
+
+const sphereNumber = 5000;
+var sphereVertices = [];
+
+var spheres=[]
 
 var jumpHeight = 0.5;
 
@@ -153,3 +160,11 @@ var mImage = null;
 
 const centerPick = vec3(-1, -0, -1);
 
+const hexToRgb = (hex) => {
+    var bigint = parseInt(hex.replace('#',''), 16);
+    var r = (bigint >> 16) & 255;
+    var g = (bigint >> 8) & 255;
+    var b = bigint & 255;
+
+    return [r,g,b];
+}

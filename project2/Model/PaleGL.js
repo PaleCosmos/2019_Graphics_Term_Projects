@@ -334,17 +334,22 @@ class PaleGL {
 
         let mCount = vertices.length;
 
-        // PaleGL.objects.forEach(element1 => {
-        //     element1.mLineVertices.forEach((element, index, arr) => {
-        //         vertices.push(element);
-        //         colors.push(vec4(0, 0, 0, 1));
-        //     });
-        // });
+        spheres.forEach(e=>{
+            e.mVertices.forEach(a=>{
+                vertices.push(a)
+            })
+            e.mColors.forEach(a=>{
+                colors.push(a)
+            })
+            e.textures.forEach(a=>{
+                textures.push(a)
+            })
+            e.callbackAction(null,e);
+        })
 
         let modelViewMatrixLoc = gl.getUniformLocation(PaleGL.program, "modelViewMatrix");
         let projectionMatrixLoc = gl.getUniformLocation(PaleGL.program, "projectionMatrix");
 
- 
 
         let cBuffer = gl.createBuffer();
         gl.bindBuffer(gl.ARRAY_BUFFER, cBuffer);
@@ -401,8 +406,8 @@ class PaleGL {
         gl.drawArrays(gl.TRIANGLES, 0, mCount);
 
         if (mCount != vertices.length) {
-            console.log(mCount + ":" + vertices.length)
-            gl.drawArrays(gl.LINES, mCount, (vertices.length - mCount)/2)
+          //  console.log(spheres[0].mVertices)
+            gl.drawArrays(gl.TRIANGLE_STRIP, mCount, (vertices.length - mCount))
         }
 
         document.getElementById('textArea').value = myObject.x.toFixed(3) + '\n' + myObject.y.toFixed(3) + '\n' + myObject.z.toFixed(3);

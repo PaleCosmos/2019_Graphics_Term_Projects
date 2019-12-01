@@ -1,5 +1,5 @@
 /////////////////////////////  DEBUG MODE
-var isDebug = false
+var isDebug = true
 var DebugSwitcher = 0
 /////////////////////////////
 
@@ -66,6 +66,37 @@ function ready() {
         let random2 = Math.random() * 70 - 35;
         starPosition.push(vec3(35, random2, random1));
     }
+
+    for(let x0 = 0; x0<sphereNumber; x0++)
+    {
+        let mx =  Math.random()*2 - 1;
+        let my = (Math.random()*2-1) *Math.sqrt(1 - Math.pow(mx,2),2);
+        let mz = Math.sqrt(
+           1- Math.pow(mx,2) - Math.pow(my,2)
+            ,2)
+        sphereVertices.push(
+            vec4(
+               mx,
+                my,
+                mz,
+                1
+            )
+        )
+        sphereVertices.push(
+            vec4(
+               mx,
+                my,
+                -1*mz,
+                1
+            )
+        )
+    }
+    let moonSpeed = 0.01
+    spheres.push(new Sphere(moon,1,idConcat++,false,false).setCallbackAction((_,e)=>{
+        let my = e.y*Math.cos(moonSpeed) - e.z*Math.sin(moonSpeed)
+        let mz = e.y*Math.sin(moonSpeed) + e.z*Math.cos(moonSpeed)
+        e.teleport(e.x,my,mz)
+    }).using())
 }
 
 function start() {
@@ -91,18 +122,15 @@ function start() {
 
         id('starting').addEventListener('click', (e) => {
             let names = id('name').value
-            let red = id('red').value
-            let green = id('green').value
-            let blue = id('blue').value
+            let colors = hexToRgb(id('colorpicker').value);
 
-            if (names != "") {
-                if (red >= 0 && red <= 255 &&
-                    green >= 0 && green <= 255 &&
-                    blue >= 0 && blue <= 255 && red != "" && green != "" && blue != "") {
-                    socketFunction(names, vec4(red / 255, green / 255, blue / 255, 1));
-                } else {
-                    alert('색상이 잘못되었습니다.')
+            if(/Chrome/.test(navigator.userAgent) && /Google Inc/.test(navigator.vendor))
+            {
+                if (names != "") {
+                    socketFunction(names, vec4(colors[0] / 255, colors[1] / 255, colors[2] / 255, 1));
                 }
+            }else{
+                alert('크롬으로 오세요')
             }
         });
     }
