@@ -6,7 +6,7 @@
 <img src="Information/dang2.gif">
 </p>
 
-### 즐기는 방법
+### 😁 즐기는 방법
 ```
 이 게임은 Google Chrome에서만 구동됩니다.
 URL 접속 후, 안전하지 않은 javascript를 허용해주세요.
@@ -16,9 +16,9 @@ URL 접속 후, 안전하지 않은 javascript를 허용해주세요.
 <img src="Information/script2.png" width="80%">
 </p>
 
-## Requirements
+## 🐶 Requirements
 
-### About Project
+### ★ About Project
 ```
 '메이플스토리'의 인내의 숲을 모티브로하여 제작된 "네모네모 댕댕이들의 대탐험" 입니다.
 [w, a, s, d] 키로 댕댕이를 조작하며 [space] 키로 점프가 가능합니다. (이단 점프까지 가능)
@@ -29,44 +29,44 @@ URL 접속 후, 안전하지 않은 javascript를 허용해주세요.
 친구들과 모험을 즐겨보세요.
 ```
 
-### Project Architecture
-#### Client
+### ★ Project Architecture
+#### → Client
 <p align="center">
 <img src="Information/client.png" width="100%">
 </p>
 
-#### Server
+#### → Server
 <p align="center">
 <img src="Information/server.png" width="100%">
 </p>
 
-### Used Algorithm
-#### Object Moving Event (w, s)
+### ★ Used Algorithm
+#### → Object Moving Event (w, s)
 <p align="center">
 <img src="Information/frontVector.png" width="70%">
 </p>
 
-#### Object Moving Event (a, d)
+#### → Object Moving Event (a, d)
 <p align="center">
 <img src="Information/sideVector.png" width="70%">
 </p>
 
-#### Camera Moving Event (←, →)
+#### → Camera Moving Event (←, →)
 <p align="center">
 <img src="Information/camSide.png" width="70%">
 </p>
 
-#### Camera Moving Event (↑, ↓)
+#### → Camera Moving Event (↑, ↓)
 <p align="center">
 <img src="Information/camFront.png" width="70%">
 </p>
 
-#### Camera Height Control (o, k)
+#### → Camera Height Control (o, k)
 <p align="center">
 <img src="Information/camHeight.png" width="70%">
 </p>
 
-### Used Open Source
+### ★ Used Open Source
 <p align="center">
 <img src="Information/socket.png" width="70%">
 </p>
