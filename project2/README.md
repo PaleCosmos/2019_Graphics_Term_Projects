@@ -28,19 +28,21 @@ URL 접속 후, 확인되지않은 javascript를 허용해주세요.
 
 ### Project Architecture
 #### Client
-```
+![](Information/client.png)
 
-```
 #### Server
 ```
-
+준비중
 ```
 
 ### Used Algorithm
 ```
+중비중
 ```
+
 ### Used Open Source
 ```
+준비중
 ```
 
 # LICENSE
