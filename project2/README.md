@@ -43,27 +43,32 @@ URL 접속 후, 안전하지 않은 javascript를 허용해주세요.
 ### Used Algorithm
 #### Object Moving Event (w, s)
 <p align="center">
-<img src="Information/frontVector.png" width="100%">
+<img src="Information/frontVector.png" width="70%">
 </p>
 
 #### Object Moving Event (a, d)
 <p align="center">
-<img src="Information/sideVector.png" width="100%">
+<img src="Information/sideVector.png" width="70%">
 </p>
 
-#### Camera Moving Event
-```
+#### Camera Moving Event (←, →)
+<p align="center">
+<img src="Information/camSide.png" width="70%">
+</p>
 
-```
+#### Camera Moving Event (↑, ↓)
+<p align="center">
+<img src="Information/camFront.png" width="70%">
+</p>
 
-#### Camera Moving Event
-```
-
-```
+#### Camera Height Control (o, k)
+<p align="center">
+<img src="Information/camHeight.png" width="70%">
+</p>
 
 ### Used Open Source
 ```
-준비중
+응없어
 ```
 
 # LICENSE

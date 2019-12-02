@@ -410,9 +410,7 @@ class Player extends WebGLObject {
 
             let vecValue = Math.sqrt(Math.pow(mVector[0], 2) + Math.pow(mVector[1], 2) + Math.pow(mVector[2], 2));
 
-            let siz = Math.sqrt(Math.pow(mVector[1], 2) + Math.pow(mVector[2], 2))
-
-
+            let siz = Math.sqrt(Math.pow(mVector[1], 2) + Math.pow(mVector[2], 2));
 
             if (siz == 0) return;
 
