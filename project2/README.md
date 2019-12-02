@@ -5,13 +5,12 @@
 ![](Information/dang2.gif)
 
 ### 즐기는 방법
-![](Information/script1.png)
-![](Information/script2.png)
-
 ```
 이 게임은 Google Chrome에서만 구동됩니다.
-URL 접속 후, 확인되지않은 javascript를 허용해주세요.
+URL 접속 후, 안전하지 않은 javascript를 허용해주세요.
 ```
+<img src="Information/script1.png" width="80%">
+<img src="Information/script2.png" width="80%">
 
 ## Requirements
 
