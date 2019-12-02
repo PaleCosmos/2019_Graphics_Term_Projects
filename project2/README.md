@@ -1,16 +1,20 @@
 # 2019년 2학기 그래픽스 Term Project #2
 <pre><a href="https://palecosmos.github.io/2019_Graphics_Term_Projects/project2/Main.html">https://palecosmos.github.io/2019_Graphics_Term_Projects/project2/Main.html</a></pre>
 
-![](Information/dang1.gif)
-![](Information/dang2.gif)
+<p align="center">
+<img src="Information/dang1.gif">
+<img src="Information/dang2.gif">
+</p>
 
 ### 즐기는 방법
 ```
 이 게임은 Google Chrome에서만 구동됩니다.
 URL 접속 후, 안전하지 않은 javascript를 허용해주세요.
 ```
+<p align="center">
 <img src="Information/script1.png" width="80%">
 <img src="Information/script2.png" width="80%">
+</p>
 
 ## Requirements
 
@@ -27,14 +31,34 @@ URL 접속 후, 안전하지 않은 javascript를 허용해주세요.
 
 ### Project Architecture
 #### Client
-![](Information/client.png)
+<p align="center">
+<img src="Information/client.png" width="100%">
+</p>
 
 #### Server
-![](Information/server.png)
+<p align="center">
+<img src="Information/server.png" width="100%">
+</p>
 
 ### Used Algorithm
+#### Object Moving Event (w, s)
+<p align="center">
+<img src="Information/frontVector.png" width="100%">
+</p>
+
+#### Object Moving Event (a, d)
+<p align="center">
+<img src="Information/sideVector.png" width="100%">
+</p>
+
+#### Camera Moving Event
 ```
-중비중
+
+```
+
+#### Camera Moving Event
+```
+
 ```
 
 ### Used Open Source
