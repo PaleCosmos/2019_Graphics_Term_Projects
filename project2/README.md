@@ -67,9 +67,12 @@ URL 접속 후, 안전하지 않은 javascript를 허용해주세요.
 </p>
 
 ### Used Open Source
-```
-응없어
-```
+<p align="center">
+<img src="Information/socket.png" width="70%">
+멀티 플레이를 위한 Socket.io 라이브러리
+
+외에는 없습니다. (Three.js 안씀)
+</p>
 
 # LICENSE
 ```
