@@ -205,14 +205,14 @@ class PaleGL {
         var gl = WebGLUtils.setupWebGL(canvas);
         if (!gl) { alert("WebGL isn't available"); }
 
-      
+
         gl.clearColor(1.0, 1.0, 1.0, 1.0);
 
         gl.enable(gl.DEPTH_TEST);
         gl.enable(gl.CULL_FACE);
         gl.enable(gl.BLEND);
         gl.blendFunc(gl.SRC_ALPHA, gl.ONE_MINUS_SRC_ALPHA);
-        
+
         gl.viewport(0, 0, gl.drawingBufferWidth, gl.drawingBufferHeight);
 
         gl.lineWidth(5);
@@ -334,17 +334,17 @@ class PaleGL {
 
         let mCount = vertices.length;
 
-        spheres.forEach(e=>{
-            e.mVertices.forEach(a=>{
+        spheres.forEach(e => {
+            e.mVertices.forEach(a => {
                 vertices.push(a)
             })
-            e.mColors.forEach(a=>{
+            e.mColors.forEach(a => {
                 colors.push(a)
             })
-            e.textures.forEach(a=>{
+            e.textures.forEach(a => {
                 textures.push(a)
             })
-            e.callbackAction(null,e);
+            e.callbackAction(null, e);
         })
 
         let modelViewMatrixLoc = gl.getUniformLocation(PaleGL.program, "modelViewMatrix");
@@ -375,10 +375,6 @@ class PaleGL {
         gl.vertexAttribPointer(vTexCoord, 2, gl.FLOAT, false, 0, 0);
         gl.enableVertexAttribArray(vTexCoord);
 
-        // let coordinatesVar = gl.getAttribLocation(PaleGL.program, "coordinates"); 
-        // gl.vertexAttribPointer(coordinatesVar, 3, gl.FLOAT, false, 0, 0);  
-        // gl.enableVertexAttribArray(coordinatesVar);
-
         PaleGL.configurTexture(mImage, gl)
 
         gl.clear(gl.COLOR_BUFFER_BIT | gl.DEPTH_BUFFER_BIT);
@@ -394,19 +390,13 @@ class PaleGL {
 
         PaleGL.mvMatrix = lookAt(pi.eye, pi.at, pi.up);
         PaleGL.pmMatrix = perspective(s.fovy, s.aspect, s.near, s.far);
-       
+
         gl.uniformMatrix4fv(modelViewMatrixLoc, false, flatten(PaleGL.mvMatrix))
         gl.uniformMatrix4fv(projectionMatrixLoc, false, flatten(PaleGL.pmMatrix))
-
-        // let width = id('gl-canvas').clientHeight;
-        // let height = Math.max(1, id('gl-canvas').clientHeight);  // prevent divide by 0
-
-        //mat4.perspective(45 , width / height, 0.1, 100.0, PaleGL.pmMatrix);
 
         gl.drawArrays(gl.TRIANGLES, 0, mCount);
 
         if (mCount != vertices.length) {
-          //  console.log(spheres[0].mVertices)
             gl.drawArrays(gl.TRIANGLE_STRIP, mCount, (vertices.length - mCount))
         }
 

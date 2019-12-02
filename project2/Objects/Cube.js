@@ -14,8 +14,6 @@ class Cube extends WebGLObject {
     mVertices;
     mColors;
 
-    //textures = null;
-
     callbackAction(a, b) { }
 
     subAction(a, b) { }
@@ -340,7 +338,6 @@ class Cube extends WebGLObject {
     }
 
     // finally, You should call this method.
-
     using() {
         if (this.mColors.length == 0) {
             this.setOneColor(vec4(1, 1, 1, 0))

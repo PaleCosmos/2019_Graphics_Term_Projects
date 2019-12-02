@@ -753,7 +753,7 @@ function setListener() {
 
     addKeyListener(document)
 };
-/// 한글이 문제였네 이런
+
 function addKeyListener(doc) {
 
     doc.addEventListener('keypress', (e) => {
@@ -771,7 +771,6 @@ function addKeyListener(doc) {
     })
 
     doc.addEventListener('keyup', (e) => {
-        // console.log(e.keyCode)
         switch (e.keyCode) {
             case 82:
                 id('reset').style.backgroundColor = "white";
@@ -836,7 +835,6 @@ function addKeyListener(doc) {
     });
 
     doc.addEventListener('keydown', (e) => {
-        //console.log(e.keyCode)
         switch (e.keyCode) {
             case 82: //r
                 if (id('chat2') != document.activeElement) {

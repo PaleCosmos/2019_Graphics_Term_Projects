@@ -15,7 +15,7 @@ var infMin = 0.0001
 const sphereNumber = 3000;
 var sphereVertices = [];
 
-var spheres=[]
+var spheres = []
 
 var jumpHeight = 0.5;
 
@@ -25,7 +25,7 @@ var fps = 80;
 
 var firstBirth = vec3(-1 + 0.1 + 3, 0 - 0.5, -1);
 
-var starring =[];
+var starring = [];
 var starPosition = [];
 
 const BACKGROUND = vec4(0, 0, 0, 1)
@@ -48,7 +48,7 @@ var externing = (a, b) => {
     return vecA;
 }
 
-var id = (str)=>{
+var id = (str) => {
     return document.getElementById(str)
 }
 
@@ -71,7 +71,7 @@ var distanceOf = (a, b) => {
 
 var checkPoints = [vec3(0.6, 5.3, -1),
 vec3(1.6, 5 + 0.3, 7 + 0.3), vec3(1.6, -6, 7 + 0.3),
-vec3(3.6, -3.3, 4.3 -6.8+1)];
+vec3(3.6, -3.3, 4.3 - 6.8 + 1)];
 
 var checkPointsBGM = [
     "./Audio/henesis-dot.mp3",
@@ -160,10 +160,10 @@ var mImage = null;
 const centerPick = vec3(-1, -0, -1);
 
 const hexToRgb = (hex) => {
-    var bigint = parseInt(hex.replace('#',''), 16);
+    var bigint = parseInt(hex.replace('#', ''), 16);
     var r = (bigint >> 16) & 255;
     var g = (bigint >> 8) & 255;
     var b = bigint & 255;
 
-    return [r,g,b];
+    return [r, g, b];
 }
