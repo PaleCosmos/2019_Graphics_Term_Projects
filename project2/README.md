@@ -30,9 +30,7 @@ URL 접속 후, 안전하지 않은 javascript를 허용해주세요.
 ![](Information/client.png)
 
 #### Server
-```
-준비중
-```
+![](Information/server.png)
 
 ### Used Algorithm
 ```
