@@ -1,10 +1,42 @@
 # 2019년 2학기 그래픽스 Term Project #2
 <pre><a href="https://palecosmos.github.io/2019_Graphics_Term_Projects/project2/Main.html">https://palecosmos.github.io/2019_Graphics_Term_Projects/project2/Main.html</a></pre>
-![준비중](temp.gif)
+
+![](Information/dang1.gif)
+![](Information/dang2.gif)
+
 
 ## Requirements
 
-저희는 외부 라이브러리를 절대 사용하지 않을겁니다
+#### About Project
+```
+'메이플스토리'의 인내의 숲을 모티브로하여 제작된 "네모네모 댕댕이들의 대탐험" 입니다.
+[w, a, s, d] 키로 댕댕이를 조작하며 [space] 키로 점프가 가능합니다. (이단 점프까지 가능)
+방향키로 시점을 조절할 수 있으며, [o, k] 키로 시점 높이 조절이 가능합니다.
+또한 [shift] 키를 누르면 네모네모 댕댕이가 개소리를 냅니다.
+
+각각의 맵에 존재하는 노랑치즈를 먹으면 사후 해당 맵에서 리스폰되며 BGM이 바뀝니다.
+친구들과 모험을 즐겨보세요.
+```
+
+#### Project Architecture
+```
+
+```
+##### Client
+```
+
+```
+##### Server
+```
+
+```
+
+#### Used Algorithm
+```
+```
+#### Used Open Source
+```
+```
 
 # LICENSE
 ```
