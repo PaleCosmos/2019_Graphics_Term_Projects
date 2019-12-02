@@ -4,10 +4,18 @@
 ![](Information/dang1.gif)
 ![](Information/dang2.gif)
 
+### 즐기는 방법
+![](Information/script1.png)
+![](Information/script2.png)
+
+```
+이 게임은 Google Chrome에서만 구동됩니다.
+URL 접속 후, 확인되지않은 javascript를 허용해주세요.
+```
 
 ## Requirements
 
-#### About Project
+### About Project
 ```
 '메이플스토리'의 인내의 숲을 모티브로하여 제작된 "네모네모 댕댕이들의 대탐험" 입니다.
 [w, a, s, d] 키로 댕댕이를 조작하며 [space] 키로 점프가 가능합니다. (이단 점프까지 가능)
@@ -18,23 +26,20 @@
 친구들과 모험을 즐겨보세요.
 ```
 
-#### Project Architecture
+### Project Architecture
+#### Client
 ```
 
 ```
-##### Client
-```
-
-```
-##### Server
+#### Server
 ```
 
 ```
 
-#### Used Algorithm
+### Used Algorithm
 ```
 ```
-#### Used Open Source
+### Used Open Source
 ```
 ```
 
