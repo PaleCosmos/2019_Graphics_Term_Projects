@@ -186,7 +186,6 @@ class Star extends WebGLObject {
     }
 
     // finally, You should call this method.
-
     using() {
         if (this.mColors.length == 0) {
             this.setOneColor(vec4(1, 1, 1, 0))

@@ -21,7 +21,6 @@ class Others extends WebGLObject {
     movingContent = [0, 0, 0, 0];
     tempMoving = vec3(0, 0, 0);
     legSpeed = 0
-    //textures = null;
 
     asTexture = false;
     setTexture() {

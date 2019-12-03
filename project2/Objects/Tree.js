@@ -6,7 +6,6 @@ class Tree extends WebGLObject {
         this.isJumping = false;
         this.mColors = [];
         this.colorState = 0;
-        ///
         this.textures = []
     }
 
@@ -28,8 +27,6 @@ class Tree extends WebGLObject {
     movingContent = [0, 0, 0, 0];
     tempMoving = vec3(0, 0, 0);
     legSpeed = 0
-
-    //textures = null;
 
     callbackAction(a, b) { }
 
@@ -149,9 +146,6 @@ class Tree extends WebGLObject {
     seeVactor = vec3(0, 0, 0);
 
     setPlayer() {
-        //this.colorCube(vec3(0.16, 0.1, 0.1), vec3(0.06 - this.size / 2, -0.05, -0.1))
-        //this.setOneColor(playerBodyColor) // 36 - 71
-
         //기둥
         this.colorCube(vec3(35, 3, 3), vec3(0, 0, 0))
         this.setOneColor(this.bodyC)
@@ -182,8 +176,6 @@ class Tree extends WebGLObject {
         this.setOneColor(this.ballC)
         this.colorCube(vec3(0.8, 0.8, 0.8), vec3(20.1 * this.size, 1.6 * this.size, -5.6 * this.size))
         this.setOneColor(this.ballC)
-        // this.colorCube(vec3(1, 1, 1), vec3(10, 3, 0))
-        // this.setOneColor(vec4(1,0,0,1)) 
     }
 
     lining() {
@@ -247,7 +239,6 @@ class Tree extends WebGLObject {
                     (element.z - element.size / 2) <= floor.z + floor.size / 2 &&
                     (element.z + element.size / 2) >= floor.z - floor.size / 2 &&
                     (element.x - element.size / 2) <= floor.x + floor.size / 2) {
-                    // element.teleportX(floor.x + floor.size / 2 + element.size / 2)
                     bool = false;
                     xf = index;
                 }

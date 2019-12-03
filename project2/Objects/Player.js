@@ -6,8 +6,6 @@ class Player extends WebGLObject {
         this.isJumping = false;
         this.mColors = [];
         this.colorState = 0;
-
-        ///
         this.textures = []
     }
 
@@ -20,7 +18,6 @@ class Player extends WebGLObject {
     movingContent = [0, 0, 0, 0];
     tempMoving = vec3(0, 0, 0);
     legSpeed = 0
-    //textures = null;
 
     callbackAction(a, b) { }
 
@@ -566,7 +563,6 @@ class Player extends WebGLObject {
         if (this.x <= -8) {
             let au = new Audio('./Audio/dies.wav');
             au.play()
-            //PaleGL.setEye();
             PaleGL.information.eye = tempEye;
             this.teleport(firstBirth[0], firstBirth[1], firstBirth[2])
         }
@@ -585,8 +581,6 @@ class Player extends WebGLObject {
 
             if ((realSin >= 0.05 || realSin <= -0.05))
                 this.setRotationByX(speed)
-
-            //}
         }
         putData('move', {
             nickname: nick,
