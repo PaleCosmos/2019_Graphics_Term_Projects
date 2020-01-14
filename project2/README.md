@@ -1,5 +1,5 @@
 # 2019년 2학기 그래픽스 Term Project #2
-<pre><a href="https://palecosmos.github.io/2019_Graphics_Term_Projects/project2/Main.html">https://palecosmos.github.io/2019_Graphics_Term_Projects/project2/Main.html</a></pre>
+<pre><a href="http://palecosmos.storage.googleapis.com/Main.html">http://palecosmos.storage.googleapis.com/Main.html</a></pre>
 
 <p align="center">
 <img src="Information/dang1.gif">
@@ -7,10 +7,6 @@
 </p>
 
 ### 😁 즐기는 방법
-```
-이 게임은 Google Chrome에서만 구동됩니다.
-URL 접속 후, 안전하지 않은 javascript를 허용해주세요.
-```
 <p align="center">
 <img src="Information/script1.png" width="80%">
 <img src="Information/script2.png" width="80%">
