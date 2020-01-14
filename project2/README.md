@@ -6,12 +6,6 @@
 <img src="Information/dang2.gif">
 </p>
 
-### 😁 즐기는 방법
-<p align="center">
-<img src="Information/script1.png" width="80%">
-<img src="Information/script2.png" width="80%">
-</p>
-
 ## 🐶 Requirements
 
 ### ★ About Project
