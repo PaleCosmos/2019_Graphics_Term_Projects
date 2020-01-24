@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html>
+<meta charset="utf-8">
 <style type="text/css">
     * {
         margin: 0;
@@ -120,7 +121,7 @@ main()
 
 <body>
     <table id="mTable">
-        <tr style ="display: none;">
+        <tr style="display: none;">
             <td>
                 <table id="topTable" style="float: left; display: flexbox; display: none;">
                     <tr>
@@ -133,7 +134,7 @@ main()
                             🆁
                         </td>
                     </tr>
-                    <tr >
+                    <tr>
                         <td id="left">
                             🅰
                         </td>
@@ -144,7 +145,7 @@ main()
                             🅳
                         </td>
                     </tr>
-                    <tr >
+                    <tr>
                         <td>
                         </td>
                         <td id="down">
@@ -156,7 +157,7 @@ main()
                 </table>
             </td>
             <td>
-                
+
             </td>
             <td>
                 <table style="float: right; display: flexbox;  display: none;">
@@ -205,14 +206,14 @@ main()
         </tr>
         <tr>
             <td>
-                    <div>
-                            <textarea readonly class="chatoff" style="height: 512px; width:150; text-align: start;"
-                                id="peoples"></textarea>
-                        </div>
-            </td>
-            <td >
                 <div>
-                        <button id="starting" class="button1">시작</button>
+                    <textarea readonly class="chatoff" style="height: 512px; width:150; text-align: start;"
+                        id="peoples"></textarea>
+                </div>
+            </td>
+            <td>
+                <div>
+                    <button id="starting" class="button1">시작</button>
 
                     <canvas id="gl-canvas" class="canvas1" width="512" height="512">
                         Oops ... your browser doesn't support the HTML5 canvas element
@@ -220,29 +221,29 @@ main()
                     <br><br><br>
                     <div id="nick" class="chaton">
                         <div>댕댕스의 이름</div>
-                            <br>
+                        <br>
                         <input id="name" placeholder="name" style="height: 20px; width:100px;">
                         <br><br><br><br><br>
                         <div>댕댕스의 색깔</div>
                         <br>
-                       <input id= "colorpicker" type="color">
+                        <input id="colorpicker" type="color">
 
-                </div>
+                    </div>
             </td>
             <td>
-                    <div id="chat" class="chatoff">
-                            <div>
-                                <textarea readonly id="chat1"></textarea>
-                                <input id="chat2" placeholder="욕하지마세용">
-                                <button id="chat3">Enter</button>
-                            </div>
-                        </div>
+                <div id="chat" class="chatoff">
+                    <div>
+                        <textarea readonly id="chat1"></textarea>
+                        <input id="chat2" placeholder="욕하지마세용">
+                        <button id="chat3">Enter</button>
+                    </div>
+                </div>
             </td>
         </tr>
         <tr>
             <td></td>
             <td>
-         
+
             </td>
             <td>
 
@@ -255,6 +256,6 @@ main()
     <textarea id="textArea" style="height:60px;" class="debuging">
         0,0,0
     </textarea>
-    </body>
+</body>
 
 </html>
