@@ -1,5 +1,6 @@
 # 2019년 2학기 그래픽스 Term Project #2
-<pre><a href="http://palecosmos.storage.googleapis.com/Main.html">http://palecosmos.storage.googleapis.com/Main.html</a></pre>
+<pre><a href="https://palecosmos.github.io/2019_Graphics_Term_Projects/project2/Main.html">[싱글] https://palecosmos.github.io/2019_Graphics_Term_Projects/project2/Main.html</a></pre>
+<pre><a href="http://palecosmos.storage.googleapis.com/Main.html"><del>[멀티] http://palecosmos.storage.googleapis.com/Main.html (지원종료)</del></a></pre>
 
 <p align="center">
 <img src="Information/dang1.gif">
