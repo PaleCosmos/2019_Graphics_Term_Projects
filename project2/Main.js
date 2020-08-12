@@ -98,7 +98,7 @@ function ready() {
 
 function start() {
 
-    if (isDebug) {
+    if (true || isDebug) {
         if (DebugSwitcher != 0) {
             firstBirth = checkPoints[DebugSwitcher - 1];
         }
@@ -156,20 +156,6 @@ function idnit() {
 }
 
 function socketFunction(names, rgb) {
-    // 서버 지원 종료
-     nick = names;
-            mainColor = vec4(data.new.red, data.new.green, data.new.blue, 1)
-
-            idnit();
-            players = data.initation;
-
-            players.forEach(e => {
-                playersObject.push(new Others(e.nickname,
-                    vec3(e.x, e.y, e.z), 0.2, idConcat++, false, false
-                ).setBodyColor(vec4(e.red, e.green, e.blue, 1)).setOneColor(
-                    vec4(1, 1, 1, 0)).using())
-            })
-    return;
     socket = io.connect("http://34.85.51.251:3000")
     socket.emit('joinRoom', {
         roomName: 'myroom',
