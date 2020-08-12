@@ -98,7 +98,7 @@ function ready() {
 
 function start() {
 
-    if (isDebug) {
+    if (true || isDebug) {
         if (DebugSwitcher != 0) {
             firstBirth = checkPoints[DebugSwitcher - 1];
         }
