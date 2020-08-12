@@ -12,7 +12,8 @@
 ![](project2/Information/dang1.gif)
 ![](project2/Information/dang2.gif)
 
-<pre><a href="http://palecosmos.storage.googleapis.com/Main.html">http://palecosmos.storage.googleapis.com/Main.html</a></pre>
+<pre><a href="https://palecosmos.github.io/2019_Graphics_Term_Projects/project2/Main.html">[싱글] https://palecosmos.github.io/2019_Graphics_Term_Projects/project2/Main.html</a></pre>
+<pre><a href="http://palecosmos.storage.googleapis.com/Main.html"><del>[멀티 - 지원종료] http://palecosmos.storage.googleapis.com/Main.html</del></a></pre>
 [자세히](https://github.com/PaleCosmos/2019_Graphics_Term_Projects/tree/master/project2)
 
 
