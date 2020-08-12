@@ -156,6 +156,8 @@ function idnit() {
 }
 
 function socketFunction(names, rgb) {
+    // 서버 지원 종료
+    return;
     socket = io.connect("http://34.85.51.251:3000")
     socket.emit('joinRoom', {
         roomName: 'myroom',
